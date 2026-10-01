@@ -77,23 +77,18 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 font-sans text-sm text-white/70">
               <li>
-                <Link href="/shipping" className="hover:text-white transition-colors">
-                  Shipping
+                <Link href="/cart" className="hover:text-white transition-colors">
+                  Shopping Bag
                 </Link>
               </li>
               <li>
-                <Link href="/returns" className="hover:text-white transition-colors">
-                  Returns
+                <Link href="/account" className="hover:text-white transition-colors">
+                  My Account
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="hover:text-white transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="hover:text-white transition-colors">
-                  Terms & Conditions
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Customer Support
                 </Link>
               </li>
             </ul>
@@ -104,21 +99,13 @@ export function Footer() {
             <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.15em] text-white/90">
               Stay Connected
             </h4>
-            <form onSubmit={(e) => e.preventDefault()} className="relative flex items-center">
-              <input
-                type="email"
-                placeholder="Your email address"
-                aria-label="Your email address"
-                className="w-full rounded-md bg-white/10 border border-white/20 py-2.5 ps-3.5 pe-12 text-sm text-white placeholder:text-white/50 focus:outline-none focus:border-[#B85233]"
-              />
-              <button
-                type="submit"
-                aria-label="Subscribe"
-                className="absolute end-1.5 flex h-8 w-8 items-center justify-center rounded-sm bg-[#B85233] text-white hover:bg-[#A64426] transition-colors cursor-pointer"
-              >
-                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-              </button>
-            </form>
+            <Link
+              href="/community"
+              className="inline-flex items-center gap-2 text-xs font-medium text-[#D49B4B] hover:text-[#B85233] transition-colors"
+            >
+              <span>Join our community mailing list</span>
+              <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+            </Link>
 
             {/* Social Icons */}
             <div className="flex items-center gap-4 pt-2 text-white/80">
