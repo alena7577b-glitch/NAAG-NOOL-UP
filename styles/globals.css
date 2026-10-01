@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dusk: #1E1C1A;
+  --color-dusk-dark: #141312;
+  --color-terracotta: #B85233;
+  --color-terracotta-hover: #A64426;
+  --color-amber: #D49B4B;
+  --color-sage: #4D5844;
+  --color-sage-dark: #3B4734;
+  --color-sand: #F9F6F0;
+  --color-sand-light: #FAF8F5;
+
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-accent: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+:root {
+  /* Semantic Tokens */
+  --background: #F9F6F0;
+  --foreground: #1E1C1A;
+  --card-background: #FFFFFF;
+  --primary: #B85233;
+  --primary-hover: #A64426;
+  --primary-foreground: #FFFFFF;
+  --secondary: #4D5844;
+  --secondary-foreground: #FFFFFF;
+  --muted: #EAE5DC;
+  --muted-foreground: #6B655B;
+  --accent: #D49B4B;
+  --accent-foreground: #1E1C1A;
+  --border: #E5DFC0;
+  
+  --success: #2E6F40;
+  --warning: #D97706;
+  --error: #DC2626;
+
+  /* Spacing & Layout Tokens */
+  --container-max-width: 1280px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Direction Baseline */
+  direction: ltr;
+}
+
+[dir="rtl"] {
+  direction: rtl;
+}
+
+/* CSS Reset & Baseline Normalization */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible Focus Ring Foundation */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Logical Property Utilities for RTL & Accessibility */
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.m-inline-auto {
+  margin-inline: auto;
+}
+
+/* Typography Utility Classes */
+.font-playfair {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+.font-cormorant {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.font-dm-sans {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "common": {
+    "brandName": "Naag Nool UP",
+    "tagline": "Wakhtiga noolaanshaha waa HADDA.",
+    "values": {
+      "resilient": "Adkeysi",
+      "worthy": "Qiimo Leh",
+      "inCharge": "Hogaan"
+    },
+    "loading": "Fadlan sug...",
+    "save": "Keydi Isbedelada",
+    "cancel": "Ka noqo",
+    "back": "Dib u noqo"
+  },
+  "nav": {
+    "home": "Hoyga",
+    "shop": "Dukaanka",
+    "about": "Nagu Saabsan",
+    "ayeyoKoris": "Ayeyo Koris",
+    "community": "Bulshada",
+    "contact": "Xiriir",
+    "account": "Koontada",
+    "signIn": "Soo Gal",
+    "register": "Is Diiwaangeli",
+    "signOut": "Ka Bax",
+    "admin": "Maamulka"
+  },
+  "auth": {
+    "login": {
+      "title": "Kusoo Dhawoow",
+      "subtitle": "Soo gal si aad u gasho buugaagtaada, dalabaadkaaga iyo meeshaada bulshada.",
+      "emailLabel": "Cinwaanka Email-ka",
+      "emailPlaceholder": "adiga@example.com",
+      "passwordLabel": "Furaha Sirta",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Ma ilowday furahaaga sirta?",
+      "submitButton": "Soo Gal",
+      "noAccountPrompt": "Miyaadan lahayn koonto?",
+      "createAccountLink": "Sameyso Koonto Cusub"
+    },
+    "register": {
+      "title": "Kusoo Biir Naag Nool UP",
+      "subtitle": "Sameyso koonto si aad u bilowdo safarkaaga adkeysiga, hadafka iyo bulshada.",
+      "fullNameLabel": "Magacaaga Buuxa",
+      "fullNamePlaceholder": "Amina Warsame",
+      "emailLabel": "Cinwaanka Email-ka",
+      "emailPlaceholder": "adiga@example.com",
+      "passwordLabel": "Furaha Sirta",
+      "passwordPlaceholder": "Ugu yaraan 8 xaraf",
+      "confirmPasswordLabel": "Xaqiiji Furaha Sirta",
+      "confirmPasswordPlaceholder": "Dib u geli furaha sirta",
+      "termsAgreement": "Waxaan oggolahay inaan helo wararka bulshada iyo dhaqdhaqaaqa.",
+      "submitButton": "Sameyso Koonto",
+      "hasAccountPrompt": "Horay ma u lahayd koonto?",
+      "signInLink": "Halkan ka soo gal",
+      "emailConfirmationSent": "Xiriirinta xaqiijinta waxaa loo diray email-kaaga. Fadlan hubi email-kaaga si aad u dhaqaajiso koontadaada."
+    },
+    "forgotPassword": {
+      "title": "Beddel Furahaaga Sirta",
+      "subtitle": "Geli email-kaaga waxaana kuu soo diri doonaa tilmaamo aad ku beddesho furaha sirta.",
+      "emailLabel": "Cinwaanka Email-ka",
+      "emailPlaceholder": "adiga@example.com",
+      "submitButton": "Dir Xiriirinta Dib-u-dejinta",
+      "backToLogin": "Ku noqo Soo Gelitaanka",
+      "successMessage": "Haddii koonto ku jirto email-kan, waxaad dhawaan heli doontaa tilmaamaha dib-u-dejinta."
+    },
+    "resetPassword": {
+      "title": "Sameyso Fure Cusub",
+      "subtitle": "Geli oo xaqiiji furahaaga cusub hoos.",
+      "passwordLabel": "Furaha Cusub",
+      "passwordPlaceholder": "Ugu yaraan 8 xaraf",
+      "confirmPasswordLabel": "Xaqiiji Furaha Cusub",
+      "confirmPasswordPlaceholder": "Dib u geli furaha cusub",
+      "submitButton": "Cusbooneysii Furaha Sirta",
+      "successMessage": "Furahaaga sirta si guul leh ayaa loo beddelay. Hadda waad soo geli kartaa."
+    },
+    "admin": {
+      "title": "Albaabka Maamulka",
+      "subtitle": "Soo gal si aad u maamusho dukaanka, dalabaadka, iyo waxyaabaha.",
+      "emailLabel": "Email-ka Maamulka",
+      "passwordLabel": "Furaha Maamulka",
+      "submitButton": "Gal Qaybta Maamulka",
+      "unauthorizedTitle": "Lama Oggola",
+      "unauthorizedMessage": "Ma lihid ogolaansho maamul si aad u aragto qaybtan.",
+      "returnToAccount": "Ku noqo Koontadaada"
+    }
+  },
+  "account": {
+    "dashboard": {
+      "title": "Koontadayda",
+      "welcome": "Kusoo dhawoow",
+      "summaryTitle": "Guudmar Koonto",
+      "memberSince": "Xubin Ka Ahayd",
+      "role": "Nooca Koontada",
+      "quickLinks": "Xiriirada Degdegga ah",
+      "recentOrders": "Dalabaadkii Ugu Dambeeyay",
+      "noOrders": "Weli ma aadan samayn wax dalab ah.",
+      "startShopping": "Baadh Buugaagteena"
+    },
+    "profile": {
+      "title": "Faahfaahinta Xogta",
+      "subtitle": "Maamul xogtaada gaarka ah.",
+      "fullName": "Magaca Buuxa",
+      "email": "Cinwaanka Email-ka",
+      "emailNote": "Email-kaaga rasmiga ah ee aad ku soo gasho.",
+      "saveSuccess": "Xogtaada si guul leh ayaa loo cusbooneysiiyay."
+    },
+    "orders": {
+      "title": "Taariikhda Dalabaadka",
+      "subtitle": "Eeg dhammaan dalabaadkii hore iyo xaaladdooda keenista.",
+      "emptyTitle": "Weli Dalab Ma Jiro",
+      "emptyDescription": "Safarkaagu wuxuu bilaabmaa markaad hesho wax adiga ku qanciya.",
+      "shopCta": "Booqo Dukaanka",
+      "orderNumber": "Lambarka Dalabka #",
+      "date": "Taariikhda",
+      "total": "Wadarta",
+      "status": "Xaaladda",
+      "items": "Alaabta"
+    },
+    "settings": {
+      "title": "Habaynta Koontada",
+      "subtitle": "Maamul furahaaga sirta iyo amniga koontada.",
+      "changePassword": "Beddel Furaha Sirta",
+      "currentPassword": "Furaha Hadda Jira",
+      "newPassword": "Furaha Cusub",
+      "confirmNewPassword": "Xaqiiji Furaha Cusub",
+      "updatePasswordButton": "Beddel Furaha",
+      "passwordSuccess": "Furaha sirta si guul leh ayaa loo beddelay."
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "common": {
+    "brandName": "ناع نول آب",
+    "tagline": "الوقت لتبتهجي بالحياة هو الآن.",
+    "values": {
+      "resilient": "صامدة",
+      "worthy": "جديرة",
+      "inCharge": "قيادية"
+    },
+    "loading": "جاري التحميل...",
+    "save": "حفظ التغييرات",
+    "cancel": "إلغاء",
+    "back": "رجوع"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "shop": "المتجر",
+    "about": "عن الحركة",
+    "ayeyoKoris": "أيو كوريس",
+    "community": "المجتمع",
+    "contact": "تواصل معنا",
+    "account": "الحساب",
+    "signIn": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "signOut": "تسجيل الخروج",
+    "admin": "لوحة الإدارة"
+  },
+  "auth": {
+    "login": {
+      "title": "أهلاً بكِ مجدداً",
+      "subtitle": "سجلي دخولك للوصول إلى مذكراتك المحفوظة، وطلباتك ومساحة المجتمع.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "هل نسيتِ كلمة المرور؟",
+      "submitButton": "تسجيل الدخول",
+      "noAccountPrompt": "ليس لديكِ حساب بعد؟",
+      "createAccountLink": "إنشاء حساب جديد"
+    },
+    "register": {
+      "title": "انضمي إلى ناع نول آب",
+      "subtitle": "أنشئي حسابك لتبدئي رحلة الصمود، الهدف، والمجتمع الداعم.",
+      "fullNameLabel": "الاسم الكامل",
+      "fullNamePlaceholder": "أمينة ورسمة",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "confirmPasswordLabel": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "أعيدي إدخال كلمة المرور",
+      "termsAgreement": "أوافق على استلام تحديثات المجتمع وأخبار الحركة.",
+      "submitButton": "إنشاء الحساب",
+      "hasAccountPrompt": "لديكِ حساب بالفعل؟",
+      "signInLink": "سجلي الدخول من هنا",
+      "emailConfirmationSent": "تم إرسال رابط التأكيد إلى بريدكِ الإلكتروني. يرجى مراجعة بريدكِ لتفعيل الحساب."
+    },
+    "forgotPassword": {
+      "title": "استعادة كلمة المرور",
+      "subtitle": "أدخلي بريدكِ الإلكتروني وسنرسل لكِ تعليمات إعادة تعيين كلمة المرور.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "submitButton": "إرسال رابط الاستعادة",
+      "backToLogin": "العودة لتسجيل الدخول",
+      "successMessage": "إذا كان هناك حساب مسجل بهذا البريد، فستتلقين تعليمات إعادة التعيين قريباً."
+    },
+    "resetPassword": {
+      "title": "إنشاء كلمة مرور جديدة",
+      "subtitle": "أدخلي كلمة المرور الجديدة وقومي بتأكيدها أدناه.",
+      "passwordLabel": "كلمة المرور الجديدة",
+      "passwordPlaceholder": "8 أحرف على الأقل",
+      "confirmPasswordLabel": "تأكيد كلمة المرور الجديدة",
+      "confirmPasswordPlaceholder": "أعيدي إدخال كلمة المرور",
+      "submitButton": "تحديث كلمة المرور",
+      "successMessage": "تمت إعادة تعيين كلمة المرور بنجاح. يمكنكِ الآن تسجيل الدخول."
+    },
+    "admin": {
+      "title": "بوابة الإدارة والموظفين",
+      "subtitle": "تسجيل الدخول لإدارة الكتالوج، الطلبات، والمحتوى.",
+      "emailLabel": "بريد الإدارة",
+      "passwordLabel": "كلمة مرور الإدارة",
+      "submitButton": "الدخول إلى وحدة التحكم",
+      "unauthorizedTitle": "الوصول مقيد",
+      "unauthorizedMessage": "ليس لديكِ الصلاحيات الإدارية المطلوبة للوصول إلى هذا القسم.",
+      "returnToAccount": "العودة إلى الحساب"
+    }
+  },
+  "account": {
+    "dashboard": {
+      "title": "حسابي",
+      "welcome": "أهلاً بكِ مجدداً",
+      "summaryTitle": "نظرة عامة على الحساب",
+      "memberSince": "عضوة منذ",
+      "role": "نوع الحساب",
+      "quickLinks": "روابط سريعة",
+      "recentOrders": "الطلبات الأخيرة",
+      "noOrders": "لم تقومي بأي طلبات حتى الآن.",
+      "startShopping": "استكشفي مذكراتنا"
+    },
+    "profile": {
+      "title": "تفاصيل الملف الشخصي",
+      "subtitle": "إدارة وتحديث معلوماتكِ الشخصية.",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "emailNote": "بريدكِ الإلكتروني المعتمد لتسجيل الدخول.",
+      "saveSuccess": "تم تحديث الملف الشخصي بنجاح."
+    },
+    "orders": {
+      "title": "سجل الطلبات",
+      "subtitle": "عرض مشترياتك السابقة وحالة الشحن والتوصيل.",
+      "emptyTitle": "لا توجد طلبات بعد",
+      "emptyDescription": "رحلتك تبدأ عندما تختارين ما يلهم طموحكِ.",
+      "shopCta": "تصفحي المتجر",
+      "orderNumber": "رقم الطلب #",
+      "date": "التاريخ",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "items": "المنتجات"
+    },
+    "settings": {
+      "title": "إعدادات الحساب",
+      "subtitle": "إدارة كلمة المرور وإعدادات الأمان.",
+      "changePassword": "تغيير كلمة المرور",
+      "currentPassword": "كلمة المرور الحالية",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+      "updatePasswordButton": "تحديث كلمة المرور",
+      "passwordSuccess": "تم تحديث كلمة المرور بنجاح."
+    }
+  }
+}
