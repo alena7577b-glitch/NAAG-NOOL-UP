@@ -1,0 +1,49 @@
+<svg width="640" height="720" viewBox="0 0 640 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky_grad" x1="320" y1="0" x2="320" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EBE3D5"/>
+      <stop offset="0.6" stop-color="#DECBB5"/>
+      <stop offset="1" stop-color="#CBB59E"/>
+    </linearGradient>
+    <linearGradient id="hijab_grad" x1="200" y1="180" x2="500" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C25A38"/>
+      <stop offset="0.5" stop-color="#A84323"/>
+      <stop offset="1" stop-color="#73250E"/>
+    </linearGradient>
+    <linearGradient id="skin_grad" x1="260" y1="120" x2="380" y2="340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#804E36"/>
+      <stop offset="0.5" stop-color="#6B3F2A"/>
+      <stop offset="1" stop-color="#4E2B1B"/>
+    </linearGradient>
+    <radialGradient id="sun_glow" cx="500" cy="160" r="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3E0" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#DECBB5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Warm Sky & Mountains -->
+  <rect width="640" height="720" fill="url(#sky_grad)"/>
+  <circle cx="500" cy="160" r="300" fill="url(#sun_glow)"/>
+  
+  <!-- Distant Mountain Ridges -->
+  <path d="M0 480 Q180 430 360 470 T640 440 L640 720 L0 720 Z" fill="#B39B82" opacity="0.4"/>
+  <path d="M0 530 Q220 480 440 520 T640 490 L640 720 L0 720 Z" fill="#9C836A" opacity="0.5"/>
+
+  <!-- Woman in Terracotta Hijab -->
+  <!-- Hijab Drapes & Volume -->
+  <path d="M120 720 C100 580 140 380 200 240 C240 140 340 100 420 120 C490 140 530 220 520 320 C510 420 540 540 580 720 Z" fill="url(#hijab_grad)"/>
+  <path d="M180 320 C220 280 260 250 320 240 C380 230 440 260 480 320 C460 440 400 620 360 720 L160 720 Z" fill="#8C3317" opacity="0.6"/>
+
+  <!-- Face & Neck Profile -->
+  <path d="M260 210 C270 170 310 160 360 180 C400 195 420 230 420 280 C420 340 390 380 330 390 C290 395 270 360 260 310 Z" fill="url(#skin_grad)"/>
+  <!-- Elegant Jawline & Neck -->
+  <path d="M330 380 C360 440 380 500 390 560 L320 560 C300 480 290 420 290 380 Z" fill="#5C3320"/>
+
+  <!-- Golden Earring -->
+  <ellipse cx="405" cy="295" rx="6" ry="12" fill="#D49B4B" stroke="#FDE68A" stroke-width="1.5"/>
+
+  <!-- Flowing Terracotta Fabric Folds -->
+  <path d="M160 440 Q280 490 420 430 Q360 560 280 640 Z" fill="#C25A38" opacity="0.8"/>
+  <path d="M220 520 Q340 580 500 500 Q440 640 340 720 Z" fill="#A84323" opacity="0.9"/>
+  <path d="M80 620 Q240 660 420 600 L440 720 L60 720 Z" fill="#8C3317"/>
+</svg>

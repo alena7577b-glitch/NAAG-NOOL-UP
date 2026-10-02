@@ -1,0 +1,24 @@
+<svg width="1440" height="320" viewBox="0 0 1440 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sunset_sky" x1="0" y1="0" x2="1440" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C26842"/>
+      <stop offset="0.5" stop-color="#DE8959"/>
+      <stop offset="1" stop-color="#AA4B24"/>
+    </linearGradient>
+    <radialGradient id="sun_glow_banner" cx="1100" cy="160" r="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD6A5" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#C26842" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1440" height="320" fill="url(#sunset_sky)"/>
+  <circle cx="1100" cy="160" r="400" fill="url(#sun_glow_banner)"/>
+
+  <!-- Mountain Ridges -->
+  <path d="M0 220 Q400 170 800 210 T1440 180 L1440 320 L0 320 Z" fill="#8C3817" opacity="0.5"/>
+  <path d="M0 260 Q500 210 1000 250 T1440 230 L1440 320 L0 320 Z" fill="#6B240A" opacity="0.6"/>
+
+  <!-- Woman Looking Toward the Horizon on Right -->
+  <path d="M960 320 C960 260 990 190 1030 140 C1070 100 1140 110 1170 160 C1180 200 1190 260 1200 320 Z" fill="#5E2008"/>
+  <circle cx="1110" cy="160" r="28" fill="#753012"/>
+</svg>

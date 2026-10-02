@@ -1,0 +1,35 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="group_bg" x1="0" y1="0" x2="600" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DECBB5"/>
+      <stop offset="1" stop-color="#C5AD93"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#group_bg)"/>
+
+  <!-- Distant Hill Landscapes -->
+  <path d="M0 240 Q150 200 320 230 T600 210 L600 400 L0 400 Z" fill="#9C836A" opacity="0.4"/>
+
+  <!-- Group of 4 Somali Women Sitting Together Outdoors Laughing and Connecting -->
+  <!-- Woman 1 (Left - Cream Hijab) -->
+  <path d="M40 400 C40 320 70 240 120 190 C170 150 220 170 240 220 C250 260 250 340 240 400 Z" fill="#EAE5DC"/>
+  <path d="M140 220 C140 190 170 180 195 190 C210 205 215 235 210 260 C200 280 170 285 155 270 Z" fill="#6B3F2A"/>
+  <!-- Smile -->
+  <path d="M170 250 Q185 260 195 250" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Woman 2 (Center-Left - Olive/Sage Hijab) -->
+  <path d="M180 400 C180 300 210 220 250 180 C290 150 340 160 360 210 C370 250 370 340 360 400 Z" fill="#4D5844"/>
+  <path d="M265 210 C265 185 295 175 320 185 C335 200 340 225 335 250 C325 270 295 275 280 260 Z" fill="#7A4B31"/>
+  <path d="M295 245 Q310 255 320 245" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Woman 3 (Center-Right - Amber/Mustard Hijab) -->
+  <path d="M320 400 C320 300 350 220 390 180 C430 150 480 160 500 210 C510 250 510 340 500 400 Z" fill="#D49B4B"/>
+  <path d="M405 210 C405 185 435 175 460 185 C475 200 480 225 475 250 C465 270 435 275 420 260 Z" fill="#5E3823"/>
+  <path d="M435 245 Q450 255 460 245" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Woman 4 (Right - Terracotta Hijab Profile) -->
+  <path d="M440 400 C450 320 480 230 530 170 C570 140 610 160 620 210 L620 400 Z" fill="#B85233"/>
+  <path d="M520 200 C525 175 555 170 580 185 C590 200 595 225 585 250 C575 270 545 270 535 250 Z" fill="#804E36"/>
+  <path d="M545 235 Q560 245 570 235" stroke="#FAF8F5" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

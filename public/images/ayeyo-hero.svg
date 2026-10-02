@@ -1,0 +1,38 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="school_bg" x1="0" y1="0" x2="600" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAE3D2"/>
+      <stop offset="1" stop-color="#D1C3A5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#school_bg)"/>
+  
+  <!-- School Archway / Architecture Background -->
+  <path d="M50 400 L50 180 C50 120 120 80 200 80 C280 80 350 120 350 180 L350 400 Z" fill="#D8CDB6" stroke="#C2B59A" stroke-width="2"/>
+  <path d="M380 400 L380 200 C380 150 430 110 500 110 C570 110 620 150 620 200 L620 400 Z" fill="#D8CDB6" stroke="#C2B59A" stroke-width="2"/>
+
+  <!-- Center Young Girl Smiling with School Books -->
+  <!-- Hijab -->
+  <path d="M220 400 C210 320 230 220 270 160 C310 120 370 120 410 160 C450 220 470 320 460 400 Z" fill="#F4EFE6"/>
+  <!-- Face -->
+  <path d="M290 200 C290 170 330 160 370 170 C390 185 400 220 395 250 C385 285 335 295 305 270 C295 255 290 230 290 200 Z" fill="#7A4B31"/>
+  <!-- Smile & Features -->
+  <path d="M330 250 Q350 265 370 250" stroke="#FAF8F5" stroke-width="3" stroke-linecap="round"/>
+  <!-- Dark Yellow Dress / Uniform -->
+  <path d="M250 400 L270 320 C320 330 380 330 430 320 L450 400 Z" fill="#D49B4B"/>
+
+  <!-- Stack of Books Held in Arms -->
+  <rect x="280" y="320" width="130" height="24" rx="3" fill="#18243B" stroke="#0E1626" stroke-width="1"/>
+  <rect x="285" y="300" width="120" height="22" rx="3" fill="#4F5D48" stroke="#34402E" stroke-width="1"/>
+  <rect x="290" y="280" width="110" height="22" rx="3" fill="#C25A38" stroke="#993B1F" stroke-width="1"/>
+  <rect x="280" y="342" width="130" height="24" rx="3" fill="#FAF8F5" stroke="#D1C7B7" stroke-width="1"/>
+
+  <!-- Left Friend in Dark Hijab -->
+  <path d="M120 400 C115 350 130 280 160 230 C190 200 240 200 265 230 C290 270 300 340 295 400 Z" fill="#24211E"/>
+  <path d="M175 250 C175 230 200 220 225 230 C240 245 245 270 240 290 C230 310 200 315 185 300 Z" fill="#5E3823"/>
+
+  <!-- Right Friend in Cream Hijab -->
+  <path d="M420 400 C415 350 430 270 460 220 C490 190 540 190 565 220 C590 260 600 330 595 400 Z" fill="#EAE5DC"/>
+  <path d="M475 240 C475 220 500 210 525 220 C540 235 545 260 540 280 C530 300 500 305 485 290 Z" fill="#6B3F2A"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg width="240" height="320" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M120 290 C120 200 80 140 30 80" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M120 290 C120 180 160 120 210 60" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Leaves on left stem -->
+  <path d="M75 140 C55 125 45 100 50 85 C65 90 80 110 80 135" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+  <path d="M95 190 C70 180 60 155 68 140 C82 148 98 165 98 185" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+  <path d="M110 240 C85 235 75 210 82 195 C98 202 112 220 112 235" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+  <!-- Leaves on right stem -->
+  <path d="M165 120 C185 105 195 80 190 65 C175 70 160 90 160 115" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+  <path d="M145 170 C170 160 180 135 172 120 C158 128 142 145 142 165" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+  <path d="M130 220 C155 215 165 190 158 175 C142 182 128 200 128 215" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.08"/>
+  <!-- Top Bud -->
+  <path d="M30 80 C25 65 35 50 45 55 C48 68 40 78 30 80 Z" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12"/>
+  <path d="M210 60 C215 45 205 30 195 35 C192 48 200 58 210 60 Z" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12"/>
+</svg>

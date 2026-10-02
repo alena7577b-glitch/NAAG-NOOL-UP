@@ -1,72 +1,180 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Compass, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, Sun, Compass } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
 
 export const metadata: Metadata = {
-  title: 'About Our Movement — Naag Nool UP',
+  title: 'About Us — Naag Nool UP',
   description:
-    'Learn about Naag Nool UP, our mission, core values of Resilience, Worth, and Agency, and the philosophy behind our guided journals.',
+    'Who is Naag Nool UP? A universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.',
 };
 
 export default function AboutPage() {
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 overflow-hidden">
       {/* 1. HERO SECTION */}
-      <section className="relative bg-[#F9F6F0] py-20 sm:py-28 border-b border-[#E5DFC0]/60">
-        <Container size="narrow">
-          <div className="text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#B85233]/10 text-[#B85233] text-xs font-semibold uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Our Mission & Story</span>
-            </div>
-
-            <h1 className="font-playfair text-4xl sm:text-6xl font-normal text-[#1E1C1A] leading-[1.15]">
-              Built for women who choose to be{' '}
-              <span className="font-cormorant italic text-[#B85233]">
-                In Charge.
-              </span>
-            </h1>
-
-            <p className="font-sans text-base sm:text-lg text-[#6B655B] max-w-2xl mx-auto leading-relaxed">
-              Naag Nool UP is more than a brand. It is an intentional space, a movement, and a commitment to helping women reclaim their voice, honor their inner strength, and live fully alive.
-            </p>
-          </div>
-        </Container>
-      </section>
-
-      {/* 2. THE STORY / PHILOSOPHY */}
-      <section className="py-20 sm:py-28 bg-white border-b border-[#E5DFC0]/60">
+      <section className="relative bg-[#F9F6F0] py-12 sm:py-16 lg:py-24 border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                Why We Exist
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-6 space-y-6 text-start">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+                ABOUT
               </p>
-              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
-                The time to be ALIVE is now.
-              </h2>
-              <div className="space-y-4 font-sans text-sm sm:text-base text-[#6B655B] leading-relaxed">
-                <p>
-                  Every woman carries an undeniable spark of wisdom, strength, and possibility. Too often, external expectations, unspoken burdens, or past challenges encourage us to diminish ourselves.
-                </p>
-                <p>
-                  <strong>Naag Nool UP</strong> was founded to disrupt that cycle. We believe that true empowerment begins inward—through radical honesty, dedicated self-reflection, and the courage to take ownership of your personal narrative.
-                </p>
-                <p>
-                  Whether through our guided journals, community dialogues, or social impact initiatives, our purpose is to support you in stepping into your fullest power.
+
+              <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
+                Who is <br />
+                Naag Nool UP?
+              </h1>
+
+              <p className="font-sans text-sm sm:text-base lg:text-lg font-medium text-[#1E1C1A]">
+                A movement. A community. A call to rise.
+              </p>
+
+              <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-xl leading-relaxed">
+                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
+              </p>
+
+              <div className="pt-2">
+                <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233]">
+                  Real women. Real growth. <br />
+                  A brighter future.
                 </p>
               </div>
             </div>
 
+            {/* Right Hero Image */}
             <div className="lg:col-span-6">
-              <div className="rounded-3xl bg-[#F9F6F0] border border-[#E5DFC0] p-8 sm:p-12 space-y-6">
-                <span className="font-cormorant italic text-3xl text-[#B85233] block">
-                  &ldquo;You are resilient. You are worthy. You are in charge.&rdquo;
-                </span>
-                <p className="font-sans text-sm text-[#6B655B] leading-relaxed">
-                  These three truths serve as the anchor for everything we create. They remind us that our dignity is inherent, our resilience is proven, and our future belongs to us.
+              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/hero-portrait.svg"
+                  alt="Woman in terracotta hijab looking upward"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 2. OUR STORY SECTION ("More than a brand. A movement.") */}
+      <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
+        <Container size="default">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Left Collage */}
+            <div className="lg:col-span-6 relative flex items-center justify-center">
+              <div className="relative w-full max-w-lg grid grid-cols-12 gap-4 items-center">
+                {/* Main Upper Image */}
+                <div className="col-span-8 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5] bg-[#FAF8F5]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/hero-portrait.svg"
+                    alt="Woman overlooking landscape"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Secondary Lower Overlapping Image */}
+                <div className="col-span-7 -mt-16 -ms-8 sm:-ms-12 rounded-xl overflow-hidden shadow-lg border-2 border-white aspect-square bg-[#FAF8F5] z-10">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/journal-awakening.svg"
+                    alt="Guided journal artwork"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Botanical Accent */}
+                <div className="absolute -top-6 right-0 w-32 h-44 text-[#D49B4B]/40 pointer-events-none">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/botanical-branch.svg"
+                    alt="Botanical illustration"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Text */}
+            <div className="lg:col-span-6 space-y-5">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
+                OUR STORY
+              </p>
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
+                More than a brand. <br />
+                A movement.
+              </h2>
+              <div className="space-y-4 font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+                <p>
+                  Naag Nool UP was born from a simple truth — when a woman believes in herself, everything changes.
+                </p>
+                <p>
+                  We created this brand to give women the tools, space and inspiration to reflect, heal, grow and take charge of their lives. Through beautifully crafted journals, intentional resources and community support, we’re building a future where every woman feels seen, valued and empowered.
+                </p>
+              </div>
+              <div className="pt-2">
+                <Link
+                  href="/community"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#B85233] text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors"
+                >
+                  <span>Our Story</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 3. OUR THREE VALUES */}
+      <section className="py-16 sm:py-24 bg-[#F9F6F0] border-b border-[#E5DFC0]/50">
+        <Container size="default">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
+            {/* Left Header */}
+            <div className="lg:col-span-4 space-y-3">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
+                OUR VALUES
+              </p>
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A]">
+                Our Three Values
+              </h2>
+              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+                These values guide everything we do — from the journals we create to the communities we support.
+              </p>
+            </div>
+
+            {/* Right 3 Pillars with vertical dividers */}
+            <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-0 md:divide-x divide-[#E5DFC0]">
+              {/* Value 1: Resilient */}
+              <div className="space-y-3 md:px-6 first:ps-0">
+                <div className="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#E5DFC0] text-[#B85233] flex items-center justify-center">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <h3 className="font-playfair text-xl text-[#1E1C1A]">Resilient</h3>
+                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
+                  We rise, even when it’s hard.
+                </p>
+              </div>
+
+              {/* Value 2: Worthy */}
+              <div className="space-y-3 md:px-6">
+                <div className="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#E5DFC0] text-[#D49B4B] flex items-center justify-center">
+                  <Sun className="w-5 h-5" />
+                </div>
+                <h3 className="font-playfair text-xl text-[#1E1C1A]">Worthy</h3>
+                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
+                  We are enough, just as we are.
+                </p>
+              </div>
+
+              {/* Value 3: In Charge */}
+              <div className="space-y-3 md:px-6 last:pe-0">
+                <div className="w-12 h-12 rounded-full bg-[#FAF8F5] border border-[#E5DFC0] text-[#4D5844] flex items-center justify-center">
+                  <Compass className="w-5 h-5" />
+                </div>
+                <h3 className="font-playfair text-xl text-[#1E1C1A]">In Charge</h3>
+                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
+                  We choose, we grow, we lead.
                 </p>
               </div>
             </div>
@@ -74,126 +182,77 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* 3. THE THREE VALUES (DEEP DIVE) */}
-      <section className="py-20 sm:py-28 bg-[#F9F6F0] border-b border-[#E5DFC0]/60">
-        <Container size="default">
-          <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-              Core Values
+      {/* 4. OUR MISSION ("Empower today. Transform tomorrow.") */}
+      <section className="py-0 bg-[#4D5844] text-white overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
+          {/* Left Green Block */}
+          <div className="lg:col-span-6 p-8 sm:p-12 lg:p-16 flex flex-col justify-center space-y-6">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#D49B4B]">
+              OUR MISSION
             </p>
-            <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
-              The Principles That Guide Us
+            <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15]">
+              Empower today. <br />
+              Transform tomorrow.
             </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="rounded-2xl bg-white p-8 border border-[#E5DFC0] space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#B85233]/10 text-[#B85233] flex items-center justify-center font-playfair font-bold text-lg">
-                R
-              </div>
-              <h3 className="font-playfair text-2xl text-[#1E1C1A]">Resilient</h3>
-              <p className="font-sans text-sm text-[#6B655B] leading-relaxed">
-                Resilience is not merely enduring hardship—it is transforming experience into insight. We honor the strength forged through overcoming adversity.
-              </p>
-            </div>
-
-            <div className="rounded-2xl bg-white p-8 border border-[#E5DFC0] space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#4D5844]/10 text-[#4D5844] flex items-center justify-center font-playfair font-bold text-lg">
-                W
-              </div>
-              <h3 className="font-playfair text-2xl text-[#1E1C1A]">Worthy</h3>
-              <p className="font-sans text-sm text-[#6B655B] leading-relaxed">
-                Your self-worth is non-negotiable and requires no external validation. We cultivate environments where women know and trust their value.
-              </p>
-            </div>
-
-            <div className="rounded-2xl bg-white p-8 border border-[#E5DFC0] space-y-4">
-              <div className="w-12 h-12 rounded-xl bg-[#D49B4B]/20 text-[#D49B4B] flex items-center justify-center font-playfair font-bold text-lg">
-                C
-              </div>
-              <h3 className="font-playfair text-2xl text-[#1E1C1A]">In Charge</h3>
-              <p className="font-sans text-sm text-[#6B655B] leading-relaxed">
-                Agency is the ultimate freedom. Taking charge means choosing your boundaries, steering your ambitions, and claiming your rightful seat at every table.
+            <p className="font-sans text-xs sm:text-sm text-white/80 max-w-xl leading-relaxed">
+              Our mission is to empower women through education, connection and opportunity — creating a ripple effect of confident, independent and empowered women and girls in our communities and beyond.
+            </p>
+            <div className="pt-2">
+              <p className="font-cormorant italic text-2xl text-[#D49B4B]">
+                Stronger women. <br />
+                Stronger communities.
               </p>
             </div>
           </div>
-        </Container>
+
+          {/* Right Group Image */}
+          <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-full bg-[#3D4736]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/somali-women-group.svg"
+              alt="Somali women gathering outdoors in sisterhood"
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        </div>
       </section>
 
-      {/* 4. THE GUIDED JOURNALS */}
-      <section className="py-20 sm:py-28 bg-white border-b border-[#E5DFC0]/60">
+      {/* 5. MOVEMENT QUOTE BANNER */}
+      <section className="relative bg-[#1E1C1A] text-white py-16 sm:py-24 overflow-hidden border-t border-white/10">
+        <div 
+          className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-40 mix-blend-overlay"
+          style={{ backgroundImage: 'url(/images/sunset-banner.svg)' }}
+        />
         <Container size="default">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#4D5844]/10 text-[#4D5844] text-xs font-semibold uppercase tracking-widest">
-                <Compass className="w-3.5 h-3.5" />
-                <span>The Tool for Growth</span>
-              </div>
-              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
-                Why Guided Journaling?
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Left Column */}
+            <div className="lg:col-span-6 space-y-5">
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight">
+                The movement <br />
+                is bigger than us.
               </h2>
-              <p className="font-sans text-sm sm:text-base text-[#6B655B] leading-relaxed">
-                We chose journaling as our core instrument because the written word anchors intention. When you write down your reflections, fears, goals, and breakthroughs, you transform abstract thought into tangible reality.
-              </p>
-              <p className="font-sans text-sm sm:text-base text-[#6B655B] leading-relaxed">
-                Our six journal editions are structured around specific themes of healing, clarity, boundaries, leadership, and joy.
+              <p className="font-sans text-xs sm:text-sm text-white/80 max-w-lg leading-relaxed">
+                Naag Nool UP is for every woman — in every chapter of her life. Because when one woman rises, she lifts others with her.
               </p>
               <div className="pt-2">
-                <Link href="/shop">
-                  <Button variant="primary" size="md">
-                    <span>Explore the Journal Editions</span>
-                    <ArrowRight className="w-4 h-4 ms-2 rtl:rotate-180" />
-                  </Button>
+                <Link
+                  href="/community"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#B85233] text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors"
+                >
+                  <span>Join the Community</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
               </div>
             </div>
 
-            <div className="lg:col-span-6">
-              <div className="rounded-3xl bg-[#F9F6F0] border border-[#E5DFC0] p-8 sm:p-10 space-y-5">
-                <h3 className="font-playfair text-2xl text-[#1E1C1A]">
-                  The Transformational Journal Framework
-                </h3>
-                <ul className="space-y-4 font-sans text-sm text-[#6B655B]">
-                  <li className="flex items-start gap-3">
-                    <ShieldCheck className="w-5 h-5 text-[#B85233] shrink-0 mt-0.5" />
-                    <span>Structured daily prompts designed to deepen self-awareness.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <ShieldCheck className="w-5 h-5 text-[#B85233] shrink-0 mt-0.5" />
-                    <span>Dedicated reflection intervals to track personal growth and healing.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <ShieldCheck className="w-5 h-5 text-[#B85233] shrink-0 mt-0.5" />
-                    <span>Tactile, high-grade linen materials that honor the ritual of writing.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* 5. CALL TO ACTION */}
-      <section className="py-20 sm:py-24 bg-[#1E1C1A] text-white text-center">
-        <Container size="narrow">
-          <div className="space-y-6">
-            <h2 className="font-playfair text-3xl sm:text-5xl font-normal">
-              Join Our Global Movement
-            </h2>
-            <p className="font-sans text-sm sm:text-base text-white/70 max-w-lg mx-auto leading-relaxed">
-              Connect with like-minded women, access weekly reflections, and be the first to know about new releases and events.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Link href="/community">
-                <Button variant="secondary" size="lg" className="bg-[#B85233] text-white hover:bg-[#A64426] border-none shadow-md">
-                  Join the Community
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg" className="text-white border-white/30 hover:bg-white/10">
-                  Get in Touch
-                </Button>
-              </Link>
+            {/* Right Column: Quote */}
+            <div className="lg:col-span-6 space-y-3">
+              <blockquote className="font-playfair italic text-2xl sm:text-3xl text-white/95 leading-snug">
+                &ldquo;Empowered women build stronger families, stronger communities and a brighter future.&rdquo;
+              </blockquote>
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#D49B4B]">
+                — NAAG NOOL UP
+              </p>
             </div>
           </div>
         </Container>
