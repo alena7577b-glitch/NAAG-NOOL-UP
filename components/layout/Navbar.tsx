@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, User as UserIcon, ShoppingBag, Menu, Globe, Shield, LogOut, Package, UserCheck } from 'lucide-react';
+import { Search, User as UserIcon, ShoppingBag, Menu, Globe, Shield, LogOut, Package, UserCheck, ChevronDown } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { MobileNav, NavItem } from './MobileNav';
 import { locales, localeNames, Locale } from '@/config/i18n';
@@ -44,7 +44,16 @@ export function Navbar({
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<AuthUserState | null>(initialUser ?? null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (initialUser !== undefined) {
@@ -68,27 +77,35 @@ export function Navbar({
       .catch(() => setCurrentUser(null));
   }, [initialUser, pathname]);
 
+  const isHomepage = pathname === '/';
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[#E5DFC0]/70 bg-[#F9F6F0]/90 backdrop-blur-md transition-all">
+    <header
+      className={`z-40 w-full transition-all duration-300 ${
+        isHomepage
+          ? isScrolled
+            ? 'fixed top-0 inset-x-0 bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E5DFC0]/70 shadow-sm animate-in fade-in duration-200'
+            : 'absolute top-0 inset-x-0 bg-transparent border-b border-transparent'
+          : 'sticky top-0 bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E5DFC0]/70'
+      }`}
+    >
       <Container size="default">
         <div className="flex h-20 items-center justify-between gap-4">
           {/* Brand Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 text-[#1E1C1A] hover:opacity-90 transition-opacity focus-visible:outline-none"
+            className="flex items-center gap-2.5 text-[#1E1C1A] hover:opacity-90 transition-opacity focus-visible:outline-none"
           >
-            {/* Floral Motif Logo Mark */}
+            {/* 4-pointed Star Motif Logo Mark */}
             <svg
-              className="h-6 w-6 text-[#1E1C1A]"
+              className="h-5 w-5 sm:h-6 sm:w-6 text-[#1E1C1A]"
               viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
+              fill="currentColor"
             >
               <path d="M12 2C12 7 7 12 2 12C7 12 12 17 12 22C12 17 17 12 22 12C17 12 12 7 12 2Z" />
             </svg>
-            <span className="font-playfair text-xl sm:text-2xl font-normal tracking-[0.1em] uppercase">
-              Naag Nool UP
+            <span className="font-playfair text-lg sm:text-xl md:text-2xl font-normal tracking-[0.12em] uppercase">
+              NAAG NOOL UP
             </span>
           </Link>
 
@@ -120,7 +137,7 @@ export function Navbar({
           </nav>
 
           {/* Right Utility Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Language Switcher Dropdown */}
             <div className="relative hidden sm:block">
               <button
@@ -130,10 +147,11 @@ export function Navbar({
                   setIsUserMenuOpen(false);
                 }}
                 aria-label="Select language"
-                className="flex items-center gap-1.5 p-2 rounded-full text-[#1E1C1A] hover:bg-[#EAE5DC]/60 transition-colors cursor-pointer text-xs font-medium"
+                className="flex items-center gap-1.5 p-2 rounded-full text-[#1E1C1A] hover:bg-black/5 transition-colors cursor-pointer text-xs font-medium"
               >
                 <Globe className="w-4 h-4" />
                 <span className="uppercase">{currentLocale}</span>
+                <ChevronDown className="w-3 h-3 text-[#1E1C1A]/70" />
               </button>
 
               {isLangOpen && (

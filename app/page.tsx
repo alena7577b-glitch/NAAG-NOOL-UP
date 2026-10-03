@@ -12,20 +12,20 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0 overflow-hidden bg-[#FAF8F5] text-[#1E1C1A]">
-      {/* 1. HERO SECTION (Seamless full-bleed panoramic photographic hero) */}
-      <section className="relative w-full overflow-hidden bg-[#EDE5D8] min-h-[480px] sm:min-h-[520px] lg:min-h-[580px] flex items-center border-b border-[#E5DFC0]/50">
-        {/* Full-bleed background panoramic image */}
+      {/* 1. HERO SECTION (Seamless full-bleed panoramic photographic hero with overlaid header) */}
+      <section className="relative w-full overflow-hidden bg-[#EDE5D8] min-h-[540px] sm:min-h-[600px] lg:min-h-[660px] xl:min-h-[700px] flex items-center border-b border-[#E5DFC0]/50 pt-20 sm:pt-24 lg:pt-28">
+        {/* Full-bleed background panoramic image spanning behind header */}
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/hp-hero-bg-seamless.png"
             alt="Naag Nool UP Hero Landscape with woman in terracotta scarf"
-            className="w-full h-full object-cover object-[15%_center] sm:object-[25%_center] lg:object-center"
+            className="w-full h-full object-cover object-[15%_center] sm:object-[22%_center] lg:object-center"
           />
         </div>
 
         {/* Hero Content Overlay (Positioned on the right side over the sky) */}
-        <Container size="default" className="relative z-10 py-14 sm:py-20 lg:py-24">
+        <Container size="default" className="relative z-10 py-10 sm:py-16 lg:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             {/* Left Column: Spacer on desktop allowing the woman's portrait to shine */}
             <div className="hidden lg:block lg:col-span-6 xl:col-span-6" />
