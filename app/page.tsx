@@ -12,50 +12,52 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0 overflow-hidden bg-[#FAF8F5] text-[#1E1C1A]">
-      {/* 1. HERO SECTION (Seamless full-bleed photographic hero) */}
-      <section className="relative bg-[#F9F6F0] py-12 sm:py-16 lg:py-20 border-b border-[#E5DFC0]/50 overflow-hidden">
-        <Container size="default">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Seamless Hero Portrait */}
-            <div className="lg:col-span-6 relative order-2 lg:order-1 flex items-center justify-center">
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] w-full max-w-xl rounded-2xl overflow-hidden shadow-sm bg-transparent">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/hero-woman-portrait.png"
-                  alt="Somali woman in terracotta hijab against warm desert landscape"
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-            </div>
+      {/* 1. HERO SECTION (Seamless full-bleed panoramic photographic hero) */}
+      <section className="relative w-full overflow-hidden bg-[#EDE5D8] min-h-[480px] sm:min-h-[520px] lg:min-h-[580px] flex items-center border-b border-[#E5DFC0]/50">
+        {/* Full-bleed background panoramic image */}
+        <div className="absolute inset-0 z-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/hp-hero-bg-seamless.png"
+            alt="Naag Nool UP Hero Landscape with woman in terracotta scarf"
+            className="w-full h-full object-cover object-[15%_center] sm:object-[25%_center] lg:object-center"
+          />
+        </div>
+
+        {/* Hero Content Overlay (Positioned on the right side over the sky) */}
+        <Container size="default" className="relative z-10 py-14 sm:py-20 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+            {/* Left Column: Spacer on desktop allowing the woman's portrait to shine */}
+            <div className="hidden lg:block lg:col-span-6 xl:col-span-6" />
 
             {/* Right Column: Hero Typography & Actions */}
-            <div className="lg:col-span-6 space-y-6 text-start order-1 lg:order-2 lg:ps-4">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+            <div className="lg:col-span-6 xl:col-span-6 space-y-5 sm:space-y-6 text-start bg-[#FAF8F5]/90 lg:bg-transparent p-6 sm:p-8 lg:p-0 rounded-2xl lg:rounded-none backdrop-blur-sm lg:backdrop-blur-none shadow-sm lg:shadow-none max-w-xl">
+              <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#B85233]">
                 NAAG NOOL UP
               </p>
 
-              <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-normal text-[#1E1C1A] leading-[1.12] tracking-tight">
+              <h1 className="font-playfair text-3xl sm:text-5xl lg:text-[3.25rem] font-normal text-[#1E1C1A] leading-[1.12] tracking-tight">
                 The time to be <br />
-                <span className="font-cormorant italic text-[#1E1C1A] font-medium">
+                <span className="font-cormorant italic text-[#B85233] font-normal">
                   ALIVE
                 </span>{' '}
                 is now.
               </h1>
 
-              <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-lg leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm lg:text-base text-[#3D3833] max-w-lg leading-relaxed font-normal">
                 Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 pt-1">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center rounded bg-[#B85233] text-white px-6 sm:px-7 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded bg-[#B85233] text-white px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
                 >
-                  Shop the Journals
+                  Shop the Journals <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded bg-transparent border border-[#1E1C1A]/40 text-[#1E1C1A] px-6 sm:px-7 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#EAE5DC]/60 transition-colors"
+                  className="inline-flex items-center justify-center rounded bg-[#EDE3D4]/90 hover:bg-[#E3D9C9] border border-[#B85233]/40 text-[#1E1C1A] px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-medium transition-colors shadow-sm"
                 >
                   Discover Naag Nool UP
                 </Link>
