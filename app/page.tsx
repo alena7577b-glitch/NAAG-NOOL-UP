@@ -11,14 +11,14 @@ export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts(6);
 
   return (
-    <div className="space-y-0 overflow-hidden">
-      {/* 1. HERO SECTION */}
-      <section className="relative bg-[#F9F6F0] py-12 sm:py-16 lg:py-24 border-b border-[#E5DFC0]/50 overflow-hidden">
+    <div className="space-y-0 overflow-hidden bg-[#FAF8F5] text-[#1E1C1A]">
+      {/* 1. HERO SECTION (Seamless full-bleed photographic hero) */}
+      <section className="relative bg-[#F9F6F0] py-12 sm:py-16 lg:py-20 border-b border-[#E5DFC0]/50 overflow-hidden">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Authentic Hero Portrait */}
+            {/* Left Column: Seamless Hero Portrait */}
             <div className="lg:col-span-6 relative order-2 lg:order-1 flex items-center justify-center">
-              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full max-w-lg rounded-2xl overflow-hidden shadow-md">
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/3] w-full max-w-xl rounded-2xl overflow-hidden shadow-sm bg-transparent">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/hero-woman-portrait.png"
@@ -29,33 +29,33 @@ export default async function HomePage() {
             </div>
 
             {/* Right Column: Hero Typography & Actions */}
-            <div className="lg:col-span-6 space-y-6 text-start order-1 lg:order-2">
+            <div className="lg:col-span-6 space-y-6 text-start order-1 lg:order-2 lg:ps-4">
               <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
                 NAAG NOOL UP
               </p>
 
-              <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
+              <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-normal text-[#1E1C1A] leading-[1.12] tracking-tight">
                 The time to be <br />
-                <span className="font-cormorant italic text-[#B85233] font-semibold">
+                <span className="font-cormorant italic text-[#1E1C1A] font-medium">
                   ALIVE
                 </span>{' '}
                 is now.
               </h1>
 
-              <p className="font-sans text-sm sm:text-base lg:text-lg text-[#6B655B] max-w-xl leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-lg leading-relaxed">
                 Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-1">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center rounded-md bg-[#B85233] text-white px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center rounded bg-[#B85233] text-white px-6 sm:px-7 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
                 >
                   Shop the Journals
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded-md bg-transparent border border-[#1E1C1A]/40 text-[#1E1C1A] px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium hover:bg-[#EAE5DC]/60 transition-colors"
+                  className="inline-flex items-center justify-center rounded bg-transparent border border-[#1E1C1A]/40 text-[#1E1C1A] px-6 sm:px-7 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#EAE5DC]/60 transition-colors"
                 >
                   Discover Naag Nool UP
                 </Link>
@@ -85,7 +85,7 @@ export default async function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded-md bg-[#B85233] text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors"
+                  className="inline-flex items-center justify-center rounded bg-[#B85233] text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors"
                 >
                   Our Story
                 </Link>
@@ -94,34 +94,13 @@ export default async function HomePage() {
 
             {/* Center: Editorial Collage */}
             <div className="lg:col-span-6 relative flex items-center justify-center">
-              <div className="relative w-full max-w-lg grid grid-cols-12 gap-4 items-center">
-                {/* Main Upper Image */}
-                <div className="col-span-8 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5] bg-[#FAF8F5]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/movement-woman.png"
-                    alt="Woman looking upward"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Secondary Lower Overlapping Image */}
-                <div className="col-span-7 -mt-16 -ms-8 sm:-ms-12 rounded-xl overflow-hidden shadow-lg border-2 border-white aspect-square bg-[#FAF8F5] z-10">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/movement-hands.png"
-                    alt="Hands holding journal"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Decorative Botanical Branch */}
-                <div className="absolute -top-6 right-0 w-32 h-44 text-[#D49B4B]/40 pointer-events-none -z-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/botanical-branch.svg"
-                    alt="Botanical branch sketch"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+              <div className="relative w-full max-w-lg">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/hp-movement-collage.png"
+                  alt="The Movement photo collage with botanical sketch"
+                  className="w-full h-auto object-contain drop-shadow-sm rounded-lg"
+                />
               </div>
             </div>
 
@@ -166,7 +145,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* 6 Journal Cards Row/Grid */}
+          {/* 6 Journal Cards in 6 Columns */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
             {featuredProducts.map((product) => (
               <ProductCard
@@ -185,10 +164,10 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Image: Hands writing */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/why-journaling.png"
+                  src="/images/hp-why-journaling.png"
                   alt="Hands writing in open journal on wooden desk"
                   className="w-full h-full object-cover"
                 />
@@ -249,13 +228,13 @@ export default async function HomePage() {
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <Link
                     href="/ayeyo-koris"
-                    className="inline-flex items-center justify-center rounded-md bg-white text-[#1E1C1A] px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#FAF8F5] transition-colors shadow-sm"
+                    className="inline-flex items-center justify-center rounded bg-white text-[#1E1C1A] px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#FAF8F5] transition-colors shadow-sm"
                   >
                     Learn More
                   </Link>
                   <Link
                     href="/ayeyo-koris#get-involved"
-                    className="inline-flex items-center justify-center rounded-md bg-transparent border border-white text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center justify-center rounded bg-transparent border border-white text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-white/10 transition-colors"
                   >
                     Donate
                   </Link>
@@ -267,7 +246,7 @@ export default async function HomePage() {
                 <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-xl overflow-hidden shadow-lg border border-white/20 bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/ayeyo-portrait.png"
+                    src="/images/hp-ayeyo-woman.png"
                     alt="Woman in terracotta headscarf looking toward horizon"
                     className="w-full h-full object-cover"
                   />
@@ -284,10 +263,10 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left: Women Celebrating Image */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/community-sunset.png"
+                  src="/images/hp-community-sunset.png"
                   alt="Women celebrating together against mountain sunset"
                   className="w-full h-full object-cover"
                 />
@@ -314,7 +293,7 @@ export default async function HomePage() {
                     name="name"
                     placeholder="Your name"
                     required
-                    className="w-full rounded-md bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
+                    className="w-full rounded bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
                   />
                 </div>
                 <div className="sm:col-span-5">
@@ -323,14 +302,14 @@ export default async function HomePage() {
                     name="email"
                     placeholder="Your email address"
                     required
-                    className="w-full rounded-md bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
+                    className="w-full rounded bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
                   />
                 </div>
                 <div className="sm:col-span-2">
                   <button
                     type="submit"
                     aria-label="Submit community signup"
-                    className="w-full h-full min-h-[38px] rounded-md bg-[#B85233] text-white flex items-center justify-center hover:bg-[#A64426] transition-colors shadow-sm"
+                    className="w-full h-full min-h-[38px] rounded bg-[#B85233] text-white flex items-center justify-center hover:bg-[#A64426] transition-colors shadow-sm"
                   >
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                   </button>
