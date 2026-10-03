@@ -50,10 +50,10 @@ export default function AyeyoKorisPage() {
 
             {/* Right Hero Image */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-portrait.svg"
+                  src="/images/hero-woman-portrait.png"
                   alt="Woman in terracotta hijab against warm mountains"
                   className="w-full h-full object-cover object-center"
                 />
@@ -92,7 +92,7 @@ export default function AyeyoKorisPage() {
               <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md border border-[#E5DFC0]/60 bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/ayeyo-hero.svg"
+                  src="/images/ayeyo-schoolgirls.png"
                   alt="Young girls smiling holding school books"
                   className="w-full h-full object-cover"
                 />
@@ -144,7 +144,7 @@ export default function AyeyoKorisPage() {
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg border border-white/20 bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/hero-portrait.svg"
+                    src="/images/ayeyo-village.png"
                     alt="Woman in hijab looking toward village"
                     className="w-full h-full object-cover"
                   />
@@ -214,7 +214,7 @@ export default function AyeyoKorisPage() {
               <div className="col-span-7 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5] bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/writing-hands.svg"
+                  src="/images/ayeyo-writing.png"
                   alt="Girl writing in notebook"
                   className="w-full h-full object-cover"
                 />
@@ -223,7 +223,7 @@ export default function AyeyoKorisPage() {
                 <div className="rounded-xl overflow-hidden shadow-sm border border-[#E5DFC0]/60 aspect-[4/3] bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/somali-women-group.svg"
+                    src="/images/ayeyo-study.png"
                     alt="Women in study group"
                     className="w-full h-full object-cover"
                   />
@@ -231,7 +231,7 @@ export default function AyeyoKorisPage() {
                 <div className="rounded-xl overflow-hidden shadow-sm border border-[#E5DFC0]/60 aspect-[4/3] bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/community-circle.svg"
+                    src="/images/ayeyo-walking.png"
                     alt="Women walking together at sunset"
                     className="w-full h-full object-cover"
                   />

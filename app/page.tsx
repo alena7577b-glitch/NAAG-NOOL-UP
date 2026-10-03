@@ -13,16 +13,16 @@ export default async function HomePage() {
   return (
     <div className="space-y-0 overflow-hidden">
       {/* 1. HERO SECTION */}
-      <section className="relative bg-[#F9F6F0] py-12 sm:py-16 lg:py-24 border-b border-[#E5DFC0]/50">
+      <section className="relative bg-[#F9F6F0] py-12 sm:py-16 lg:py-24 border-b border-[#E5DFC0]/50 overflow-hidden">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Hero Image */}
-            <div className="lg:col-span-6 relative order-2 lg:order-1">
-              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+            {/* Left Column: Authentic Hero Portrait */}
+            <div className="lg:col-span-6 relative order-2 lg:order-1 flex items-center justify-center">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full max-w-lg rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-portrait.svg"
-                  alt="Woman in terracotta hijab against warm landscape"
+                  src="/images/hero-woman-portrait.png"
+                  alt="Somali woman in terracotta hijab against warm desert landscape"
                   className="w-full h-full object-cover object-center"
                 />
               </div>
@@ -96,10 +96,10 @@ export default async function HomePage() {
             <div className="lg:col-span-6 relative flex items-center justify-center">
               <div className="relative w-full max-w-lg grid grid-cols-12 gap-4 items-center">
                 {/* Main Upper Image */}
-                <div className="col-span-8 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5]">
+                <div className="col-span-8 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5] bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/hero-portrait.svg"
+                    src="/images/movement-woman.png"
                     alt="Woman looking upward"
                     className="w-full h-full object-cover"
                   />
@@ -108,7 +108,7 @@ export default async function HomePage() {
                 <div className="col-span-7 -mt-16 -ms-8 sm:-ms-12 rounded-xl overflow-hidden shadow-lg border-2 border-white aspect-square bg-[#FAF8F5] z-10">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/writing-hands.svg"
+                    src="/images/movement-hands.png"
                     alt="Hands holding journal"
                     className="w-full h-full object-cover"
                   />
@@ -188,7 +188,7 @@ export default async function HomePage() {
               <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md border border-[#E5DFC0]/60 bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/writing-hands.svg"
+                  src="/images/why-journaling.png"
                   alt="Hands writing in open journal on wooden desk"
                   className="w-full h-full object-cover"
                 />
@@ -267,7 +267,7 @@ export default async function HomePage() {
                 <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-xl overflow-hidden shadow-lg border border-white/20 bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/hero-portrait.svg"
+                    src="/images/ayeyo-portrait.png"
                     alt="Woman in terracotta headscarf looking toward horizon"
                     className="w-full h-full object-cover"
                   />
@@ -287,7 +287,7 @@ export default async function HomePage() {
               <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md border border-[#E5DFC0]/60 bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/community-circle.svg"
+                  src="/images/community-sunset.png"
                   alt="Women celebrating together against mountain sunset"
                   className="w-full h-full object-cover"
                 />

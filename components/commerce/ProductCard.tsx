@@ -47,7 +47,7 @@ export function ProductCard({
 
   const imageSrc =
     product.imageUrl ||
-    `/images/journal-${product.slug.replace('the-', '')}.svg`;
+    `/images/journal-${product.slug.replace('the-', '')}.png`;
 
   return (
     <div

@@ -68,10 +68,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
             {/* Right Hero Image */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-portrait.svg"
+                  src="/images/hero-woman-portrait.png"
                   alt="Woman in terracotta hijab against mountains"
                   className="w-full h-full object-cover object-center"
                 />
@@ -306,7 +306,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 <div className="relative aspect-[16/10] rounded-xl overflow-hidden shadow-lg border border-white/20 bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/writing-hands.svg"
+                    src="/images/shop-banner-books.png"
                     alt="Journals on table"
                     className="w-full h-full object-cover"
                   />

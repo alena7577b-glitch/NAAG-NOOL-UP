@@ -42,7 +42,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
       : [
           {
             id: 'default-img',
-            url: product.imageUrl || `/images/journal-${product.slug.replace('the-', '')}.svg`,
+            url: product.imageUrl || `/images/journal-${product.slug.replace('the-', '')}.png`,
             altText: product.title,
             sortOrder: 0,
           },
@@ -326,7 +326,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
               <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md border border-[#E5DFC0]/60 bg-[#FAF8F5]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/writing-hands.svg"
+                  src="/images/product-editorial-woman.png"
                   alt="Holding journal"
                   className="w-full h-full object-cover"
                 />

@@ -45,10 +45,10 @@ export default function AboutPage() {
 
             {/* Right Hero Image */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-portrait.svg"
+                  src="/images/hero-woman-portrait.png"
                   alt="Woman in terracotta hijab looking upward"
                   className="w-full h-full object-cover object-center"
                 />
@@ -69,7 +69,7 @@ export default function AboutPage() {
                 <div className="col-span-8 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5] bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/hero-portrait.svg"
+                    src="/images/movement-woman.png"
                     alt="Woman overlooking landscape"
                     className="w-full h-full object-cover"
                   />
@@ -78,7 +78,7 @@ export default function AboutPage() {
                 <div className="col-span-7 -mt-16 -ms-8 sm:-ms-12 rounded-xl overflow-hidden shadow-lg border-2 border-white aspect-square bg-[#FAF8F5] z-10">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/journal-awakening.svg"
+                    src="/images/journal-awakening.png"
                     alt="Guided journal artwork"
                     className="w-full h-full object-cover"
                   />
@@ -209,7 +209,7 @@ export default function AboutPage() {
           <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-full bg-[#3D4736]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/somali-women-group.svg"
+              src="/images/somali-women-group.png"
               alt="Somali women gathering outdoors in sisterhood"
               className="w-full h-full object-cover object-center"
             />

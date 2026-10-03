@@ -34,10 +34,10 @@ export default function ContactPage() {
 
             {/* Right Hero Image */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-portrait.svg"
+                  src="/images/hero-woman-portrait.png"
                   alt="Woman in terracotta hijab looking upward"
                   className="w-full h-full object-cover object-center"
                 />

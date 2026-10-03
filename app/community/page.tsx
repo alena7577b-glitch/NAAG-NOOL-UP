@@ -45,10 +45,10 @@ export default function CommunityPage() {
 
             {/* Right Hero Image */}
             <div className="lg:col-span-6 relative">
-              <div className="relative aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] w-full rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/60 bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-portrait.svg"
+                  src="/images/hero-woman-portrait.png"
                   alt="Woman in terracotta hijab against mountains"
                   className="w-full h-full object-cover object-center"
                 />
@@ -143,7 +143,7 @@ export default function CommunityPage() {
           <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-full bg-[#3D4736]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/somali-women-group.svg"
+              src="/images/somali-women-group.png"
               alt="Group of smiling women sitting outdoors in sisterhood"
               className="w-full h-full object-cover object-center"
             />
