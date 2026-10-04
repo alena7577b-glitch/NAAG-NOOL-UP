@@ -103,6 +103,67 @@ html, body {
   font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
 
+/* ==========================================================================
+   Hero & Interactive Button Components
+   ========================================================================== */
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #A64426 !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1px solid #A64426;
+  text-decoration: none !important;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 180ms ease-in-out;
+  white-space: nowrap;
+}
+
+.btn-hero-primary:hover {
+  background-color: #8E381E !important;
+  border-color: #8E381E !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(166, 68, 38, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent !important;
+  color: #1E1C1A !important;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1px solid rgba(30, 28, 26, 0.45) !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all 180ms ease-in-out;
+  white-space: nowrap;
+}
+
+.btn-hero-secondary:hover {
+  background-color: rgba(30, 28, 26, 0.06) !important;
+  border-color: rgba(30, 28, 26, 0.8) !important;
+  color: #1E1C1A !important;
+  transform: translateY(-1px);
+}
+
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -60,14 +60,14 @@ export default async function HomePage() {
               <div className="flex flex-wrap items-center gap-4 pt-3">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center gap-2.5 rounded-[4px] bg-[#A64426] text-white px-7 sm:px-8 py-3.5 text-sm font-medium hover:bg-[#91381E] transition-colors shadow-sm cursor-pointer"
+                  className="btn-hero-primary"
                 >
                   <span>Shop the Journals</span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded-[4px] bg-transparent hover:bg-[#1E1C1A]/5 border border-[#1E1C1A]/40 hover:border-[#1E1C1A]/70 text-[#1E1C1A] px-7 sm:px-8 py-3.5 text-sm font-medium transition-colors cursor-pointer"
+                  className="btn-hero-secondary"
                 >
                   Discover Naag Nool UP
                 </Link>
