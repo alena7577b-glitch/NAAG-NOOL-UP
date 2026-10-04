@@ -51,31 +51,31 @@ export function ProductCard({
 
   return (
     <div
-      className={`group flex flex-col justify-between bg-[#FAF8F5] rounded-xl border border-[#E5DFC0]/70 p-4 transition-[transform,box-shadow,border-color] duration-180 ease-out hover:-translate-y-1 hover:shadow-md hover:border-[#D49B4B]/50 active:scale-[0.985] ${className}`}
+      className={`group flex flex-col justify-between bg-white rounded-2xl border border-[#E5DFC0]/75 p-4 sm:p-5 transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1.5 hover:shadow-lg hover:border-[#B85233]/40 active:scale-[0.985] ${className}`}
     >
       <div>
         {/* Product Image Frame */}
         <Link
           href={`/product/${product.slug}`}
-          className="relative block w-full aspect-[4/5] min-h-[260px] sm:min-h-[300px] rounded-xl bg-[#F4EFE6] overflow-hidden mb-4 border border-[#E5DFC0]/60 group-hover:opacity-95 transition-opacity duration-150 flex items-center justify-center p-4"
+          className="relative block w-full h-52 sm:h-60 rounded-xl bg-[#FAF7F2] overflow-hidden mb-4 border border-[#E5DFC0]/50 group-hover:bg-[#F4EFE6] transition-colors duration-200 flex items-center justify-center p-3"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageSrc}
             alt={product.title}
-            className="w-full h-full object-contain object-center transition-transform duration-250 ease-out group-hover:scale-[1.04]"
+            className="w-full h-full object-contain object-center transition-transform duration-300 ease-out group-hover:scale-[1.05]"
             loading="lazy"
           />
         </Link>
 
         {/* Category Eyebrow & Title */}
-        <div className="space-y-1 mb-3">
+        <div className="space-y-1.5 mb-3.5 text-start">
           {product.category && (
-            <span className="block text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#6B655B]">
+            <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#B85233]">
               {product.category}
             </span>
           )}
-          <h3 className="font-playfair text-base sm:text-lg font-normal text-[#1E1C1A]">
+          <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] tracking-tight">
             <Link
               href={`/product/${product.slug}`}
               className="hover:text-[#B85233] transition-colors duration-150 focus-visible:outline-none"
@@ -84,7 +84,7 @@ export function ProductCard({
             </Link>
           </h3>
           {product.description && (
-            <p className="text-xs text-[#6B655B] line-clamp-2 leading-relaxed font-sans">
+            <p className="text-xs text-[#6B655B] line-clamp-2 leading-relaxed font-sans font-normal">
               {product.description}
             </p>
           )}
@@ -92,22 +92,22 @@ export function ProductCard({
       </div>
 
       {/* Price, Stock Indicator & Buttons */}
-      <div className="pt-3 border-t border-[#E5DFC0]/50 space-y-3">
+      <div className="pt-3.5 border-t border-[#E5DFC0]/60 space-y-3">
         <div className="flex items-center justify-between">
-          <span className="font-sans text-base sm:text-lg font-medium text-[#1E1C1A]">
+          <span className="font-playfair text-lg font-normal text-[#1E1C1A]">
             {formattedPrice}
           </span>
           <span className="inline-flex items-center gap-1.5 text-[11px] text-[#4D5844] font-medium">
-            <span className="h-2 w-2 rounded-full bg-[#4D5844]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#4D5844]" />
             <span>In Stock</span>
           </span>
         </div>
 
-        <div className={`grid ${showDetailsButton ? 'grid-cols-2 gap-2' : 'grid-cols-1'} pt-1`}>
+        <div className={`grid ${showDetailsButton ? 'grid-cols-2 gap-2' : 'grid-cols-1'} pt-0.5`}>
           <button
             type="button"
             onClick={handleAdd}
-            className={`w-full py-2.5 px-3 rounded-lg text-xs font-medium transition-[transform,background-color,box-shadow] duration-150 ease-out active:scale-[0.97] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
+            className={`w-full py-2.5 px-3 rounded-lg text-xs font-semibold tracking-wide transition-[transform,background-color,box-shadow] duration-160 ease-out active:scale-[0.97] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
               isAdded
                 ? 'bg-[#4D5844] text-white'
                 : 'bg-[#B85233] text-white hover:bg-[#A64426]'
@@ -121,7 +121,7 @@ export function ProductCard({
             ) : (
               <>
                 <ShoppingBag className="w-3.5 h-3.5" />
-                <span>Add to Cart</span>
+                <span>Add to Bag</span>
               </>
             )}
           </button>
@@ -129,7 +129,7 @@ export function ProductCard({
           {showDetailsButton && (
             <Link
               href={`/product/${product.slug}`}
-              className="w-full py-2.5 px-3 rounded-lg text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#E5DFC0] hover:bg-[#EAE5DC]/60 transition-[transform,background-color,border-color] duration-150 ease-out active:scale-[0.97] text-center"
+              className="w-full py-2.5 px-3 rounded-lg text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#E5DFC0] hover:bg-[#FAF7F2] hover:border-[#1E1C1A]/40 transition-[transform,background-color,border-color] duration-160 ease-out active:scale-[0.97] text-center flex items-center justify-center"
             >
               View Details
             </Link>
