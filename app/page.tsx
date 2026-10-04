@@ -16,7 +16,7 @@ export default async function HomePage() {
       {/* =========================================================================
           1. HERO SECTION (Full-bleed luxury panoramic experience)
       ========================================================================= */}
-      <section className="relative w-full overflow-hidden bg-[#EFE8DC] min-h-[580px] sm:min-h-[640px] lg:min-h-[720px] xl:min-h-[780px] flex items-center border-b border-[#E5DFC0]/60 pt-20 sm:pt-24 lg:pt-28">
+      <section className="relative w-full overflow-hidden bg-[#EFE8DC] min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] xl:min-h-[660px] flex items-center border-b border-[#E5DFC0]/60 pt-20 pb-10 sm:pt-24 sm:pb-14 lg:pt-24 lg:pb-16">
         {/* Full-bleed background panoramic photography */}
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -29,16 +29,16 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#FAF8F5]/25 hidden lg:block" />
         </div>
 
-        {/* Hero Content Overlay (Anchored to the far right over open sky) */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20 lg:py-28 flex justify-end">
-          <div className="w-full max-w-lg lg:max-w-md xl:max-w-lg ml-auto space-y-6 text-start">
+        {/* Hero Content Overlay (Anchored to the far right with balanced vertical center) */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex justify-end items-center">
+          <div className="w-full max-w-lg lg:max-w-md xl:max-w-lg ml-auto space-y-4 sm:space-y-5 text-start">
             {/* Eyebrow */}
             <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#A64426]">
               NAAG NOOL UP
             </p>
 
             {/* Majestic Headline */}
-            <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.1] tracking-tight">
+            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.12] tracking-tight">
               The time to be <br />
               <span className="font-cormorant italic text-[#A64426] font-normal">
                 ALIVE
@@ -47,12 +47,12 @@ export default async function HomePage() {
             </h1>
 
             {/* Refined Narrative */}
-            <p className="font-sans text-sm sm:text-base text-[#4A453E] leading-relaxed font-normal">
+            <p className="font-sans text-xs sm:text-sm lg:text-[0.95rem] text-[#4A453E] leading-relaxed max-w-md font-normal">
               Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
             </p>
 
             {/* Refined Luxury Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-3">
+            <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-2">
               <Link
                 href="/shop"
                 className="btn-hero-primary"
