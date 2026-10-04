@@ -107,7 +107,7 @@ export function ProductCard({
           <button
             type="button"
             onClick={handleAdd}
-            className={`w-full py-2 px-3 rounded text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`w-full py-2.5 px-3 rounded text-xs font-medium transition-all duration-150 active:scale-[0.97] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
               isAdded
                 ? 'bg-[#4D5844] text-white'
                 : 'bg-[#B85233] text-white hover:bg-[#A64426]'
@@ -129,7 +129,7 @@ export function ProductCard({
           {showDetailsButton && (
             <Link
               href={`/product/${product.slug}`}
-              className="w-full py-2 px-3 rounded text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#E5DFC0] hover:bg-[#EAE5DC]/60 transition-colors text-center"
+              className="w-full py-2.5 px-3 rounded text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#E5DFC0] hover:bg-[#EAE5DC]/60 active:scale-[0.97] transition-all duration-150 text-center"
             >
               View Details
             </Link>
