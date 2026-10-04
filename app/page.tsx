@@ -29,16 +29,16 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#FAF8F5]/25 hidden lg:block" />
         </div>
 
-        {/* Hero Content Overlay (Anchored to the far right with balanced vertical center) */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 flex justify-end items-center">
-          <div className="w-full max-w-lg lg:max-w-md xl:max-w-lg ml-auto space-y-4 sm:space-y-5 text-start">
+        {/* Hero Content Overlay (Anchored to the far right with generous breathing room) */}
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 xl:px-20 flex justify-end items-center">
+          <div className="w-full max-w-xl lg:max-w-lg xl:max-w-xl ml-auto text-start">
             {/* Eyebrow */}
-            <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#A64426]">
+            <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.28em] text-[#A64426] mb-4 sm:mb-5">
               NAAG NOOL UP
             </p>
 
             {/* Majestic Headline */}
-            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[3.25rem] xl:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.12] tracking-tight">
+            <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[3.75rem] font-normal text-[#1E1C1A] leading-[1.18] sm:leading-[1.16] tracking-tight mb-5 sm:mb-6">
               The time to be <br />
               <span className="font-cormorant italic text-[#A64426] font-normal">
                 ALIVE
@@ -46,13 +46,13 @@ export default async function HomePage() {
               is now.
             </h1>
 
-            {/* Refined Narrative */}
-            <p className="font-sans text-xs sm:text-sm lg:text-[0.95rem] text-[#4A453E] leading-relaxed max-w-md font-normal">
+            {/* Refined Narrative with generous line height and spacing */}
+            <p className="font-sans text-sm sm:text-base lg:text-[1.025rem] text-[#4A453E] leading-[1.75] sm:leading-[1.8] max-w-lg font-normal mb-8 sm:mb-10">
               Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
             </p>
 
             {/* Refined Luxury Buttons */}
-            <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-5">
               <Link
                 href="/shop"
                 className="btn-hero-primary"
