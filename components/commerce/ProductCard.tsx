@@ -51,19 +51,19 @@ export function ProductCard({
 
   return (
     <div
-      className={`group flex flex-col justify-between bg-[#FAF8F5] rounded-lg border border-[#E5DFC0]/70 p-4 transition-all duration-200 hover:shadow-md hover:border-[#D49B4B]/50 ${className}`}
+      className={`group flex flex-col justify-between bg-[#FAF8F5] rounded-xl border border-[#E5DFC0]/70 p-4 transition-[transform,box-shadow,border-color] duration-180 ease-out hover:-translate-y-1 hover:shadow-md hover:border-[#D49B4B]/50 active:scale-[0.985] ${className}`}
     >
       <div>
         {/* Product Image */}
         <Link
           href={`/product/${product.slug}`}
-          className="relative block w-full aspect-[4/5] rounded-md bg-[#F4EFE6] overflow-hidden mb-3.5 border border-[#E5DFC0]/40 group-hover:opacity-95 transition-opacity"
+          className="relative block w-full aspect-[4/5] rounded-lg bg-[#F4EFE6] overflow-hidden mb-3.5 border border-[#E5DFC0]/40 group-hover:opacity-95 transition-opacity duration-150"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageSrc}
             alt={product.title}
-            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-103"
+            className="w-full h-full object-cover object-center transition-transform duration-250 ease-out group-hover:scale-[1.03]"
             loading="lazy"
           />
         </Link>
@@ -78,7 +78,7 @@ export function ProductCard({
           <h3 className="font-playfair text-base sm:text-lg font-normal text-[#1E1C1A]">
             <Link
               href={`/product/${product.slug}`}
-              className="hover:text-[#B85233] transition-colors focus-visible:outline-none"
+              className="hover:text-[#B85233] transition-colors duration-150 focus-visible:outline-none"
             >
               {product.title}
             </Link>
@@ -107,7 +107,7 @@ export function ProductCard({
           <button
             type="button"
             onClick={handleAdd}
-            className={`w-full py-2.5 px-3 rounded text-xs font-medium transition-all duration-150 active:scale-[0.97] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
+            className={`w-full py-2.5 px-3 rounded-lg text-xs font-medium transition-[transform,background-color,box-shadow] duration-150 ease-out active:scale-[0.97] flex items-center justify-center gap-1.5 cursor-pointer shadow-xs ${
               isAdded
                 ? 'bg-[#4D5844] text-white'
                 : 'bg-[#B85233] text-white hover:bg-[#A64426]'
@@ -129,7 +129,7 @@ export function ProductCard({
           {showDetailsButton && (
             <Link
               href={`/product/${product.slug}`}
-              className="w-full py-2.5 px-3 rounded text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#E5DFC0] hover:bg-[#EAE5DC]/60 active:scale-[0.97] transition-all duration-150 text-center"
+              className="w-full py-2.5 px-3 rounded-lg text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#E5DFC0] hover:bg-[#EAE5DC]/60 transition-[transform,background-color,border-color] duration-150 ease-out active:scale-[0.97] text-center"
             >
               View Details
             </Link>

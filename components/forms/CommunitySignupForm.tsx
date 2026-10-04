@@ -48,7 +48,7 @@ export function CommunitySignupForm({ className = '' }: { className?: string }) 
           placeholder="Your name"
           required
           disabled={isPending}
-          className="w-full rounded-md bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs sm:text-sm text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
+          className="w-full rounded-lg bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs sm:text-sm text-[#1E1C1A] placeholder:text-[#6B655B] transition-[border-color,box-shadow] duration-150 ease-out focus:outline-none focus:border-[#B85233] focus:ring-1 focus:ring-[#B85233]"
         />
         {state.errors?.fullName?.[0] && (
           <p className="text-[11px] text-red-600">{state.errors.fullName[0]}</p>
@@ -67,7 +67,7 @@ export function CommunitySignupForm({ className = '' }: { className?: string }) 
           placeholder="you@example.com"
           required
           disabled={isPending}
-          className="w-full rounded-md bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs sm:text-sm text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
+          className="w-full rounded-lg bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs sm:text-sm text-[#1E1C1A] placeholder:text-[#6B655B] transition-[border-color,box-shadow] duration-150 ease-out focus:outline-none focus:border-[#B85233] focus:ring-1 focus:ring-[#B85233]"
         />
         {state.errors?.email?.[0] && (
           <p className="text-[11px] text-red-600">{state.errors.email[0]}</p>
@@ -94,7 +94,7 @@ export function CommunitySignupForm({ className = '' }: { className?: string }) 
         <button
           type="submit"
           disabled={isPending}
-          className="w-full py-3 px-6 rounded-md bg-[#B85233] text-white text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-50"
+          className="w-full py-3.5 px-6 rounded-lg bg-[#B85233] text-white text-xs sm:text-sm font-semibold hover:bg-[#A64426] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 transition-[transform,background-color,box-shadow] duration-160 ease-out flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-50"
         >
           <span>{isPending ? 'Joining...' : 'Join the Community'}</span>
           <ArrowRight className="w-4 h-4 rtl:rotate-180" />

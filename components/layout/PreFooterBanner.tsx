@@ -33,9 +33,9 @@ export function PreFooterBanner({
         <div className="pt-2">
           <Link
             href={buttonHref}
-            className="inline-flex items-center justify-center rounded-full bg-white text-[#1E1C1A] px-8 py-3.5 text-xs sm:text-sm font-medium tracking-wide shadow-md hover:bg-[#FAF8F5] hover:scale-102 transition-all"
+            className="btn-white-solid shadow-md"
           >
-            {buttonText}
+            <span>{buttonText}</span>
           </Link>
         </div>
       </div>
