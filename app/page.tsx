@@ -23,58 +23,52 @@ export default async function HomePage() {
           <img
             src="/images/hero-landscape.png"
             alt="Naag Nool UP Hero Landscape with woman in terracotta scarf against dawn sky"
-            className="w-full h-full object-cover object-[18%_top] sm:object-[22%_center] lg:object-center"
+            className="w-full h-full object-cover object-[left_center] sm:object-[8%_center] lg:object-left"
           />
-          {/* Subtle gradient scrim on the right for impeccable text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#FAF8F5]/30 hidden lg:block" />
+          {/* Subtle gradient scrim on the far right for pristine text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#FAF8F5]/25 hidden lg:block" />
         </div>
 
-        {/* Hero Content Overlay (Anchored cleanly to the far right over open sky) */}
-        <Container size="default" className="relative z-10 py-16 sm:py-20 lg:py-28">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-            {/* Left Spacer: Keeps the woman's face & billowing terracotta silk completely free */}
-            <div className="hidden lg:block lg:col-span-7 xl:col-span-7" />
+        {/* Hero Content Overlay (Anchored to the far right over open sky) */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20 lg:py-28 flex justify-end">
+          <div className="w-full max-w-lg lg:max-w-md xl:max-w-lg ml-auto space-y-6 text-start">
+            {/* Eyebrow */}
+            <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#A64426]">
+              NAAG NOOL UP
+            </p>
 
-            {/* Right Column: Pure Editorial Typography & Buttons on Open Sky */}
-            <div className="lg:col-span-5 xl:col-span-5 space-y-6 text-start max-w-md xl:max-w-lg lg:ml-auto">
-              {/* Eyebrow */}
-              <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#A64426]">
-                NAAG NOOL UP
-              </p>
+            {/* Majestic Headline */}
+            <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.1] tracking-tight">
+              The time to be <br />
+              <span className="font-cormorant italic text-[#A64426] font-normal">
+                ALIVE
+              </span>{' '}
+              is now.
+            </h1>
 
-              {/* Majestic Headline */}
-              <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.1] tracking-tight">
-                The time to be <br />
-                <span className="font-cormorant italic text-[#A64426] font-normal">
-                  ALIVE
-                </span>{' '}
-                is now.
-              </h1>
+            {/* Refined Narrative */}
+            <p className="font-sans text-sm sm:text-base text-[#4A453E] leading-relaxed font-normal">
+              Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
+            </p>
 
-              {/* Refined Narrative */}
-              <p className="font-sans text-sm sm:text-base text-[#4A453E] leading-relaxed font-normal">
-                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
-              </p>
-
-              {/* Refined Luxury Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-3">
-                <Link
-                  href="/shop"
-                  className="btn-hero-primary"
-                >
-                  <span>Shop the Journals</span>
-                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                </Link>
-                <Link
-                  href="/about"
-                  className="btn-hero-secondary"
-                >
-                  Discover Naag Nool UP
-                </Link>
-              </div>
+            {/* Refined Luxury Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-3">
+              <Link
+                href="/shop"
+                className="btn-hero-primary"
+              >
+                <span>Shop the Journals</span>
+                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              </Link>
+              <Link
+                href="/about"
+                className="btn-hero-secondary"
+              >
+                Discover Naag Nool UP
+              </Link>
             </div>
           </div>
-        </Container>
+        </div>
       </section>
 
       {/* =========================================================================
