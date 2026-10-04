@@ -30,62 +30,47 @@ export default async function HomePage() {
         </div>
 
         {/* Hero Content Overlay (Anchored cleanly to the right side over open sky) */}
-        <Container size="default" className="relative z-10 py-12 sm:py-16 lg:py-24">
+        <Container size="default" className="relative z-10 py-16 sm:py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             {/* Left Spacer: Keeps the woman's face & billowing terracotta silk completely free */}
-            <div className="hidden lg:block lg:col-span-6 xl:col-span-6" />
+            <div className="hidden lg:block lg:col-span-6 xl:col-span-7" />
 
-            {/* Right Column: Hero Typography & Actions */}
-            <div className="lg:col-span-6 xl:col-span-6 space-y-6 text-start bg-[#FAF8F5]/92 lg:bg-[#FAF8F5]/40 p-6 sm:p-8 lg:p-6 xl:p-8 rounded-2xl lg:rounded-3xl backdrop-blur-md border border-white/60 shadow-lg lg:shadow-none max-w-xl lg:ml-auto">
-              {/* Luxury Eyebrow Pill */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF8F5]/90 border border-[#B85233]/20 shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-[#B85233]" />
-                <span className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                  A Global Movement for Women
-                </span>
-              </div>
+            {/* Right Column: Pure Editorial Typography & Buttons on Open Sky */}
+            <div className="lg:col-span-6 xl:col-span-5 space-y-5 sm:space-y-6 text-start max-w-lg lg:ml-auto">
+              {/* Eyebrow */}
+              <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+                NAAG NOOL UP
+              </p>
 
               {/* Majestic Headline */}
-              <h1 className="font-playfair text-3xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
+              <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.1] tracking-tight">
                 The time to be <br />
-                <span className="font-cormorant italic text-[#B85233] font-normal tracking-wide">
+                <span className="font-cormorant italic text-[#B85233] font-normal">
                   ALIVE
                 </span>{' '}
                 is now.
               </h1>
 
               {/* Refined Narrative */}
-              <p className="font-sans text-xs sm:text-sm lg:text-[0.95rem] text-[#3D3833] max-w-lg leading-relaxed font-normal">
-                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth, and agency.
+              <p className="font-sans text-sm sm:text-base text-[#4A453E] leading-relaxed font-normal">
+                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
               </p>
 
-              {/* World-Class Luxury Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
+              {/* Refined Luxury Buttons */}
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#B85233] to-[#A64426] text-white px-7 sm:px-8 py-3.5 text-xs sm:text-sm font-semibold tracking-wide shadow-md shadow-[#B85233]/25 hover:shadow-lg hover:from-[#A64426] hover:to-[#8E381E] transform hover:-translate-y-0.5 transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 rounded bg-[#B85233] text-white px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
                 >
                   <span>Shop the Journals</span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded-full bg-white/70 hover:bg-white text-[#1E1C1A] border border-[#B85233]/30 px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-medium tracking-wide backdrop-blur-sm shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 transition-all duration-200"
+                  className="inline-flex items-center justify-center rounded bg-[#EDE5D8]/90 hover:bg-[#E3D9C9] border border-[#B85233]/40 text-[#1E1C1A] px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium transition-colors shadow-sm"
                 >
                   Discover Naag Nool UP
                 </Link>
-              </div>
-
-              {/* Social Proof Micro-Trust Bar */}
-              <div className="pt-3 border-t border-[#E5DFC0]/60 flex items-center gap-4 text-xs text-[#555048]">
-                <div className="flex items-center text-[#D49B4B]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-[#D49B4B] text-[#D49B4B]" />
-                  ))}
-                </div>
-                <span className="font-medium text-[#1E1C1A]">5.0 (1,200+ Reviews)</span>
-                <span className="text-[#E5DFC0]">•</span>
-                <span>Global Community</span>
               </div>
             </div>
           </div>
