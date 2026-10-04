@@ -29,23 +29,23 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#FAF8F5]/30 hidden lg:block" />
         </div>
 
-        {/* Hero Content Overlay (Anchored cleanly to the right side over open sky) */}
+        {/* Hero Content Overlay (Anchored cleanly to the far right over open sky) */}
         <Container size="default" className="relative z-10 py-16 sm:py-20 lg:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
             {/* Left Spacer: Keeps the woman's face & billowing terracotta silk completely free */}
-            <div className="hidden lg:block lg:col-span-6 xl:col-span-7" />
+            <div className="hidden lg:block lg:col-span-7 xl:col-span-7" />
 
             {/* Right Column: Pure Editorial Typography & Buttons on Open Sky */}
-            <div className="lg:col-span-6 xl:col-span-5 space-y-5 sm:space-y-6 text-start max-w-lg lg:ml-auto">
+            <div className="lg:col-span-5 xl:col-span-5 space-y-6 text-start max-w-md xl:max-w-lg lg:ml-auto">
               {/* Eyebrow */}
-              <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+              <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#A64426]">
                 NAAG NOOL UP
               </p>
 
               {/* Majestic Headline */}
               <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] font-normal text-[#1E1C1A] leading-[1.1] tracking-tight">
                 The time to be <br />
-                <span className="font-cormorant italic text-[#B85233] font-normal">
+                <span className="font-cormorant italic text-[#A64426] font-normal">
                   ALIVE
                 </span>{' '}
                 is now.
@@ -57,17 +57,17 @@ export default async function HomePage() {
               </p>
 
               {/* Refined Luxury Buttons */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-3">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center gap-2 rounded bg-[#B85233] text-white px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-[4px] bg-[#A64426] text-white px-7 sm:px-8 py-3.5 text-sm font-medium hover:bg-[#91381E] transition-colors shadow-sm cursor-pointer"
                 >
                   <span>Shop the Journals</span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded bg-[#EDE5D8]/90 hover:bg-[#E3D9C9] border border-[#B85233]/40 text-[#1E1C1A] px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center rounded-[4px] bg-transparent hover:bg-[#1E1C1A]/5 border border-[#1E1C1A]/40 hover:border-[#1E1C1A]/70 text-[#1E1C1A] px-7 sm:px-8 py-3.5 text-sm font-medium transition-colors cursor-pointer"
                 >
                   Discover Naag Nool UP
                 </Link>
