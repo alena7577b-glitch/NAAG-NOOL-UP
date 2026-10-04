@@ -54,16 +54,16 @@ export function ProductCard({
       className={`group flex flex-col justify-between bg-[#FAF8F5] rounded-xl border border-[#E5DFC0]/70 p-4 transition-[transform,box-shadow,border-color] duration-180 ease-out hover:-translate-y-1 hover:shadow-md hover:border-[#D49B4B]/50 active:scale-[0.985] ${className}`}
     >
       <div>
-        {/* Product Image */}
+        {/* Product Image Frame */}
         <Link
           href={`/product/${product.slug}`}
-          className="relative block w-full aspect-[4/5] rounded-lg bg-[#F4EFE6] overflow-hidden mb-3.5 border border-[#E5DFC0]/40 group-hover:opacity-95 transition-opacity duration-150"
+          className="relative block w-full aspect-[4/5] min-h-[260px] sm:min-h-[300px] rounded-xl bg-[#F4EFE6] overflow-hidden mb-4 border border-[#E5DFC0]/60 group-hover:opacity-95 transition-opacity duration-150 flex items-center justify-center p-4"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imageSrc}
             alt={product.title}
-            className="w-full h-full object-cover object-center transition-transform duration-250 ease-out group-hover:scale-[1.03]"
+            className="w-full h-full object-contain object-center transition-transform duration-250 ease-out group-hover:scale-[1.04]"
             loading="lazy"
           />
         </Link>

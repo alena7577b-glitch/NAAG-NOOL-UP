@@ -159,7 +159,7 @@ export async function getFeaturedProducts(limit = 6): Promise<ProductCardData[]>
         description: p.description,
         price: Number(p.price),
         category: p.category,
-        imageUrl: p.images[0]?.url || `/images/journal-${p.slug.replace('the-', '')}.svg`,
+        imageUrl: p.images[0]?.url || `/images/journal-${p.slug.replace('the-', '')}.png`,
         isAvailable: p.isAvailable && p.stockQuantity > 0,
       }));
     }
@@ -320,7 +320,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetailData 
         description: product.description,
         price: Number(product.price),
         category: product.category,
-        imageUrl: product.images[0]?.url || `/images/journal-${product.slug.replace('the-', '')}.svg`,
+        imageUrl: product.images[0]?.url || `/images/journal-${product.slug.replace('the-', '')}.png`,
         isAvailable: product.isAvailable && product.stockQuantity > 0,
         stockQuantity: product.stockQuantity,
         metadata: (product.metadata as Record<string, any>) || null,
@@ -332,7 +332,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetailData 
               sortOrder: img.sortOrder,
             }))
           : [
-              { id: 'img-1', url: `/images/journal-${product.slug.replace('the-', '')}.svg`, altText: product.title, sortOrder: 0 },
+              { id: 'img-1', url: `/images/journal-${product.slug.replace('the-', '')}.png`, altText: product.title, sortOrder: 0 },
             ],
         createdAt: product.createdAt,
       };

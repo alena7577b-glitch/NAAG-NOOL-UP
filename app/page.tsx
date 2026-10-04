@@ -74,13 +74,13 @@ export default async function HomePage() {
       {/* =========================================================================
           2. THE THREE PILLARS (Resilient • Worthy • In Charge)
       ========================================================================= */}
-      <section className="py-16 sm:py-24 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
+      <section className="py-20 sm:py-28 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+          <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20 space-y-3">
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.28em] text-[#B85233]">
               CORE MANIFESTO
             </p>
-            <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.6rem] font-normal text-[#1E1C1A] tracking-tight">
+            <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.75rem] font-normal text-[#1E1C1A] tracking-tight">
               Three Pillars of Becoming
             </h2>
             <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed max-w-lg mx-auto">
@@ -88,53 +88,68 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8">
             {/* Pillar 1 */}
-            <div className="group bg-white rounded-2xl p-8 sm:p-9 border border-[#E5DFC0]/70 interactive-card">
-              <div className="w-12 h-12 rounded-xl bg-[#B85233]/10 flex items-center justify-center text-[#B85233] mb-6 group-hover:bg-[#B85233] group-hover:text-white transition-[background-color,color] duration-200 ease-out">
-                <Shield className="w-6 h-6" />
+            <div className="group bg-white rounded-2xl p-8 sm:p-10 border border-[#E5DFC0]/80 interactive-card relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-4 right-6 font-playfair text-5xl font-light text-[#E5DFC0]/40 select-none group-hover:text-[#B85233]/20 transition-colors duration-200">
+                I
               </div>
-              <span className="block font-sans text-[11px] font-semibold uppercase tracking-widest text-[#B85233] mb-1">
-                Pillar 01
-              </span>
-              <h3 className="font-playfair text-2xl font-normal text-[#1E1C1A] mb-3">
-                Resilient
-              </h3>
-              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-                Anchored in an unbreakable core. You possess the innate capacity to navigate seasons of transformation with grounded grace.
-              </p>
+              <div>
+                <div className="w-13 h-13 rounded-xl bg-[#B85233]/10 flex items-center justify-center text-[#B85233] mb-7 group-hover:bg-[#B85233] group-hover:text-white transition-[background-color,color] duration-200 ease-out">
+                  <Shield className="w-6 h-6" />
+                </div>
+                <span className="block font-sans text-[11px] font-semibold uppercase tracking-widest text-[#B85233] mb-1.5">
+                  Pillar 01
+                </span>
+                <h3 className="font-playfair text-2xl font-normal text-[#1E1C1A] mb-3.5">
+                  Resilient
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-[1.75]">
+                  Anchored in an unbreakable core. You possess the innate capacity to navigate seasons of transformation with grounded grace and quiet conviction.
+                </p>
+              </div>
             </div>
 
             {/* Pillar 2 */}
-            <div className="group bg-white rounded-2xl p-8 sm:p-9 border border-[#E5DFC0]/70 interactive-card">
-              <div className="w-12 h-12 rounded-xl bg-[#D49B4B]/15 flex items-center justify-center text-[#D49B4B] mb-6 group-hover:bg-[#D49B4B] group-hover:text-white transition-[background-color,color] duration-200 ease-out">
-                <Heart className="w-6 h-6" />
+            <div className="group bg-white rounded-2xl p-8 sm:p-10 border border-[#E5DFC0]/80 interactive-card relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-4 right-6 font-playfair text-5xl font-light text-[#E5DFC0]/40 select-none group-hover:text-[#D49B4B]/20 transition-colors duration-200">
+                II
               </div>
-              <span className="block font-sans text-[11px] font-semibold uppercase tracking-widest text-[#D49B4B] mb-1">
-                Pillar 02
-              </span>
-              <h3 className="font-playfair text-2xl font-normal text-[#1E1C1A] mb-3">
-                Worthy
-              </h3>
-              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-                Your worth is inherent, sacred, and non-negotiable. Reclaim your seat at your own table without seeking external validation.
-              </p>
+              <div>
+                <div className="w-13 h-13 rounded-xl bg-[#D49B4B]/15 flex items-center justify-center text-[#D49B4B] mb-7 group-hover:bg-[#D49B4B] group-hover:text-white transition-[background-color,color] duration-200 ease-out">
+                  <Heart className="w-6 h-6" />
+                </div>
+                <span className="block font-sans text-[11px] font-semibold uppercase tracking-widest text-[#D49B4B] mb-1.5">
+                  Pillar 02
+                </span>
+                <h3 className="font-playfair text-2xl font-normal text-[#1E1C1A] mb-3.5">
+                  Worthy
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-[1.75]">
+                  Your worth is inherent, sacred, and non-negotiable. Reclaim your seat at your own table without seeking external permission or validation.
+                </p>
+              </div>
             </div>
 
             {/* Pillar 3 */}
-            <div className="group bg-white rounded-2xl p-8 sm:p-9 border border-[#E5DFC0]/70 interactive-card">
-              <div className="w-12 h-12 rounded-xl bg-[#4D5844]/15 flex items-center justify-center text-[#4D5844] mb-6 group-hover:bg-[#4D5844] group-hover:text-white transition-[background-color,color] duration-200 ease-out">
-                <Award className="w-6 h-6" />
+            <div className="group bg-white rounded-2xl p-8 sm:p-10 border border-[#E5DFC0]/80 interactive-card relative overflow-hidden flex flex-col justify-between">
+              <div className="absolute top-4 right-6 font-playfair text-5xl font-light text-[#E5DFC0]/40 select-none group-hover:text-[#4D5844]/20 transition-colors duration-200">
+                III
               </div>
-              <span className="block font-sans text-[11px] font-semibold uppercase tracking-widest text-[#4D5844] mb-1">
-                Pillar 03
-              </span>
-              <h3 className="font-playfair text-2xl font-normal text-[#1E1C1A] mb-3">
-                In Charge
-              </h3>
-              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-                Holding the pen to author your own story. Take intentional ownership over your thoughts, boundaries, habits, and future.
-              </p>
+              <div>
+                <div className="w-13 h-13 rounded-xl bg-[#4D5844]/15 flex items-center justify-center text-[#4D5844] mb-7 group-hover:bg-[#4D5844] group-hover:text-white transition-[background-color,color] duration-200 ease-out">
+                  <Award className="w-6 h-6" />
+                </div>
+                <span className="block font-sans text-[11px] font-semibold uppercase tracking-widest text-[#4D5844] mb-1.5">
+                  Pillar 03
+                </span>
+                <h3 className="font-playfair text-2xl font-normal text-[#1E1C1A] mb-3.5">
+                  In Charge
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-[1.75]">
+                  Holding the pen to author your own story. Take intentional ownership over your thoughts, boundaries, daily habits, and future vision.
+                </p>
+              </div>
             </div>
           </div>
         </Container>
@@ -143,9 +158,9 @@ export default async function HomePage() {
       {/* =========================================================================
           3. THE MOVEMENT (Editorial split story feature)
       ========================================================================= */}
-      <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
+      <section className="py-20 sm:py-28 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Story Text */}
             <div className="lg:col-span-5 space-y-6 text-start">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B85233]/10 text-[#B85233] text-[11px] font-semibold uppercase tracking-widest">
@@ -162,7 +177,7 @@ export default async function HomePage() {
                 Naag Nool UP is more than a brand — it’s a living global movement. A sacred space created for women to reconnect with their power, heal past narratives, and boldly author their most vibrant chapter yet.
               </p>
 
-              <div className="p-5 sm:p-6 rounded-xl bg-[#F4EFE6] border-l-3 border-[#B85233] space-y-2.5">
+              <div className="p-5 sm:p-6 rounded-xl bg-[#F4EFE6] border-l-3 border-[#B85233] space-y-2.5 shadow-xs">
                 <p className="font-cormorant italic text-lg sm:text-xl text-[#1E1C1A] leading-snug">
                   &ldquo;When a woman remembers who she is, entire generations shift with her.&rdquo;
                 </p>
@@ -198,16 +213,16 @@ export default async function HomePage() {
       </section>
 
       {/* =========================================================================
-          4. SIGNATURE GUIDED JOURNALS (6 Product Grid)
+          4. SIGNATURE GUIDED JOURNALS (3x2 Luxury Product Showcase)
       ========================================================================= */}
-      <section className="py-16 sm:py-24 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
+      <section className="py-20 sm:py-28 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 sm:mb-16 gap-6">
             <div className="space-y-3 max-w-xl text-start">
               <p className="font-sans text-xs font-semibold uppercase tracking-[0.28em] text-[#B85233]">
                 SIGNATURE COLLECTION
               </p>
-              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A] tracking-tight">
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.75rem] font-normal text-[#1E1C1A] tracking-tight">
                 The Guided Journals
               </h2>
               <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
@@ -224,14 +239,14 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* 6 Journal Cards in Responsive Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
+          {/* 6 Journal Cards in 3x2 Luxury Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                showDetailsButton={false}
-                className="h-full bg-white rounded-xl shadow-xs hover:shadow-md"
+                showDetailsButton={true}
+                className="h-full bg-white rounded-2xl p-5 shadow-xs hover:shadow-md"
               />
             ))}
           </div>
