@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles, Heart, Shield, Award, Star, CheckCircle2 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { ProductCard } from '@/components/commerce/ProductCard';
 import { PreFooterBanner } from '@/components/layout/PreFooterBanner';
 import { getFeaturedProducts } from '@/lib/products';
+import { CommunitySignupForm } from '@/components/forms/CommunitySignupForm';
 
 export const revalidate = 60; // ISR revalidation
 
@@ -12,161 +13,252 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0 overflow-hidden bg-[#FAF8F5] text-[#1E1C1A]">
-      {/* 1. HERO SECTION (Seamless full-bleed panoramic photographic hero with overlaid header) */}
-      <section className="relative w-full overflow-hidden bg-[#EDE5D8] min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] xl:min-h-[760px] flex items-center border-b border-[#E5DFC0]/50 pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20">
-        {/* Full-bleed background panoramic image grounded on left */}
+      {/* =========================================================================
+          1. HERO SECTION (Full-bleed luxury panoramic experience)
+      ========================================================================= */}
+      <section className="relative w-full overflow-hidden bg-[#EFE8DC] min-h-[580px] sm:min-h-[640px] lg:min-h-[720px] xl:min-h-[780px] flex items-center border-b border-[#E5DFC0]/60 pt-20 sm:pt-24 lg:pt-28">
+        {/* Full-bleed background panoramic photography */}
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/hp-hero-bg-seamless.png"
-            alt="Naag Nool UP Hero Landscape with woman in terracotta scarf"
-            className="w-full h-full object-cover object-[0%_center] sm:object-[5%_center] md:object-[10%_center] lg:object-[left_center]"
+            src="/images/hero-landscape.png"
+            alt="Naag Nool UP Hero Landscape with woman in terracotta scarf against dawn sky"
+            className="w-full h-full object-cover object-[18%_top] sm:object-[22%_center] lg:object-center"
           />
+          {/* Subtle gradient scrim on the right for impeccable text legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#FAF8F5]/30 hidden lg:block" />
         </div>
 
-        {/* Hero Content Overlay (Positioned to the far right over the open sky and hills) */}
-        <Container size="default" className="relative z-10">
+        {/* Hero Content Overlay (Anchored cleanly to the right side over open sky) */}
+        <Container size="default" className="relative z-10 py-12 sm:py-16 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-            {/* Left Column Spacer: Keeps the woman's portrait completely open and unobstructed */}
-            <div className="hidden lg:block lg:col-span-6 xl:col-span-6 2xl:col-span-7" />
+            {/* Left Spacer: Keeps the woman's face & billowing terracotta silk completely free */}
+            <div className="hidden lg:block lg:col-span-6 xl:col-span-6" />
 
             {/* Right Column: Hero Typography & Actions */}
-            <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-5 space-y-6 text-start bg-[#FAF8F5]/90 lg:bg-transparent p-6 sm:p-8 lg:p-0 lg:ps-6 xl:ps-8 rounded-2xl lg:rounded-none backdrop-blur-sm lg:backdrop-blur-none shadow-sm lg:shadow-none max-w-xl lg:ml-auto">
-              <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#B85233]">
-                NAAG NOOL UP
-              </p>
+            <div className="lg:col-span-6 xl:col-span-6 space-y-6 text-start bg-[#FAF8F5]/92 lg:bg-[#FAF8F5]/40 p-6 sm:p-8 lg:p-6 xl:p-8 rounded-2xl lg:rounded-3xl backdrop-blur-md border border-white/60 shadow-lg lg:shadow-none max-w-xl lg:ml-auto">
+              {/* Luxury Eyebrow Pill */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAF8F5]/90 border border-[#B85233]/20 shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#B85233]" />
+                <span className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
+                  A Global Movement for Women
+                </span>
+              </div>
 
-              <h1 className="font-playfair text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
+              {/* Majestic Headline */}
+              <h1 className="font-playfair text-3xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.75rem] font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
                 The time to be <br />
-                <span className="font-cormorant italic text-[#B85233] font-normal">
+                <span className="font-cormorant italic text-[#B85233] font-normal tracking-wide">
                   ALIVE
                 </span>{' '}
                 is now.
               </h1>
 
-              <p className="font-sans text-sm sm:text-base lg:text-[1.05rem] text-[#3D3833] max-w-lg leading-relaxed font-normal">
-                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
+              {/* Refined Narrative */}
+              <p className="font-sans text-xs sm:text-sm lg:text-[0.95rem] text-[#3D3833] max-w-lg leading-relaxed font-normal">
+                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth, and agency.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 pt-2">
+              {/* World-Class Luxury Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1 sm:pt-2">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[#B85233] text-white px-7 sm:px-8 py-3.5 sm:py-4 text-sm font-medium hover:bg-[#A64426] hover:shadow-md transition-all shadow-sm"
+                  className="inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#B85233] to-[#A64426] text-white px-7 sm:px-8 py-3.5 text-xs sm:text-sm font-semibold tracking-wide shadow-md shadow-[#B85233]/25 hover:shadow-lg hover:from-[#A64426] hover:to-[#8E381E] transform hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  Shop the Journals <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                  <span>Shop the Journals</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded-md bg-[#FAF3E8]/90 hover:bg-[#FAF3E8] border border-[#B85233]/40 text-[#1E1C1A] px-7 sm:px-8 py-3.5 sm:py-4 text-sm font-medium hover:border-[#B85233]/70 hover:shadow-sm transition-all"
+                  className="inline-flex items-center justify-center rounded-full bg-white/70 hover:bg-white text-[#1E1C1A] border border-[#B85233]/30 px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-medium tracking-wide backdrop-blur-sm shadow-xs hover:shadow-sm transform hover:-translate-y-0.5 transition-all duration-200"
                 >
                   Discover Naag Nool UP
                 </Link>
+              </div>
+
+              {/* Social Proof Micro-Trust Bar */}
+              <div className="pt-3 border-t border-[#E5DFC0]/60 flex items-center gap-4 text-xs text-[#555048]">
+                <div className="flex items-center text-[#D49B4B]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#D49B4B] text-[#D49B4B]" />
+                  ))}
+                </div>
+                <span className="font-medium text-[#1E1C1A]">5.0 (1,200+ Reviews)</span>
+                <span className="text-[#E5DFC0]">•</span>
+                <span>Global Community</span>
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 2. THE MOVEMENT SECTION */}
+      {/* =========================================================================
+          2. THE THREE PILLARS (Resilient • Worthy • In Charge)
+      ========================================================================= */}
+      <section className="py-14 sm:py-20 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
+        <Container size="default">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+              CORE MANIFESTO
+            </p>
+            <h2 className="font-playfair text-2xl sm:text-4xl font-normal text-[#1E1C1A]">
+              Three Pillars of Becoming
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#6B655B]">
+              Every journal, prompt, and gathering is anchored in timeless truths designed to awaken your innate sovereignty.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {/* Pillar 1 */}
+            <div className="group bg-white rounded-2xl p-8 border border-[#E5DFC0]/70 shadow-xs hover:shadow-md hover:border-[#B85233]/40 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#B85233]/10 flex items-center justify-center text-[#B85233] mb-5 group-hover:bg-[#B85233] group-hover:text-white transition-colors duration-300">
+                <Shield className="w-6 h-6" />
+              </div>
+              <h3 className="font-playfair text-xl font-normal text-[#1E1C1A] mb-2.5">
+                01. Resilient
+              </h3>
+              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+                Anchored in an unbreakable core. You possess the innate capacity to navigate seasons of transformation with grounded grace.
+              </p>
+            </div>
+
+            {/* Pillar 2 */}
+            <div className="group bg-white rounded-2xl p-8 border border-[#E5DFC0]/70 shadow-xs hover:shadow-md hover:border-[#B85233]/40 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#D49B4B]/15 flex items-center justify-center text-[#D49B4B] mb-5 group-hover:bg-[#D49B4B] group-hover:text-white transition-colors duration-300">
+                <Heart className="w-6 h-6" />
+              </div>
+              <h3 className="font-playfair text-xl font-normal text-[#1E1C1A] mb-2.5">
+                02. Worthy
+              </h3>
+              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+                Your worth is inherent, sacred, and non-negotiable. Reclaim your seat at your own table without seeking external validation.
+              </p>
+            </div>
+
+            {/* Pillar 3 */}
+            <div className="group bg-white rounded-2xl p-8 border border-[#E5DFC0]/70 shadow-xs hover:shadow-md hover:border-[#B85233]/40 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#4D5844]/15 flex items-center justify-center text-[#4D5844] mb-5 group-hover:bg-[#4D5844] group-hover:text-white transition-colors duration-300">
+                <Award className="w-6 h-6" />
+              </div>
+              <h3 className="font-playfair text-xl font-normal text-[#1E1C1A] mb-2.5">
+                03. In Charge
+              </h3>
+              <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+                Holding the pen to author your own story. Take intentional ownership over your thoughts, boundaries, habits, and future.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* =========================================================================
+          3. THE MOVEMENT (Editorial split story feature)
+      ========================================================================= */}
       <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-            {/* Left Text Block */}
-            <div className="lg:col-span-4 space-y-5">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                THE MOVEMENT
-              </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            {/* Left Story Text */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B85233]/10 text-[#B85233] text-[11px] font-semibold uppercase tracking-widest">
+                <span>The Movement</span>
+              </div>
+
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
                 You are resilient. <br />
                 You are worthy. <br />
                 You are in charge.
               </h2>
+
               <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-                Naag Nool UP is more than a brand — it’s a movement. A space for women to reconnect with their power, write their own stories and create a more intentional future.
+                Naag Nool UP is more than a brand — it’s a living global movement. A sacred space created for women to reconnect with their power, heal past narratives, and boldly author their most vibrant chapter yet.
               </p>
+
+              <div className="p-4 sm:p-5 rounded-xl bg-[#F4EFE6] border-l-3 border-[#B85233] space-y-2">
+                <p className="font-cormorant italic text-base sm:text-lg text-[#1E1C1A]">
+                  &ldquo;When a woman remembers who she is, entire generations shift with her.&rdquo;
+                </p>
+                <span className="block text-[11px] font-sans font-semibold uppercase tracking-wider text-[#B85233]">
+                  — Naag Nool UP Founding Principle
+                </span>
+              </div>
+
               <div className="pt-2">
                 <Link
                   href="/about"
-                  className="inline-flex items-center justify-center rounded bg-[#B85233] text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#B85233] text-white px-7 py-3 text-xs sm:text-sm font-semibold hover:bg-[#A64426] transition-colors shadow-sm"
                 >
-                  Our Story
+                  <span>Our Story & Mission</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
               </div>
             </div>
 
-            {/* Center: Editorial Collage */}
-            <div className="lg:col-span-6 relative flex items-center justify-center">
-              <div className="relative w-full max-w-lg">
+            {/* Right: Editorial Photo Collage */}
+            <div className="lg:col-span-7 relative flex items-center justify-center">
+              <div className="relative w-full max-w-lg rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-white p-2 sm:p-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/hp-movement-collage.png"
-                  alt="The Movement photo collage with botanical sketch"
-                  className="w-full h-auto object-contain drop-shadow-sm rounded-lg"
+                  alt="The Movement photo collage with botanical branch sketch"
+                  className="w-full h-auto object-contain rounded-xl"
                 />
               </div>
-            </div>
-
-            {/* Right: Vertical Values Pillar */}
-            <div className="lg:col-span-2 hidden lg:flex flex-col items-center justify-center space-y-4 text-center">
-              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-[#1E1C1A]/80">
-                RESILIENT
-              </span>
-              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-[#1E1C1A]/80">
-                WORTHY
-              </span>
-              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.25em] text-[#1E1C1A]/80">
-                IN CHARGE
-              </span>
-              <div className="w-[1px] h-16 bg-[#1E1C1A]/30 mt-2" />
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 3. OUR JOURNALS ("Six Journals. One Movement.") */}
-      <section className="py-16 sm:py-24 bg-[#F9F6F0] border-b border-[#E5DFC0]/50">
+      {/* =========================================================================
+          4. SIGNATURE GUIDED JOURNALS (6 Product Grid)
+      ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-              OUR JOURNALS
-            </p>
-            <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A]">
-              Six Journals. One Movement.
-            </h2>
-            <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-              Thoughtfully designed journals to help you reflect, grow and take up space. Each journal is a step towards the life you want to live.
-            </p>
-            <div className="pt-1">
-              <Link
-                href="/shop"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#B85233] hover:underline"
-              >
-                <span>Explore All Journals</span>
-                <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
-              </Link>
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="space-y-3 max-w-xl">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+                SIGNATURE COLLECTION
+              </p>
+              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
+                The Guided Journals
+              </h2>
+              <p className="font-sans text-xs sm:text-sm text-[#6B655B]">
+                Intentionally designed daily rituals to unlock healing, clarity, intentional focus, and deep self-worth.
+              </p>
             </div>
+
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm font-semibold text-[#B85233] hover:text-[#A64426] transition-colors group"
+            >
+              <span>View Full Shop</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" />
+            </Link>
           </div>
 
-          {/* 6 Journal Cards in 6 Columns */}
+          {/* 6 Journal Cards in Responsive Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
             {featuredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 showDetailsButton={false}
+                className="h-full bg-white rounded-xl shadow-xs hover:shadow-md transition-all duration-300"
               />
             ))}
           </div>
         </Container>
       </section>
 
-      {/* 4. WHY JOURNALING? */}
+      {/* =========================================================================
+          5. WHY GUIDED JOURNALING (Methodology & Practice)
+      ========================================================================= */}
       <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Image: Hands writing */}
-            <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm bg-[#FAF8F5]">
+            {/* Left Image with Floating Stat Badge */}
+            <div className="lg:col-span-6 relative">
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md bg-[#FAF8F5] border border-[#E5DFC0]/60">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/hp-why-journaling.png"
@@ -174,26 +266,74 @@ export default async function HomePage() {
                   className="w-full h-full object-cover"
                 />
               </div>
+
+              {/* Floating Stat Card */}
+              <div className="absolute -bottom-6 -right-2 sm:right-6 bg-white/95 backdrop-blur-md p-4 sm:p-5 rounded-xl border border-[#E5DFC0] shadow-lg max-w-xs space-y-1">
+                <div className="flex items-center gap-2 text-[#D49B4B]">
+                  <Sparkles className="w-4 h-4 fill-[#D49B4B]" />
+                  <span className="font-playfair text-lg font-bold text-[#1E1C1A]">94% Transformation</span>
+                </div>
+                <p className="text-[11px] text-[#6B655B] leading-tight">
+                  Of women report deeper emotional clarity and confidence within their first 14 days of journaling.
+                </p>
+              </div>
             </div>
 
-            {/* Right Text */}
-            <div className="lg:col-span-6 space-y-5">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                WHY JOURNALING?
-              </p>
-              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
-                A journal is a mirror, a guide and a safe space.
-              </h2>
+            {/* Right Text & Steps */}
+            <div className="lg:col-span-6 space-y-6 pt-6 lg:pt-0">
+              <div className="space-y-2">
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+                  THE METHODOLOGY
+                </p>
+                <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
+                  Why Guided Journaling Works
+                </h2>
+              </div>
+
               <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-                Journaling helps you process, plan, heal and dream. It gives you the space to be honest, to be curious and to build the life you want — on your own terms.
+                Unstructured pages can often feel overwhelming. Our proven step-by-step guided frameworks bridge mindfulness, emotional regulation, and intentional identity design into 10 minutes of transformative daily ritual.
               </p>
+
+              {/* 4 Methodological Steps */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-start gap-3.5 p-3 rounded-lg bg-white border border-[#E5DFC0]/60 shadow-xs">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#B85233]/10 text-[#B85233] text-xs font-bold flex items-center justify-center">
+                    01
+                  </span>
+                  <div>
+                    <h3 className="font-playfair text-sm font-semibold text-[#1E1C1A]">Daily Grounding</h3>
+                    <p className="text-xs text-[#6B655B] leading-relaxed">Clear mental fog and center on today’s core emotional intention.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 p-3 rounded-lg bg-white border border-[#E5DFC0]/60 shadow-xs">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#D49B4B]/15 text-[#D49B4B] text-xs font-bold flex items-center justify-center">
+                    02
+                  </span>
+                  <div>
+                    <h3 className="font-playfair text-sm font-semibold text-[#1E1C1A]">Targeted Prompts</h3>
+                    <p className="text-xs text-[#6B655B] leading-relaxed">Unpack subconscious patterns, celebrate progress, and release unhelpful narratives.</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 p-3 rounded-lg bg-white border border-[#E5DFC0]/60 shadow-xs">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#4D5844]/15 text-[#4D5844] text-xs font-bold flex items-center justify-center">
+                    03
+                  </span>
+                  <div>
+                    <h3 className="font-playfair text-sm font-semibold text-[#1E1C1A]">Identity Alignment</h3>
+                    <p className="text-xs text-[#6B655B] leading-relaxed">Anchor into the feeling of resilience, self-worth, and proactive leadership.</p>
+                  </div>
+                </div>
+              </div>
+
               <div className="pt-2">
                 <Link
-                  href="/about"
-                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#B85233] hover:underline"
+                  href="/shop"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#B85233] text-white px-7 py-3 text-xs sm:text-sm font-semibold hover:bg-[#A64426] transition-colors shadow-sm"
                 >
-                  <span>Learn More</span>
-                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                  <span>Explore the Journals</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
               </div>
             </div>
@@ -201,71 +341,169 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* 5. OUR IMPACT / AYEYO KORIS */}
-      <section className="py-16 sm:py-24 bg-[#4D5844] text-white">
+      {/* =========================================================================
+          6. AYEYO KORIS INITIATIVE (Heritage & Social Impact)
+      ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-[#B85233] text-white">
         <Container size="default">
-          <div className="relative rounded-2xl bg-[#444F3B] border border-white/10 p-8 sm:p-12 lg:p-16 overflow-hidden">
-            {/* Botanical Watermark Background */}
-            <div className="absolute top-0 start-0 w-64 h-80 text-white/10 pointer-events-none">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/botanical-branch.svg"
-                alt="Botanical sketch"
-                className="w-full h-full object-contain"
-              />
-            </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white text-[11px] font-semibold uppercase tracking-widest backdrop-blur-sm">
+                <span>Social Impact & Heritage</span>
+              </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              {/* Left Content */}
-              <div className="lg:col-span-7 space-y-5">
-                <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#D49B4B]">
-                  OUR IMPACT
-                </p>
-                <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-white">
-                  Ayeyo Koris
-                </h2>
-                <p className="font-sans text-xs sm:text-sm text-white/80 max-w-xl leading-relaxed">
-                  Ayeyo Koris is our commitment to creating real change. Through your support and purchases, we invest in education, opportunity and brighter futures for women and girls in our communities.
-                </p>
-                <div className="flex flex-wrap items-center gap-4 pt-2">
-                  <Link
-                    href="/ayeyo-koris"
-                    className="inline-flex items-center justify-center rounded bg-white text-[#1E1C1A] px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#FAF8F5] transition-colors shadow-sm"
-                  >
-                    Learn More
-                  </Link>
-                  <Link
-                    href="/ayeyo-koris#get-involved"
-                    className="inline-flex items-center justify-center rounded bg-transparent border border-white text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-white/10 transition-colors"
-                  >
-                    Donate
-                  </Link>
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.12]">
+                Ayeyo Koris: <br />
+                <span className="font-cormorant italic font-normal text-[#FAF8F5]">
+                  Nurturing Generational Hope
+                </span>
+              </h2>
+
+              <p className="font-sans text-xs sm:text-sm text-white/90 leading-relaxed max-w-xl">
+                Named after the timeless wisdom of grandmothers (&ldquo;Ayeyo&rdquo;), Ayeyo Koris is our dedicated grassroots initiative supporting girls’ literacy, mentorship, and creative education for young women across East Africa.
+              </p>
+
+              {/* Impact Counters */}
+              <div className="grid grid-cols-3 gap-4 pt-2 border-t border-white/20">
+                <div>
+                  <span className="block font-playfair text-2xl sm:text-3xl font-bold text-white">500+</span>
+                  <span className="text-[11px] text-white/80 uppercase tracking-wider">Girls Supported</span>
+                </div>
+                <div>
+                  <span className="block font-playfair text-2xl sm:text-3xl font-bold text-white">100%</span>
+                  <span className="text-[11px] text-white/80 uppercase tracking-wider">Direct Impact</span>
+                </div>
+                <div>
+                  <span className="block font-playfair text-2xl sm:text-3xl font-bold text-white">12</span>
+                  <span className="text-[11px] text-white/80 uppercase tracking-wider">Communities</span>
                 </div>
               </div>
 
-              {/* Right Image */}
-              <div className="lg:col-span-5">
-                <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-xl overflow-hidden shadow-lg border border-white/20 bg-[#FAF8F5]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/hp-ayeyo-woman.png"
-                    alt="Woman in terracotta headscarf looking toward horizon"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <Link
+                  href="/ayeyo-koris"
+                  className="inline-flex items-center justify-center rounded-full bg-white text-[#1E1C1A] px-7 py-3 text-xs sm:text-sm font-semibold hover:bg-[#FAF8F5] transition-colors shadow-sm"
+                >
+                  Learn More
+                </Link>
+                <Link
+                  href="/ayeyo-koris#get-involved"
+                  className="inline-flex items-center justify-center rounded-full bg-transparent border border-white text-white px-7 py-3 text-xs sm:text-sm font-medium hover:bg-white/10 transition-colors"
+                >
+                  Support the Initiative
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Image */}
+            <div className="lg:col-span-6">
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-2xl overflow-hidden shadow-2xl border border-white/25 bg-[#FAF8F5]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/hp-ayeyo-woman.png"
+                  alt="Somali woman in terracotta headscarf looking toward horizon"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 6. JOIN OUR COMMUNITY */}
-      <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
+      {/* =========================================================================
+          7. COMMUNITY & TESTIMONIALS (Voices of Becoming)
+      ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-[#FAF7F2] border-b border-[#E5DFC0]/50">
         <Container size="default">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
+              COMMUNITY VOICES
+            </p>
+            <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
+              Stories of Transformation
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#6B655B]">
+              Real reflections from women around the world claiming their worth through the daily practice.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {/* Testimonial 1 */}
+            <div className="bg-white rounded-2xl p-7 border border-[#E5DFC0]/70 shadow-xs flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center text-[#D49B4B]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#D49B4B] text-[#D49B4B]" />
+                  ))}
+                </div>
+                <p className="font-cormorant italic text-base sm:text-lg text-[#1E1C1A] leading-relaxed">
+                  &ldquo;The Awakening Journal gave me permission to stop apologizing for taking up space. It changed the entire trajectory of my mornings.&rdquo;
+                </p>
+              </div>
+              <div className="pt-3 border-t border-[#E5DFC0]/50 flex items-center justify-between">
+                <div>
+                  <h4 className="font-playfair text-sm font-semibold text-[#1E1C1A]">Fadumo A.</h4>
+                  <span className="text-[11px] text-[#6B655B]">London, UK • Verified Buyer</span>
+                </div>
+                <CheckCircle2 className="w-4 h-4 text-[#4D5844]" />
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-white rounded-2xl p-7 border border-[#E5DFC0]/70 shadow-xs flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center text-[#D49B4B]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#D49B4B] text-[#D49B4B]" />
+                  ))}
+                </div>
+                <p className="font-cormorant italic text-base sm:text-lg text-[#1E1C1A] leading-relaxed">
+                  &ldquo;Having a structured, soulful journal made me feel seen. The prompts are deep, gentle, and profoundly empowering.&rdquo;
+                </p>
+              </div>
+              <div className="pt-3 border-t border-[#E5DFC0]/50 flex items-center justify-between">
+                <div>
+                  <h4 className="font-playfair text-sm font-semibold text-[#1E1C1A]">Amina K.</h4>
+                  <span className="text-[11px] text-[#6B655B]">Toronto, Canada • Verified Buyer</span>
+                </div>
+                <CheckCircle2 className="w-4 h-4 text-[#4D5844]" />
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-white rounded-2xl p-7 border border-[#E5DFC0]/70 shadow-xs flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center text-[#D49B4B]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#D49B4B] text-[#D49B4B]" />
+                  ))}
+                </div>
+                <p className="font-cormorant italic text-base sm:text-lg text-[#1E1C1A] leading-relaxed">
+                  &ldquo;I bought one for myself and three for my sisters. The quality of the linen and gold foil is unmatched. Truly a luxury item.&rdquo;
+                </p>
+              </div>
+              <div className="pt-3 border-t border-[#E5DFC0]/50 flex items-center justify-between">
+                <div>
+                  <h4 className="font-playfair text-sm font-semibold text-[#1E1C1A]">Samira M.</h4>
+                  <span className="text-[11px] text-[#6B655B]">Minneapolis, USA • Verified Buyer</span>
+                </div>
+                <CheckCircle2 className="w-4 h-4 text-[#4D5844]" />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* =========================================================================
+          8. JOIN THE INNER CIRCLE (Luxury Community Newsletter)
+      ========================================================================= */}
+      <section className="py-16 sm:py-24 bg-[#FAF8F5]">
+        <Container size="default">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center bg-[#F4EFE6] rounded-3xl p-8 sm:p-12 border border-[#E5DFC0]">
             {/* Left: Women Celebrating Image */}
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm bg-[#FAF8F5]">
+              <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md bg-white border border-[#E5DFC0]/60">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/hp-community-sunset.png"
@@ -275,83 +513,30 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Right: Community Text & Form */}
+            {/* Right: Join Form */}
             <div className="lg:col-span-6 space-y-5">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                JOIN OUR COMMUNITY
-              </p>
-              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A]">
-                You belong here.
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B85233]/10 text-[#B85233] text-[11px] font-semibold uppercase tracking-widest">
+                <span>The Inner Circle</span>
+              </div>
+
+              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
+                Join Our Global Sisterhood
               </h2>
+
               <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-                Be part of a growing community of women who support, encourage and uplift each other.
+                Receive weekly guided reflections, early access to new releases, private workshop invitations, and empowering stories from the movement.
               </p>
 
-              {/* Inline Name & Email Form */}
-              <form action="/community" method="GET" className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2">
-                <div className="sm:col-span-5">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your name"
-                    required
-                    className="w-full rounded bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
-                  />
-                </div>
-                <div className="sm:col-span-5">
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your email address"
-                    required
-                    className="w-full rounded bg-[#FAF8F5] border border-[#E5DFC0] px-4 py-2.5 text-xs text-[#1E1C1A] placeholder:text-[#6B655B] focus:outline-none focus:border-[#B85233]"
-                  />
-                </div>
-                <div className="sm:col-span-2">
-                  <button
-                    type="submit"
-                    aria-label="Submit community signup"
-                    className="w-full h-full min-h-[38px] rounded bg-[#B85233] text-white flex items-center justify-center hover:bg-[#A64426] transition-colors shadow-sm"
-                  >
-                    <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                  </button>
-                </div>
-              </form>
+              <CommunitySignupForm />
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 7. FOLLOW OUR JOURNEY (SOCIAL STRIP) */}
-      <section className="py-6 sm:py-8 bg-white border-b border-[#E5DFC0]/50">
-        <Container size="default">
-          <div className="flex flex-wrap items-center justify-center sm:justify-between gap-6 text-xs font-semibold uppercase tracking-[0.15em] text-[#1E1C1A]/80">
-            <span>FOLLOW OUR JOURNEY</span>
-            <div className="flex items-center gap-6 sm:gap-8">
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#B85233] transition-colors flex items-center gap-1.5">
-                <span>TikTok</span>
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#B85233] transition-colors flex items-center gap-1.5">
-                <span>Instagram</span>
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#B85233] transition-colors flex items-center gap-1.5">
-                <span>Facebook</span>
-              </a>
-              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#B85233] transition-colors flex items-center gap-1.5">
-                <span>YouTube</span>
-              </a>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* 8. PRE-FOOTER BANNER */}
-      <PreFooterBanner
-        eyebrow="JOIN OUR COMMUNITY"
-        headline="Your life is yours to live."
-        buttonText="Explore Naag Nool UP →"
-        buttonHref="/about"
-      />
+      {/* =========================================================================
+          9. PRE-FOOTER PROMISES & TRUST
+      ========================================================================= */}
+      <PreFooterBanner />
     </div>
   );
 }
