@@ -21,12 +21,14 @@ import {
   Mail,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { useCart } from '@/lib/cart/CartContext';
 import { createOrderAction, CheckoutFormInput } from '@/lib/actions/checkout';
+import { PaymentMethodsConfig, DEFAULT_PAYMENT_CONFIG } from '@/lib/actions/payment-settings';
+import { useCart, CartItem } from '@/lib/cart/CartContext';
 
 interface CheckoutViewProps {
   initialUserEmail?: string;
   initialUserName?: string;
+  initialPaymentConfig?: PaymentMethodsConfig;
 }
 
 interface MobileMoneyOption {
@@ -101,14 +103,32 @@ function resolveItemImage(slug: string, imageUrl?: string): string {
   return '/images/book-cover-awakening.png';
 }
 
-export function CheckoutView({ initialUserEmail = '', initialUserName = '' }: CheckoutViewProps) {
+export function CheckoutView({
+  initialUserEmail = '',
+  initialUserName = '',
+  initialPaymentConfig,
+}: CheckoutViewProps) {
   const { items, subtotal, isHydrated, clearCart } = useCart();
+  const paymentConfig = initialPaymentConfig || DEFAULT_PAYMENT_CONFIG;
 
-  // Primary Payment Category: 'CARD' or 'MOBILE_MONEY'
-  const [primaryMethod, setPrimaryMethod] = useState<'CARD' | 'MOBILE_MONEY'>('CARD');
+  const availableMobileOptions = MOBILE_MONEY_OPTIONS.filter((opt) => {
+    if (opt.id === 'EVC') return paymentConfig.evcEnabled;
+    if (opt.id === 'ZAAD') return paymentConfig.zaadEnabled;
+    if (opt.id === 'SAHAL') return paymentConfig.sahalEnabled;
+    if (opt.id === 'EDAHAB') return paymentConfig.edahabEnabled;
+    if (opt.id === 'PREMIER') return paymentConfig.premierEnabled;
+    return true;
+  });
+
+  // Primary Payment Category: defaults to Card if active, else Mobile Money
+  const [primaryMethod, setPrimaryMethod] = useState<'CARD' | 'MOBILE_MONEY'>(
+    paymentConfig.cardEnabled ? 'CARD' : 'MOBILE_MONEY'
+  );
 
   // Selected Mobile Money Provider (when Mobile Money is chosen)
-  const [selectedMobileService, setSelectedMobileService] = useState<'EVC' | 'ZAAD' | 'SAHAL' | 'EDAHAB' | 'PREMIER'>('EVC');
+  const [selectedMobileService, setSelectedMobileService] = useState<'EVC' | 'ZAAD' | 'SAHAL' | 'EDAHAB' | 'PREMIER'>(
+    availableMobileOptions[0]?.id || 'EVC'
+  );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Card Inputs (Simulated encrypted fields for aesthetic polish)
@@ -145,7 +165,10 @@ export function CheckoutView({ initialUserEmail = '', initialUserName = '' }: Ch
   const shippingFee = subtotal >= shippingThreshold || subtotal === 0 ? 0.0 : 5.0;
   const estimatedTotal = subtotal + shippingFee;
 
-  const currentMobileOption = MOBILE_MONEY_OPTIONS.find((opt) => opt.id === selectedMobileService) || MOBILE_MONEY_OPTIONS[0];
+  const currentMobileOption =
+    availableMobileOptions.find((opt) => opt.id === selectedMobileService) ||
+    availableMobileOptions[0] ||
+    MOBILE_MONEY_OPTIONS[0];
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -183,7 +206,7 @@ export function CheckoutView({ initialUserEmail = '', initialUserName = '' }: Ch
       const orderPayload: CheckoutFormInput = {
         ...formData,
         paymentMethod: resolvedMethod,
-        items: items.map((i) => ({ productId: i.id, quantity: i.quantity })),
+        items: items.map((i: CartItem) => ({ productId: i.id, quantity: i.quantity })),
       };
 
       const result = await createOrderAction(orderPayload);
@@ -554,101 +577,101 @@ export function CheckoutView({ initialUserEmail = '', initialUserName = '' }: Ch
                   </div>
                 </div>
 
-                {/* TWO PRIMARY PAYMENT OPTIONS */}
+                {/* PRIMARY PAYMENT OPTIONS (Dynamically enabled by Super Admin) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* OPTION 1: Credit / Debit Card */}
-                  <button
-                    type="button"
-                    onClick={() => setPrimaryMethod('CARD')}
-                    className={`relative p-5 rounded-2xl text-start transition-all duration-300 border-2 flex flex-col justify-between gap-3 ${
-                      primaryMethod === 'CARD'
-                        ? 'border-[#B85233] bg-[#B85233]/5 shadow-sm ring-4 ring-[#B85233]/5'
-                        : 'border-[#E8E2D8] bg-[#FAF8F5] hover:border-[#D48344]/50'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between w-full">
-                      <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B85233]">
-                        <CreditCard className="w-5 h-5" />
+                  {paymentConfig.cardEnabled && (
+                    <button
+                      type="button"
+                      onClick={() => setPrimaryMethod('CARD')}
+                      className={`relative p-5 rounded-2xl text-start transition-all duration-300 border-2 flex flex-col justify-between gap-3 ${
+                        primaryMethod === 'CARD'
+                          ? 'border-[#B85233] bg-[#B85233]/5 shadow-sm ring-4 ring-[#B85233]/5'
+                          : 'border-[#E8E2D8] bg-[#FAF8F5] hover:border-[#D48344]/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B85233]">
+                          <CreditCard className="w-5 h-5" />
+                        </div>
+                        <span
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                            primaryMethod === 'CARD'
+                              ? 'border-[#B85233] bg-[#B85233] text-white'
+                              : 'border-[#C4BCB0] bg-white'
+                          }`}
+                        >
+                          {primaryMethod === 'CARD' && <Check className="w-3 h-3 stroke-[3]" />}
+                        </span>
                       </div>
-                      <span
-                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                          primaryMethod === 'CARD'
-                            ? 'border-[#B85233] bg-[#B85233] text-white'
-                            : 'border-[#C4BCB0] bg-white'
-                        }`}
-                      >
-                        {primaryMethod === 'CARD' && <Check className="w-3 h-3 stroke-[3]" />}
-                      </span>
-                    </div>
 
-                    <div>
-                      <h3 className="font-playfair text-base font-medium text-[#1E1C1A]">
-                        Credit or Debit Card
-                      </h3>
-                      <p className="text-xs text-[#6B655B] mt-0.5">
-                        Visa, Mastercard, & International Cards
-                      </p>
-                    </div>
+                      <div>
+                        <h3 className="font-playfair text-base font-medium text-[#1E1C1A]">
+                          Credit or Debit Card
+                        </h3>
+                        <p className="text-xs text-[#6B655B] mt-0.5">
+                          Visa, Mastercard, & International Cards
+                        </p>
+                      </div>
 
-                    <div className="flex items-center gap-1.5 pt-1">
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E8E2D8] font-semibold text-[#1E1C1A]">
-                        VISA
-                      </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E8E2D8] font-semibold text-[#1E1C1A]">
-                        Mastercard
-                      </span>
-                    </div>
-                  </button>
+                      <div className="flex items-center gap-1.5 pt-1">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E8E2D8] font-semibold text-[#1E1C1A]">
+                          VISA
+                        </span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E8E2D8] font-semibold text-[#1E1C1A]">
+                          Mastercard
+                        </span>
+                      </div>
+                    </button>
+                  )}
 
                   {/* OPTION 2: Mobile Money */}
-                  <button
-                    type="button"
-                    onClick={() => setPrimaryMethod('MOBILE_MONEY')}
-                    className={`relative p-5 rounded-2xl text-start transition-all duration-300 border-2 flex flex-col justify-between gap-3 ${
-                      primaryMethod === 'MOBILE_MONEY'
-                        ? 'border-[#B85233] bg-[#B85233]/5 shadow-sm ring-4 ring-[#B85233]/5'
-                        : 'border-[#E8E2D8] bg-[#FAF8F5] hover:border-[#D48344]/50'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between w-full">
-                      <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B85233]">
-                        <Smartphone className="w-5 h-5" />
+                  {paymentConfig.mobileMoneyEnabled && availableMobileOptions.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setPrimaryMethod('MOBILE_MONEY')}
+                      className={`relative p-5 rounded-2xl text-start transition-all duration-300 border-2 flex flex-col justify-between gap-3 ${
+                        primaryMethod === 'MOBILE_MONEY'
+                          ? 'border-[#B85233] bg-[#B85233]/5 shadow-sm ring-4 ring-[#B85233]/5'
+                          : 'border-[#E8E2D8] bg-[#FAF8F5] hover:border-[#D48344]/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B85233]">
+                          <Smartphone className="w-5 h-5" />
+                        </div>
+                        <span
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                            primaryMethod === 'MOBILE_MONEY'
+                              ? 'border-[#B85233] bg-[#B85233] text-white'
+                              : 'border-[#C4BCB0] bg-white'
+                          }`}
+                        >
+                          {primaryMethod === 'MOBILE_MONEY' && <Check className="w-3 h-3 stroke-[3]" />}
+                        </span>
                       </div>
-                      <span
-                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                          primaryMethod === 'MOBILE_MONEY'
-                            ? 'border-[#B85233] bg-[#B85233] text-white'
-                            : 'border-[#C4BCB0] bg-white'
-                        }`}
-                      >
-                        {primaryMethod === 'MOBILE_MONEY' && <Check className="w-3 h-3 stroke-[3]" />}
-                      </span>
-                    </div>
 
-                    <div>
-                      <h3 className="font-playfair text-base font-medium text-[#1E1C1A]">
-                        Mobile Money
-                      </h3>
-                      <p className="text-xs text-[#6B655B] mt-0.5">
-                        Instant USSD prompt & wallet settlement
-                      </p>
-                    </div>
+                      <div>
+                        <h3 className="font-playfair text-base font-medium text-[#1E1C1A]">
+                          Mobile Money
+                        </h3>
+                        <p className="text-xs text-[#6B655B] mt-0.5">
+                          Instant USSD prompt & wallet settlement
+                        </p>
+                      </div>
 
-                    <div className="flex items-center gap-1 pt-1 overflow-hidden">
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E8E2D8] font-medium text-[#1E1C1A]">
-                        EVC Plus
-                      </span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E8E2D8] font-medium text-[#1E1C1A]">
-                        ZAAD
-                      </span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E8E2D8] font-medium text-[#1E1C1A]">
-                        Sahal
-                      </span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E8E2D8] font-medium text-[#1E1C1A]">
-                        eDahab
-                      </span>
-                    </div>
-                  </button>
+                      <div className="flex items-center gap-1 pt-1 overflow-hidden">
+                        {availableMobileOptions.slice(0, 4).map((opt) => (
+                          <span
+                            key={opt.id}
+                            className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E8E2D8] font-medium text-[#1E1C1A]"
+                          >
+                            {opt.name}
+                          </span>
+                        ))}
+                      </div>
+                    </button>
+                  )}
                 </div>
 
                 {/* DETAILS CONTAINER FOR CHOSEN METHOD */}
@@ -767,7 +790,7 @@ export function CheckoutView({ initialUserEmail = '', initialUserName = '' }: Ch
                         {/* Dropdown Menu */}
                         {isDropdownOpen && (
                           <div className="absolute z-30 left-0 right-0 mt-2 p-2 rounded-2xl bg-white border border-[#E8E2D8] shadow-xl space-y-1 animate-in fade-in zoom-in-95 duration-150">
-                            {MOBILE_MONEY_OPTIONS.map((opt) => {
+                            {availableMobileOptions.map((opt) => {
                               const isSelected = opt.id === selectedMobileService;
                               return (
                                 <button
@@ -888,7 +911,7 @@ export function CheckoutView({ initialUserEmail = '', initialUserName = '' }: Ch
 
               {/* Items List */}
               <div className="space-y-4 max-h-80 overflow-y-auto pe-1">
-                {items.map((item) => {
+                {items.map((item: CartItem) => {
                   const itemImage = resolveItemImage(item.slug, item.imageUrl);
                   return (
                     <div key={item.id} className="flex items-center gap-3.5">

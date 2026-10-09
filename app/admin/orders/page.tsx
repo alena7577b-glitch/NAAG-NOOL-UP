@@ -15,7 +15,7 @@ export default async function AdminOrdersPage() {
   try {
     user = await requireAdmin();
   } catch {
-    redirect('/admin/unauthorized');
+    redirect('/admin/login');
   }
 
   const orders = await getAdminOrders();

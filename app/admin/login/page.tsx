@@ -3,11 +3,7 @@
 import { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Shield, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
-import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/forms/Input';
-import { Label } from '@/components/forms/Label';
+import { Shield, Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff, KeyRound } from 'lucide-react';
 import { adminLoginAction } from '@/lib/auth/actions';
 
 export default function AdminLoginPage() {
@@ -15,6 +11,7 @@ export default function AdminLoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -23,109 +20,144 @@ export default function AdminLoginPage() {
     setErrorMessage(null);
 
     startTransition(async () => {
-      const result = await adminLoginAction({ email, password });
+      const result = await adminLoginAction({ email: email.trim().toLowerCase(), password });
       if (result.success && result.redirectUrl) {
         router.push(result.redirectUrl);
         router.refresh();
       } else {
         setErrorMessage(
-          result.error || 'Invalid administrator credentials. Access restricted.'
+          result.error || 'Invalid administrator username or password. Access restricted.'
         );
       }
     });
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#1E1C1A]">
-      <Container size="narrow" className="w-full max-w-md">
-        <div className="bg-[#2A2724] border border-[#443E38] rounded-2xl p-8 sm:p-10 shadow-xl text-white">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#B85233]/20 text-[#D49B4B] mb-4 border border-[#B85233]/30">
-              <Shield className="w-7 h-7" />
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#121E19] text-white">
+      <div className="w-full max-w-md">
+        <div className="bg-[#182821] border border-[#243B30] rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-200">
+          {/* Header & Logo */}
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#283C33] text-[#D49B4B] border border-[#3A5448] shadow-inner">
+              <Shield className="w-8 h-8 stroke-[1.5]" />
             </div>
-            <h1 className="font-playfair text-2xl sm:text-3xl font-medium tracking-tight text-white">
-              Admin Portal
-            </h1>
-            <p className="mt-2 text-xs uppercase tracking-[0.15em] text-[#D49B4B] font-semibold">
-              Authorized Personnel Only
-            </p>
+
+            <div className="space-y-1">
+              <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#D49B4B]">
+                Staff & Super Admin Authentication
+              </span>
+              <h1 className="font-playfair text-2xl sm:text-3xl font-normal text-white tracking-tight">
+                Naag Nool UP
+              </h1>
+              <p className="text-xs text-[#9EB1A7]">
+                Official Administration Portal
+              </p>
+            </div>
+          </div>
+
+          {/* Security Notice */}
+          <div className="p-3.5 rounded-2xl bg-[#13201A] border border-[#22382D] text-xs text-[#9EB1A7] flex items-start gap-2.5">
+            <KeyRound className="w-4 h-4 text-[#D49B4B] shrink-0 mt-0.5" />
+            <div className="space-y-0.5">
+              <p className="font-semibold text-white">Restricted Credentials Required</p>
+              <p className="text-[11px] leading-relaxed">
+                Only accounts provisioned by the Super Admin may sign in. Social & third-party logins (Google) are strictly disabled for security compliance.
+              </p>
+            </div>
           </div>
 
           {/* Error Alert */}
           {errorMessage && (
             <div
               role="alert"
-              className="mb-6 p-4 rounded-xl bg-red-950/80 border border-red-800/80 text-red-200 text-sm flex items-start gap-3"
+              className="p-4 rounded-2xl bg-red-950/80 border border-red-800 text-red-200 text-xs sm:text-sm flex items-start gap-3 animate-in fade-in"
             >
               <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-              <span>{errorMessage}</span>
+              <div>
+                <p className="font-semibold">Authentication Denied</p>
+                <p className="text-xs text-red-300 mt-0.5">{errorMessage}</p>
+              </div>
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <Label htmlFor="admin-email" className="text-stone-300" required>
-                Staff Email Address
-              </Label>
-              <div className="relative mt-1">
-                <Input
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <label htmlFor="admin-email" className="text-xs font-semibold uppercase tracking-wider text-[#C5D3CB]">
+                Admin Username / Email
+              </label>
+              <div className="relative">
+                <input
                   id="admin-email"
                   type="email"
-                  autoComplete="email"
+                  autoComplete="username"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@naagnoolup.com"
-                  className="ps-10 bg-[#1E1C1A] border-[#443E38] text-white placeholder:text-stone-500 focus:border-[#D49B4B]"
+                  placeholder="info@naagnoolup.com"
+                  className="w-full ps-11 pe-4 py-3 rounded-2xl bg-[#13201A] border border-[#294236] text-white placeholder-[#5A7366] text-sm focus:outline-none focus:border-[#D49B4B] focus:ring-2 focus:ring-[#D49B4B]/20 transition-all"
                 />
-                <Mail className="w-4 h-4 text-stone-500 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Mail className="w-4 h-4 text-[#668073] absolute start-4 top-3.5 pointer-events-none" />
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="admin-password" className="text-stone-300" required>
-                Staff Password
-              </Label>
-              <div className="relative mt-1">
-                <Input
+            <div className="space-y-1.5">
+              <label htmlFor="admin-password" className="text-xs font-semibold uppercase tracking-wider text-[#C5D3CB]">
+                Password
+              </label>
+              <div className="relative">
+                <input
                   id="admin-password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="ps-10 bg-[#1E1C1A] border-[#443E38] text-white placeholder:text-stone-500 focus:border-[#D49B4B]"
+                  placeholder="••••••••••••"
+                  className="w-full ps-11 pe-11 py-3 rounded-2xl bg-[#13201A] border border-[#294236] text-white placeholder-[#5A7366] text-sm focus:outline-none focus:border-[#D49B4B] focus:ring-2 focus:ring-[#D49B4B]/20 transition-all"
                 />
-                <Lock className="w-4 h-4 text-stone-500 absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Lock className="w-4 h-4 text-[#668073] absolute start-4 top-3.5 pointer-events-none" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute end-4 top-3.5 text-[#668073] hover:text-white transition-colors"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
-            <Button
+            <button
               type="submit"
-              variant="primary"
-              size="lg"
-              className="w-full justify-center group mt-2 bg-[#B85233] hover:bg-[#A34326] text-white font-medium"
               disabled={isPending}
+              className="w-full py-3.5 px-6 rounded-2xl bg-[#B85233] hover:bg-[#9E4228] disabled:bg-[#B85233]/50 text-white font-medium text-sm tracking-wide flex items-center justify-center gap-2 shadow-lg shadow-[#B85233]/25 transition-all duration-300 active:scale-[0.98] mt-2"
             >
-              {isPending ? 'Verifying Credentials...' : 'Access Admin Console'}
-              <ArrowRight className="w-4 h-4 ms-2 transition-transform group-hover:translate-x-1" />
-            </Button>
+              {isPending ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Verifying Credentials...
+                </span>
+              ) : (
+                <>
+                  <span>Sign In to Admin Console</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </>
+              )}
+            </button>
           </form>
 
-          {/* Return link */}
-          <div className="mt-8 pt-6 border-t border-[#443E38] text-center">
+          {/* Footer return link */}
+          <div className="pt-4 border-t border-[#22382D] text-center">
             <Link
               href="/"
-              className="text-xs text-stone-400 hover:text-[#D49B4B] transition-colors focus:outline-none"
+              className="text-xs text-[#879C91] hover:text-[#D49B4B] transition-colors"
             >
-              Return to Public Website
+              ← Return to Storefront
             </Link>
           </div>
         </div>
-      </Container>
+      </div>
     </div>
   );
 }

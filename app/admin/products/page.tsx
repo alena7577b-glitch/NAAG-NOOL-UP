@@ -15,7 +15,7 @@ export default async function AdminProductsPage() {
   try {
     user = await requireAdmin();
   } catch {
-    redirect('/admin/unauthorized');
+    redirect('/admin/login');
   }
 
   const products = await getAdminProducts();

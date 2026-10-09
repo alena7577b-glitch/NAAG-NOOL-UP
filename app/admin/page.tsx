@@ -29,7 +29,7 @@ export default async function AdminDashboardPage() {
   try {
     user = await requireAdmin();
   } catch {
-    redirect('/admin/unauthorized');
+    redirect('/admin/login');
   }
 
   // Fetch real PostgreSQL aggregations
