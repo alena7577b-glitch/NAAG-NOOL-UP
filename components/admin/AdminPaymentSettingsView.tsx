@@ -11,7 +11,8 @@ import {
   ShieldCheck,
   Eye,
 } from 'lucide-react';
-import { PaymentMethodsConfig, updatePaymentSettingsAction } from '@/lib/actions/payment-settings';
+import { updatePaymentSettingsAction } from '@/lib/actions/payment-settings';
+import { PaymentMethodsConfig } from '@/lib/payment/types';
 
 interface AdminPaymentSettingsViewProps {
   initialConfig: PaymentMethodsConfig;

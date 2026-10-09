@@ -3,26 +3,9 @@
 import { db } from '@/lib/db';
 import { requireAdmin } from '@/lib/auth/server';
 import { logger } from '@/lib/logger';
+import { PaymentMethodsConfig, DEFAULT_PAYMENT_CONFIG } from '@/lib/payment/types';
 
-export interface PaymentMethodsConfig {
-  cardEnabled: boolean;
-  mobileMoneyEnabled: boolean;
-  evcEnabled: boolean;
-  zaadEnabled: boolean;
-  sahalEnabled: boolean;
-  edahabEnabled: boolean;
-  premierEnabled: boolean;
-}
-
-export const DEFAULT_PAYMENT_CONFIG: PaymentMethodsConfig = {
-  cardEnabled: true,
-  mobileMoneyEnabled: true,
-  evcEnabled: true,
-  zaadEnabled: true,
-  sahalEnabled: true,
-  edahabEnabled: true,
-  premierEnabled: true,
-};
+export type { PaymentMethodsConfig };
 
 export async function getPaymentSettingsAction(): Promise<PaymentMethodsConfig> {
   try {

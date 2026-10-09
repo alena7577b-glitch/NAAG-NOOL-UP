@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { createOrderAction, CheckoutFormInput } from '@/lib/actions/checkout';
-import { PaymentMethodsConfig, DEFAULT_PAYMENT_CONFIG } from '@/lib/actions/payment-settings';
+import { PaymentMethodsConfig, DEFAULT_PAYMENT_CONFIG } from '@/lib/payment/types';
 import { useCart, CartItem } from '@/lib/cart/CartContext';
 
 interface CheckoutViewProps {
