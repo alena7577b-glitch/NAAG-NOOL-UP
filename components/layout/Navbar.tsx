@@ -83,6 +83,11 @@ export function Navbar({
 
   const isHomepage = pathname === '/';
 
+  // Do not render consumer storefront navbar on admin console
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <header
       className={`z-40 w-full transition-all duration-300 ${

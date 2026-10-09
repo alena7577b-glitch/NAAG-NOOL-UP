@@ -18,7 +18,6 @@ import {
   Mail,
   Phone,
 } from 'lucide-react';
-import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { OrderStatus } from '@prisma/client';
 import { updateOrderStatusAction } from '@/lib/actions/admin-orders';
@@ -153,8 +152,8 @@ export function AdminOrdersView({ initialOrders, adminUser }: AdminOrdersViewPro
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F6F0] py-10 px-4 sm:px-6 lg:px-8">
-      <Container size="default">
+    <div className="space-y-6 animate-in fade-in duration-200">
+      <div className="w-full">
         {/* Navigation Breadcrumb */}
         <div className="mb-6 flex items-center justify-between">
           <Link
@@ -461,7 +460,7 @@ export function AdminOrdersView({ initialOrders, adminUser }: AdminOrdersViewPro
             </div>
           </div>
         )}
-      </Container>
+      </div>
     </div>
   );
 }

@@ -14,7 +14,6 @@ import {
   X,
   Search,
 } from 'lucide-react';
-import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import {
   createProductAction,
@@ -216,8 +215,8 @@ export function AdminProductsView({ initialProducts, adminUser }: AdminProductsV
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F6F0] py-10 px-4 sm:px-6 lg:px-8">
-      <Container size="default">
+    <div className="space-y-6 animate-in fade-in duration-200">
+      <div className="w-full">
         {/* Navigation Breadcrumb */}
         <div className="mb-6 flex items-center justify-between">
           <Link
@@ -569,7 +568,7 @@ export function AdminProductsView({ initialProducts, adminUser }: AdminProductsV
             </div>
           </div>
         )}
-      </Container>
+      </div>
     </div>
   );
 }
