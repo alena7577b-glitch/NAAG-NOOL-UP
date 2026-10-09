@@ -8,6 +8,7 @@ import { Container } from '@/components/ui/Container';
 import { MobileNav, NavItem } from './MobileNav';
 import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
+import { useOptionalCart } from '@/lib/cart/CartContext';
 
 export interface AuthUserState {
   id: string;
@@ -34,16 +35,19 @@ const defaultNavItems: NavItem[] = [
 ];
 
 export function Navbar({
-  cartCount = 0,
+  cartCount: propCartCount,
   onSearchClick,
   currentLocale = 'en',
   onLocaleChange,
   user: initialUser,
 }: NavbarProps) {
+  const optionalCart = useOptionalCart();
+  const cartCount = propCartCount !== undefined ? propCartCount : (optionalCart?.totalItems ?? 0);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<AuthUserState | null>(initialUser ?? null);
+  const [fetchedUser, setFetchedUser] = useState<AuthUserState | null>(null);
+  const currentUser = initialUser !== undefined ? initialUser : fetchedUser;
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -56,25 +60,25 @@ export function Navbar({
   }, []);
 
   useEffect(() => {
-    if (initialUser !== undefined) {
-      setCurrentUser(initialUser);
-      return;
-    }
+    if (initialUser !== undefined) return;
 
-    // Fetch active session state from /api/auth/me
+    let isMounted = true;
     fetch('/api/auth/me')
       .then((res) => {
         if (res.ok) return res.json();
         return { user: null };
       })
       .then((data) => {
-        if (data?.user) {
-          setCurrentUser(data.user);
-        } else {
-          setCurrentUser(null);
-        }
+        if (!isMounted) return;
+        setFetchedUser(data?.user ?? null);
       })
-      .catch(() => setCurrentUser(null));
+      .catch(() => {
+        if (isMounted) setFetchedUser(null);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [initialUser, pathname]);
 
   const isHomepage = pathname === '/';

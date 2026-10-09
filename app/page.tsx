@@ -1,13 +1,19 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { TypographyTransition } from '@/components/home/TypographyTransition';
+import { MovementSection } from '@/components/home/MovementSection';
+import { JournalsShowcase } from '@/components/home/JournalsShowcase';
+import { WhyJournalingSection } from '@/components/home/WhyJournalingSection';
+import { AyeyoKorisSection } from '@/components/home/AyeyoKorisSection';
+import { CommunitySection } from '@/components/home/CommunitySection';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   return (
-    <div className="space-y-0 overflow-hidden bg-[#FAF8F5] text-[#1E1C1A]">
+    <div className="w-full bg-[#FAF6F0] text-[#1E1C1A]">
       {/* =========================================================================
-          1. HERO SECTION (Full-bleed luxury panoramic experience)
+          1. EXISTING HERO SECTION (Untouched)
       ========================================================================= */}
       <section className="relative w-full overflow-hidden bg-[#EFE8DC] min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] xl:min-h-[660px] flex items-center border-b border-[#E5DFC0]/60 pt-20 pb-10 sm:pt-24 sm:pb-14 lg:pt-24 lg:pb-16">
         {/* Full-bleed background panoramic photography */}
@@ -63,6 +69,36 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* =========================================================================
+          2. ANIMATED TYPOGRAPHY TRANSITION
+      ========================================================================= */}
+      <TypographyTransition />
+
+      {/* =========================================================================
+          3. THE MOVEMENT SECTION (Exact reference implementation)
+      ========================================================================= */}
+      <MovementSection />
+
+      {/* =========================================================================
+          4. SIGNATURE JOURNALS / SHOP SHOWCASE
+      ========================================================================= */}
+      <JournalsShowcase />
+
+      {/* =========================================================================
+          5. WHY JOURNALING?
+      ========================================================================= */}
+      <WhyJournalingSection />
+
+      {/* =========================================================================
+          6. AYEYO KORIS — OUR IMPACT
+      ========================================================================= */}
+      <AyeyoKorisSection />
+
+      {/* =========================================================================
+          7. JOIN OUR COMMUNITY & PRE-FOOTER HORIZON
+      ========================================================================= */}
+      <CommunitySection />
     </div>
   );
 }

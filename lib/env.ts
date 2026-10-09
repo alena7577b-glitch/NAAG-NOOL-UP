@@ -17,10 +17,16 @@ const serverEnvSchema = z.object({
   // Supabase Server Credentials
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
 
-  // Payment Provider Configuration (Future Gateway)
+  // Payment Provider Configuration
+  PAYMENT_PROVIDER: z.string().optional(),
   PAYMENT_PROVIDER_KEY: z.string().optional(),
   PAYMENT_PROVIDER_SECRET: z.string().optional(),
   PAYMENT_WEBHOOK_SECRET: z.string().optional(),
+
+  // SoomarPay Configuration
+  SOOMARPAY_API_KEY: z.string().optional(),
+  SOOMARPAY_WEBHOOK_SECRET: z.string().optional(),
+  SOOMARPAY_BASE_URL: z.string().optional(),
 
   // Storage Bucket Names
   SUPABASE_STORAGE_PUBLIC_BUCKET: z.string().default('naag-nool-public-media'),

@@ -1,7 +1,17 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Shield, Users, Package, ShoppingCart, LogOut, CheckCircle2 } from 'lucide-react';
+import {
+  Shield,
+  Users,
+  Package,
+  ShoppingCart,
+  LogOut,
+  CheckCircle2,
+  ArrowRight,
+  Mail,
+} from 'lucide-react';
 import { requireAdmin } from '@/lib/auth/server';
+import { db } from '@/lib/db';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { logoutAction } from '@/lib/auth/actions';
@@ -10,10 +20,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Admin Console — Naag Nool UP',
-  robots: {
-    index: false,
-    follow: false,
-  },
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminDashboardFoundationPage() {
@@ -23,6 +30,27 @@ export default async function AdminDashboardFoundationPage() {
   } catch {
     redirect('/admin/unauthorized');
   }
+
+  // Live PostgreSQL metric aggregations
+  const [
+    totalProducts,
+    activeProducts,
+    totalOrders,
+    paidOrders,
+    pendingOrders,
+    totalCustomers,
+    unreadInquiries,
+    communityMembers,
+  ] = await Promise.all([
+    db.product.count(),
+    db.product.count({ where: { isAvailable: true } }),
+    db.order.count(),
+    db.order.count({ where: { status: 'PAID' } }),
+    db.order.count({ where: { status: 'PENDING_PAYMENT' } }),
+    db.user.count({ where: { role: 'CUSTOMER' } }),
+    db.contactSubmission.count({ where: { status: 'UNREAD' } }),
+    db.communitySignup.count(),
+  ]);
 
   return (
     <div className="min-h-screen bg-[#F9F6F0] py-10 px-4 sm:px-6 lg:px-8">
@@ -54,12 +82,21 @@ export default async function AdminDashboardFoundationPage() {
 
           <div className="flex items-center gap-3 self-stretch sm:self-auto">
             <Link href="/account" className="flex-1 sm:flex-initial">
-              <Button variant="outline" size="sm" className="w-full justify-center text-xs bg-transparent text-white border-stone-600 hover:bg-stone-800">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full justify-center text-xs bg-transparent text-white border-stone-600 hover:bg-stone-800"
+              >
                 Customer View
               </Button>
             </Link>
             <form action={logoutAction} className="flex-1 sm:flex-initial">
-              <Button variant="ghost" size="sm" type="submit" className="w-full justify-center text-xs text-red-300 hover:text-red-200 hover:bg-red-950/40">
+              <Button
+                variant="ghost"
+                size="sm"
+                type="submit"
+                className="w-full justify-center text-xs text-red-300 hover:text-red-200 hover:bg-red-950/40"
+              >
                 <LogOut className="w-3.5 h-3.5 me-1.5" />
                 Sign Out
               </Button>
@@ -67,42 +104,99 @@ export default async function AdminDashboardFoundationPage() {
           </div>
         </div>
 
-        {/* Foundation Modules Preview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-xl bg-[#B85233]/10 text-[#B85233] flex items-center justify-center mb-4">
-              <Package className="w-5 h-5" />
+        {/* Live KPI Metric Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-5 shadow-2xs">
+            <div className="flex items-center justify-between text-[#6B655B] mb-2">
+              <span className="text-xs uppercase tracking-wider font-semibold">Catalog</span>
+              <Package className="w-4 h-4 text-[#B85233]" />
             </div>
-            <h2 className="font-playfair text-lg font-medium text-[#1E1C1A] mb-1">
-              Catalog & Inventory
-            </h2>
-            <p className="text-xs text-[#1E1C1A]/70 leading-relaxed">
-              Product models and inventory schema are active and secured with Row Level Security. Full catalog editor is scheduled for Phase 4.
+            <p className="font-playfair text-2xl sm:text-3xl font-normal text-[#1E1C1A]">
+              {totalProducts}
+            </p>
+            <p className="text-[11px] text-[#4D5844] mt-1">{activeProducts} active in store</p>
+          </div>
+
+          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-5 shadow-2xs">
+            <div className="flex items-center justify-between text-[#6B655B] mb-2">
+              <span className="text-xs uppercase tracking-wider font-semibold">Orders</span>
+              <ShoppingCart className="w-4 h-4 text-[#4D5844]" />
+            </div>
+            <p className="font-playfair text-2xl sm:text-3xl font-normal text-[#1E1C1A]">
+              {totalOrders}
+            </p>
+            <p className="text-[11px] text-[#6B655B] mt-1">
+              {paidOrders} paid, {pendingOrders} pending
             </p>
           </div>
 
-          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-xl bg-[#4D5844]/10 text-[#4D5844] flex items-center justify-center mb-4">
-              <ShoppingCart className="w-5 h-5" />
+          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-5 shadow-2xs">
+            <div className="flex items-center justify-between text-[#6B655B] mb-2">
+              <span className="text-xs uppercase tracking-wider font-semibold">Customers</span>
+              <Users className="w-4 h-4 text-[#D49B4B]" />
             </div>
-            <h2 className="font-playfair text-lg font-medium text-[#1E1C1A] mb-1">
-              Orders & Fulfillment
-            </h2>
-            <p className="text-xs text-[#1E1C1A]/70 leading-relaxed">
-              Orders and payment models are connected with Prisma. Administrative order fulfillment management will be accessible in the admin phase.
+            <p className="font-playfair text-2xl sm:text-3xl font-normal text-[#1E1C1A]">
+              {totalCustomers}
             </p>
+            <p className="text-[11px] text-[#6B655B] mt-1">{communityMembers} community members</p>
           </div>
 
-          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-xl bg-[#D49B4B]/10 text-[#D49B4B] flex items-center justify-center mb-4">
-              <Users className="w-5 h-5" />
+          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-5 shadow-2xs">
+            <div className="flex items-center justify-between text-[#6B655B] mb-2">
+              <span className="text-xs uppercase tracking-wider font-semibold">Inquiries</span>
+              <Mail className="w-4 h-4 text-[#B85233]" />
             </div>
-            <h2 className="font-playfair text-lg font-medium text-[#1E1C1A] mb-1">
-              User & Role Management
-            </h2>
-            <p className="text-xs text-[#1E1C1A]/70 leading-relaxed">
-              Role-based access control engine is active. Only SUPERADMIN accounts can promote or reassign user roles.
+            <p className="font-playfair text-2xl sm:text-3xl font-normal text-[#1E1C1A]">
+              {unreadInquiries}
             </p>
+            <p className="text-[11px] text-[#B85233] mt-1">Unread contact messages</p>
+          </div>
+        </div>
+
+        {/* Operational Modules Navigation Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Catalog & Inventory Management Card */}
+          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col justify-between hover:border-[#B85233]/40 transition-colors">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-[#B85233]/10 text-[#B85233] flex items-center justify-center mb-4">
+                <Package className="w-6 h-6" />
+              </div>
+              <h2 className="font-playfair text-xl font-medium text-[#1E1C1A] mb-2">
+                Product Catalog Management
+              </h2>
+              <p className="text-xs text-[#6B655B] leading-relaxed mb-6">
+                Create new journals, manage titles, descriptions, pricing, inventory stock, image assets, and activation states directly in PostgreSQL.
+              </p>
+            </div>
+
+            <Link href="/admin/products">
+              <Button variant="primary" size="md" className="w-full justify-center">
+                <span>Open Catalog Manager</span>
+                <ArrowRight className="w-4 h-4 ms-2 rtl:rotate-180" />
+              </Button>
+            </Link>
+          </div>
+
+          {/* Orders & Fulfillment Management Card */}
+          <div className="bg-white border border-[#E5DFC0] rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col justify-between hover:border-[#4D5844]/40 transition-colors">
+            <div>
+              <div className="w-12 h-12 rounded-xl bg-[#4D5844]/10 text-[#4D5844] flex items-center justify-center mb-4">
+                <ShoppingCart className="w-6 h-6" />
+              </div>
+              <h2 className="font-playfair text-xl font-medium text-[#1E1C1A] mb-2">
+                Order Fulfillment & Processing
+              </h2>
+              <p className="text-xs text-[#6B655B] leading-relaxed mb-6">
+                Inspect customer purchase orders, delivery destinations, payment statuses, and transition order milestones from Processing to Delivered.
+              </p>
+            </div>
+
+            <Link href="/admin/orders">
+              <Button variant="outline" size="md" className="w-full justify-center border-[#4D5844] text-[#4D5844] hover:bg-[#4D5844]/5">
+                <span>Open Order Manager</span>
+                <ArrowRight className="w-4 h-4 ms-2 rtl:rotate-180" />
+              </Button>
+            </Link>
           </div>
         </div>
       </Container>

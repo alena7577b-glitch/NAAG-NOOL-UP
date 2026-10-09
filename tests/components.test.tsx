@@ -108,7 +108,7 @@ describe('Phase 2 Reusable Design System Component Tests', () => {
     test('fires onAddToCart callback when Add to Cart button is clicked', () => {
       const handleAddToCart = jest.fn();
       render(<ProductCard product={mockProduct} onAddToCart={handleAddToCart} />);
-      const addBtn = screen.getByRole('button', { name: /add to cart/i });
+      const addBtn = screen.getByRole('button', { name: /add to (bag|cart)/i });
       fireEvent.click(addBtn);
       expect(handleAddToCart).toHaveBeenCalledWith(mockProduct);
     });

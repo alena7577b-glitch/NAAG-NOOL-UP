@@ -24,6 +24,8 @@ import { Container } from '@/components/ui/Container';
 import { ProductCard } from '@/components/commerce/ProductCard';
 import { PreFooterBanner } from '@/components/layout/PreFooterBanner';
 import { ProductDetailData, ProductCardData } from '@/lib/products';
+import { useRouter } from 'next/navigation';
+import { useOptionalCart } from '@/lib/cart/CartContext';
 
 export interface ProductDetailViewProps {
   product: ProductDetailData;
@@ -31,6 +33,8 @@ export interface ProductDetailViewProps {
 }
 
 export function ProductDetailView({ product, relatedProducts }: ProductDetailViewProps) {
+  const router = useRouter();
+  const optionalCart = useOptionalCart();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<'overview' | 'who' | 'difference' | 'specs' | 'shipping'>('overview');
@@ -58,8 +62,30 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
       : `$${product.price}`;
 
   const handleAddToCart = () => {
+    const numericPrice =
+      typeof product.price === 'number'
+        ? product.price
+        : parseFloat(String(product.price).replace(/[^0-9.]/g, '')) || 24;
+
+    optionalCart?.addItem(
+      {
+        id: product.id,
+        title: product.title,
+        slug: product.slug,
+        price: numericPrice,
+        imageUrl: product.imageUrl || images[0]?.url,
+        category: product.category,
+      },
+      quantity
+    );
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 3000);
+  };
+
+  const handleBuyNow = (e: React.MouseEvent) => {
+    e.preventDefault();
+    handleAddToCart();
+    router.push('/checkout');
   };
 
   return (
@@ -226,12 +252,13 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
                 </div>
 
                 {/* Buy Now Button */}
-                <Link
-                  href="/cart"
-                  className="block w-full py-2.5 px-6 rounded-md bg-transparent border border-[#1E1C1A]/40 text-[#1E1C1A] text-xs sm:text-sm font-medium hover:bg-[#EAE5DC]/60 transition-colors text-center"
+                <button
+                  type="button"
+                  onClick={handleBuyNow}
+                  className="block w-full py-2.5 px-6 rounded-md bg-transparent border border-[#1E1C1A]/40 text-[#1E1C1A] text-xs sm:text-sm font-medium hover:bg-[#EAE5DC]/60 transition-colors text-center cursor-pointer"
                 >
                   Buy Now
-                </Link>
+                </button>
               </div>
 
               {/* Trust Badges */}

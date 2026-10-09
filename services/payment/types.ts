@@ -12,6 +12,7 @@ export interface InitiatePaymentInput {
   customerEmail: string;
   customerPhone?: string;
   returnUrl?: string;
+  paymentMethod?: string;
 }
 
 export interface InitiatePaymentResult {

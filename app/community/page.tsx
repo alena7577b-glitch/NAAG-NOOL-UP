@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowLeft, Leaf, Users, Heart, Sparkles, Check } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { CommunitySignupForm } from '@/components/forms/CommunitySignupForm';
+import { InteractiveJourneyGame } from '@/components/community/InteractiveJourneyGame';
 
 export const metadata: Metadata = {
   title: 'Community — Naag Nool UP',
@@ -32,13 +33,20 @@ export default function CommunityPage() {
                 Join the Naag Nool UP community — a space for women who support, encourage and grow together. Here, you’ll find inspiration, resources and a sisterhood that believes in your potential.
               </p>
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
-                  href="#join-form"
+                  href="#interactive-journey"
                   className="inline-flex items-center gap-2 justify-center rounded-md bg-[#B85233] text-white px-6 sm:px-7 py-3 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors shadow-sm"
                 >
-                  <span>Join the Community</span>
-                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                  <Sparkles className="w-4 h-4" />
+                  <span>The Path of Naag Nool</span>
+                </a>
+                <a
+                  href="#join-form"
+                  className="inline-flex items-center gap-2 justify-center rounded-md bg-white border border-[#E5DFC0] text-[#1E1C1A] px-5 py-3 text-xs sm:text-sm font-medium hover:bg-[#FAF8F5] transition-colors shadow-2xs"
+                >
+                  <span>Join Direct</span>
+                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
                 </a>
               </div>
             </div>
@@ -136,7 +144,12 @@ export default function CommunityPage() {
         </Container>
       </section>
 
-      {/* 3. WHAT TO EXPECT (Split Section) */}
+      {/* 3. INTERACTIVE LIFE-CHOICE JOURNEY GAME */}
+      <div id="interactive-journey" className="scroll-mt-16">
+        <InteractiveJourneyGame />
+      </div>
+
+      {/* 4. WHAT TO EXPECT (Split Section) */}
       <section className="py-0 bg-[#4D5844] text-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
           {/* Left Group Image */}
