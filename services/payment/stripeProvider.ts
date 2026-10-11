@@ -192,12 +192,19 @@ export class StripePaymentProvider implements PaymentProvider {
     try {
       const event = JSON.parse(rawBody);
       const paymentIntent = event.data?.object;
-      const orderId = paymentIntent?.metadata?.orderId;
+      const orderId = paymentIntent?.metadata?.orderId || paymentIntent?.metadata?.orderNumber;
+      const transactionId = paymentIntent?.id;
+      const amount = paymentIntent?.amount ? paymentIntent.amount / 100 : undefined;
+      const currency = paymentIntent?.currency ? paymentIntent.currency.toUpperCase() : 'USD';
 
       if (event.type === 'payment_intent.succeeded') {
         return {
           handled: true,
           orderId,
+          transactionId,
+          amount,
+          currency,
+          eventType: event.type,
           status: 'PAID',
           rawEvent: event,
         };
@@ -207,6 +214,10 @@ export class StripePaymentProvider implements PaymentProvider {
         return {
           handled: true,
           orderId,
+          transactionId,
+          amount,
+          currency,
+          eventType: event.type,
           status: 'FAILED',
           rawEvent: event,
         };
@@ -215,6 +226,10 @@ export class StripePaymentProvider implements PaymentProvider {
       return {
         handled: true,
         orderId,
+        transactionId,
+        amount,
+        currency,
+        eventType: event.type,
         rawEvent: event,
       };
     } catch (err: unknown) {

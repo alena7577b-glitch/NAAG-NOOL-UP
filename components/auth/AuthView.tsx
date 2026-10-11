@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { 
   Mail, 
@@ -193,31 +194,19 @@ export function AuthView({ initialMode }: AuthViewProps) {
 
         {/* Top: Brand Header */}
         <div className="relative z-10">
-          <Link href="/" className="inline-flex items-center gap-3 group focus:outline-none">
-            {/* Authentic Botanical Sprig Motif */}
-            <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-[#D49B4B] group-hover:scale-105 transition-transform">
-              <svg
-                className="h-5 w-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 21C7 16 11 11 19 5" />
-                <path d="M19 5C17 2 13 4 14 8C15 8 18 7 19 5Z" fill="currentColor" fillOpacity="0.3" />
-                <path d="M10 12C7 11 6 14 9 16C10 15 11 13 10 12Z" fill="currentColor" fillOpacity="0.25" />
-              </svg>
-            </div>
-            <div>
-              <span className="font-playfair text-xl tracking-wider text-white font-medium block">
-                NAAG NOOL UP
-              </span>
-              <span className="font-sans text-[9px] uppercase tracking-[0.25em] text-[#D49B4B] font-semibold">
-                The time to be ALIVE is now
-              </span>
-            </div>
+          <Link
+            href="/"
+            className="inline-flex items-center hover:opacity-90 transition-opacity focus:outline-none"
+            aria-label="Naag Nool UP Home"
+          >
+            <Image
+              src="/images/logo-auth.png"
+              alt="Naag Nool UP"
+              width={220}
+              height={73}
+              priority
+              className="h-11 sm:h-12 w-auto object-contain"
+            />
           </Link>
         </div>
 
@@ -288,8 +277,14 @@ export function AuthView({ initialMode }: AuthViewProps) {
 
           {/* Mobile-only logo */}
           <div className="lg:hidden">
-            <Link href="/" className="font-playfair text-lg text-[#1E1C1A] font-semibold tracking-wider">
-              NAAG NOOL UP
+            <Link href="/" aria-label="Naag Nool UP Home">
+              <Image
+                src="/images/logo-header.png"
+                alt="Naag Nool UP"
+                width={160}
+                height={53}
+                className="h-8 w-auto object-contain"
+              />
             </Link>
           </div>
         </div>

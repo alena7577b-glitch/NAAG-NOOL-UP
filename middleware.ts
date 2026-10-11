@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { updateSession } from './lib/supabase/middleware';
 
 /**
@@ -8,6 +8,18 @@ import { updateSession } from './lib/supabase/middleware';
  * Keeps Supabase Auth sessions active and cookies synchronized.
  */
 export async function middleware(request: NextRequest) {
+  const { pathname, searchParams } = request.nextUrl;
+
+  // Defensive fallback: If OAuth returns with a ?code= parameter to the site root or any page
+  // other than /auth/callback, forward it immediately to /auth/callback to exchange the session
+  if (searchParams.has('code') && !pathname.startsWith('/auth/callback')) {
+    const callbackUrl = new URL('/auth/callback', request.url);
+    searchParams.forEach((value, key) => {
+      callbackUrl.searchParams.set(key, value);
+    });
+    return NextResponse.redirect(callbackUrl);
+  }
+
   return await updateSession(request);
 }
 

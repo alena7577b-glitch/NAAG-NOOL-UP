@@ -28,6 +28,7 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       country,
       deliveryNotes,
       items,
+      paymentMethod,
     } = parsed.data;
 
     // 2. Identify Authenticated Customer (if signed in)
@@ -55,13 +56,13 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       }
     }
 
-    // Verify all items exist, are available, and have sufficient inventory
+    // Verify all items exist and are active
     for (const item of items) {
       const product = productMap.get(item.productId);
       if (!product) {
         return {
           success: false,
-          error: 'One of the items in your bag is no longer available.',
+          error: 'One of the items in your shopping bag is no longer available.',
         };
       }
 
@@ -80,85 +81,103 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       }
     }
 
-    // 4. Calculate Authoritative Totals Server-Side
+    // 4. Authoritative Server-Side Calculation (Pricing, Shipping, Totals)
     let subtotal = 0;
     for (const item of items) {
       const product = productMap.get(item.productId)!;
       subtotal += Number(product.price) * item.quantity;
     }
 
-    // Free shipping threshold over $50
+    // Standard business rule: Free shipping over $50 threshold, otherwise $5.00 flat rate
     const shippingFee = subtotal >= 50.0 ? 0.0 : 5.0;
-    const totalAmount = subtotal + shippingFee;
+    const totalAmount = Number((subtotal + shippingFee).toFixed(2));
 
     // 5. Generate Human-Readable Unique Order Number
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
     const orderNumber = `NNU-${Date.now().toString().slice(-6)}-${randomSuffix}`;
 
-    // 6. Execute Transactional Database Write
     const paymentProvider = getPaymentProvider();
 
-    const order = await db.$transaction(async (tx) => {
-      // Safely decrement stock for each product
-      for (const item of items) {
-        const product = productMap.get(item.productId)!;
-        await tx.product.update({
-          where: { id: product.id },
+    // 6. Concurrency-Safe Atomic Stock Reservation & Order Creation Transaction
+    let order;
+    try {
+      order = await db.$transaction(async (tx) => {
+        // Concurrency-safe atomic check and decrement:
+        // Ensures stockQuantity >= item.quantity at the exact moment of execution
+        for (const item of items) {
+          const product = productMap.get(item.productId)!;
+          const updateResult = await tx.product.updateMany({
+            where: {
+              id: product.id,
+              stockQuantity: { gte: item.quantity },
+            },
+            data: {
+              stockQuantity: {
+                decrement: item.quantity,
+              },
+            },
+          });
+
+          if (updateResult.count === 0) {
+            throw new Error(`Insufficient inventory for "${product.title}". Stock changed during checkout.`);
+          }
+        }
+
+        // Create Order record (always starts PENDING_PAYMENT)
+        const newOrder = await tx.order.create({
           data: {
-            stockQuantity: {
-              decrement: item.quantity,
+            orderNumber,
+            userId,
+            customerName,
+            customerEmail,
+            customerPhone: customerPhone || null,
+            totalAmount,
+            status: 'PENDING_PAYMENT',
+            shippingAddress: {
+              addressLine1,
+              addressLine2: addressLine2 || '',
+              city,
+              postalCode: postalCode || '',
+              country,
+              deliveryNotes: deliveryNotes || '',
+            },
+            items: {
+              create: items.map((item) => {
+                const product = productMap.get(item.productId)!;
+                return {
+                  productId: product.id,
+                  quantity: item.quantity,
+                  unitPrice: product.price,
+                };
+              }),
             },
           },
         });
-      }
 
-      // Create Order
-      const newOrder = await tx.order.create({
-        data: {
-          orderNumber,
-          userId,
-          customerName,
-          customerEmail,
-          customerPhone: customerPhone || null,
-          totalAmount,
-          status: 'PENDING_PAYMENT',
-          shippingAddress: {
-            addressLine1,
-            addressLine2: addressLine2 || '',
-            city,
-            postalCode: postalCode || '',
-            country,
-            deliveryNotes: deliveryNotes || '',
+        // Create Payment record
+        await tx.payment.create({
+          data: {
+            orderId: newOrder.id,
+            provider: paymentProvider.providerName,
+            amount: totalAmount,
+            status: 'INITIATED',
+            metadata: {
+              paymentMethod: paymentMethod || 'CARD',
+              initiatedAt: new Date().toISOString(),
+            },
           },
-          items: {
-            create: items.map((item) => {
-              const product = productMap.get(item.productId)!;
-              return {
-                productId: product.id,
-                quantity: item.quantity,
-                unitPrice: product.price,
-              };
-            }),
-          },
-        },
+        });
+
+        return newOrder;
       });
-
-      // Create Payment record
-      await tx.payment.create({
-        data: {
-          orderId: newOrder.id,
-          provider: paymentProvider.providerName,
-          amount: totalAmount,
-          status: 'INITIATED',
-          metadata: {
-            paymentMethod: parsed.data.paymentMethod,
-            initiatedAt: new Date().toISOString(),
-          },
-        },
-      });
-
-      return newOrder;
-    });
+    } catch (txErr: unknown) {
+      const msg = txErr instanceof Error ? txErr.message : 'Inventory reservation failed';
+      logger.warn(`Checkout reservation rejected: ${msg}`);
+      return {
+        success: false,
+        error: msg,
+      };
+    }
 
     // 7. Initiate Payment Gateway Intent
     const paymentResult = await paymentProvider.initiatePayment({
@@ -169,34 +188,83 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       customerName,
       customerEmail,
       customerPhone: customerPhone || undefined,
-      paymentMethod: parsed.data.paymentMethod,
+      paymentMethod: paymentMethod,
     });
 
-    // If transaction succeeded and completed instantly (e.g. SoomarPay sandbox mode), update database
-    if (paymentResult.success && paymentResult.transactionId) {
+    // 8. Handle Payment Provider Rejection: Revert stock reservation and return clear error
+    if (!paymentResult.success) {
+      logger.warn(
+        `Payment initiation failed for order ${order.orderNumber} via ${paymentProvider.providerName}: ${paymentResult.errorMessage}`
+      );
+
+      // Revert stock reservation immediately in transactional cleanup
+      await db.$transaction(async (tx) => {
+        for (const item of items) {
+          const product = productMap.get(item.productId)!;
+          await tx.product.update({
+            where: { id: product.id },
+            data: {
+              stockQuantity: {
+                increment: item.quantity,
+              },
+            },
+          });
+        }
+
+        await tx.order.update({
+          where: { id: order.id },
+          data: { status: 'CANCELLED' },
+        });
+
+        await tx.payment.updateMany({
+          where: { orderId: order.id },
+          data: {
+            status: 'FAILED',
+            metadata: {
+              failureReason: paymentResult.errorMessage || 'Payment provider rejected initiation',
+              failedAt: new Date().toISOString(),
+            },
+          },
+        });
+      });
+
+      return {
+        success: false,
+        error:
+          paymentResult.errorMessage ||
+          'The payment provider could not initiate this transaction. Please verify your details or choose another payment method.',
+      };
+    }
+
+    // 9. Synchronous Verification ONLY for Mock/Dev Sandbox Provider
+    // For real providers (SoomarPay, Stripe), status MUST remain PENDING_PAYMENT until verified by webhook
+    const isInstantDevMock =
+      process.env.NODE_ENV !== 'production' &&
+      paymentProvider.providerName === 'MOCK_SANDBOX_PAYMENT_PROVIDER' &&
+      !paymentResult.paymentUrl;
+
+    if (isInstantDevMock) {
       await db.$transaction(async (tx) => {
         await tx.payment.updateMany({
           where: { orderId: order.id },
           data: {
             transactionId: paymentResult.transactionId,
-            status: !paymentResult.paymentUrl ? 'VERIFIED' : 'INITIATED',
+            status: 'VERIFIED',
             metadata: {
-              paymentMethod: parsed.data.paymentMethod,
-              verifiedAt: !paymentResult.paymentUrl ? new Date().toISOString() : undefined,
+              paymentMethod: paymentMethod,
+              verifiedAt: new Date().toISOString(),
             },
           },
         });
 
-        if (!paymentResult.paymentUrl) {
-          await tx.order.update({
-            where: { id: order.id },
-            data: { status: 'PAID' },
-          });
-        }
+        await tx.order.update({
+          where: { id: order.id },
+          data: { status: 'PAID' },
+        });
       });
     }
 
-    logger.info(`Order created successfully: ${order.orderNumber} for ${customerEmail}`);
+    logger.info(`Order placed successfully: ${order.orderNumber} for ${customerEmail} (Status: ${isInstantDevMock ? 'PAID' : 'PENDING_PAYMENT'})`);
 
     return {
       success: true,
@@ -205,9 +273,10 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       totalAmount,
       paymentUrl: paymentResult.paymentUrl,
       transactionId: paymentResult.transactionId,
+      paymentStatus: isInstantDevMock ? 'PAID' : 'PENDING_PAYMENT',
     };
   } catch (error: unknown) {
-    logger.error('Error during order creation transaction', {
+    logger.error('Unhandled error during order creation transaction', {
       error: error instanceof Error ? error.message : 'Unknown error',
     });
     return {

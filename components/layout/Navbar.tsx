@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Search, User as UserIcon, ShoppingBag, Menu, Globe, Shield, LogOut, Package, UserCheck, ChevronDown } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
@@ -33,6 +34,12 @@ const defaultNavItems: NavItem[] = [
   { label: 'Community', href: '/community' },
   { label: 'Contact', href: '/contact' },
 ];
+
+function setLocaleCookie(loc: string) {
+  if (typeof document !== 'undefined') {
+    document.cookie = `NEXT_LOCALE=${loc}; path=/; max-age=31536000; SameSite=Lax`;
+  }
+}
 
 export function Navbar({
   cartCount: propCartCount,
@@ -83,6 +90,15 @@ export function Navbar({
 
   const isHomepage = pathname === '/';
 
+  const handleLocaleChange = (loc: (typeof locales)[number]) => {
+    setLocaleCookie(loc);
+    if (onLocaleChange) {
+      onLocaleChange(loc);
+    } else {
+      window.location.reload();
+    }
+  };
+
   // Do not render consumer storefront navbar on admin console
   if (pathname?.startsWith('/admin')) {
     return null;
@@ -103,19 +119,17 @@ export function Navbar({
           {/* Brand Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 text-[#1E1C1A] hover:opacity-90 transition-opacity focus-visible:outline-none"
+            className="flex items-center hover:opacity-90 transition-opacity focus-visible:outline-none"
+            aria-label="Naag Nool UP Home"
           >
-            {/* 4-pointed Star Motif Logo Mark */}
-            <svg
-              className="h-5 w-5 sm:h-6 sm:w-6 text-[#1E1C1A]"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M12 2C12 7 7 12 2 12C7 12 12 17 12 22C12 17 17 12 22 12C17 12 12 7 12 2Z" />
-            </svg>
-            <span className="font-playfair text-lg sm:text-xl md:text-2xl font-normal tracking-[0.12em] uppercase">
-              NAAG NOOL UP
-            </span>
+            <Image
+              src="/images/logo-header.png"
+              alt="Naag Nool UP"
+              width={220}
+              height={73}
+              priority
+              className="h-9 sm:h-11 md:h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -170,7 +184,7 @@ export function Navbar({
                       key={loc}
                       type="button"
                       onClick={() => {
-                        onLocaleChange?.(loc);
+                        handleLocaleChange(loc);
                         setIsLangOpen(false);
                       }}
                       className={`w-full text-start px-3 py-1.5 rounded-sm text-xs transition-colors cursor-pointer ${
@@ -319,7 +333,7 @@ export function Navbar({
         items={defaultNavItems}
         cartCount={cartCount}
         currentLocale={currentLocale}
-        onLocaleChange={onLocaleChange}
+        onLocaleChange={handleLocaleChange}
         user={currentUser}
       />
     </header>

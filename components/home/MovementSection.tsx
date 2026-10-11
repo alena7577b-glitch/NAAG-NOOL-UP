@@ -53,8 +53,8 @@ export function MovementSection() {
           ========================================================================= */}
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-8 sm:gap-10 lg:gap-12 shrink-0">
             
-            {/* Fine-Art Collage Canvas */}
-            <div className="relative w-[340px] sm:w-[390px] lg:w-[420px] h-[300px] sm:h-[340px] lg:h-[360px] shrink-0">
+            {/* Fine-Art Collage Canvas (Proportioned to cropped 4:5 editorial photo) */}
+            <div className="relative w-[320px] sm:w-[380px] lg:w-[420px] aspect-[4/5] shrink-0">
               
               {/* Rich Hand-Drawn Botanical Leaf SVG Backdrop */}
               <div className="absolute -top-8 right-6 sm:right-10 w-48 sm:w-56 h-64 sm:h-76 pointer-events-none text-[#C4B7A4] opacity-55 z-0">
@@ -92,29 +92,16 @@ export function MovementSection() {
                 </svg>
               </div>
 
-              {/* IMAGE 1: Primary Vertical Canvas (Woman Portrait) */}
+              {/* Primary Sisterhood Editorial Portrait (Full Clarity, No Obstruction) */}
               <div
                 data-slot="primary-portrait"
-                className="group absolute top-0 left-0 w-[60%] h-[82%] bg-[#E8E1D2] border border-[#D5C9B3] overflow-hidden shadow-md z-10 transition-transform duration-500 hover:scale-[1.01]"
+                className="group relative w-full h-full bg-[#E8E1D2] border border-[#D5C9B3] rounded-xl overflow-hidden shadow-lg z-10 transition-transform duration-500 hover:scale-[1.01]"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/movement-woman.png"
-                  alt="Woman in intentional contemplation"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
-
-              {/* IMAGE 2: Secondary Overlapping Canvas (Journal Hands Detail) */}
-              <div
-                data-slot="secondary-image"
-                className="group absolute bottom-0 right-0 w-[58%] h-[66%] bg-[#E0D8C8] border border-[#CCBEA6] overflow-hidden shadow-[0_16px_36px_rgba(30,28,26,0.14)] z-20 transition-transform duration-500 hover:scale-[1.02]"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/movement-hands.png"
-                  alt="Hands holding the Naag Nool UP guided journal"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  src="/images/movement-sisterhood.jpg"
+                  alt="Two empowered Somali sisters with the Naag Nool UP guided journals"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
 

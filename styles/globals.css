@@ -60,14 +60,41 @@
     box-sizing: border-box;
   }
 
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
   html, body {
     min-height: 100vh;
+    min-height: 100dvh;
     background-color: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  /* Eliminate 300ms mobile tap delay & ensure responsive touch response */
+  button, a, [role="button"], .tappable {
+    touch-action: manipulation;
+  }
+
+  /* Prevent long-press text selection on UI controls */
+  button, [role="button"], .tab, .chip {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Prevent iOS automatic page zoom on form focus by ensuring 16px minimum text size */
+  @media (pointer: coarse) {
+    input, textarea, select {
+      font-size: 16px;
+    }
   }
 }
 

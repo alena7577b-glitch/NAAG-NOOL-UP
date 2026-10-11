@@ -30,5 +30,6 @@ export interface CheckoutResult {
   totalAmount?: number;
   paymentUrl?: string;
   transactionId?: string;
+  paymentStatus?: 'PAID' | 'PENDING_PAYMENT';
   error?: string;
 }

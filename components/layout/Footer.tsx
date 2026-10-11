@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
@@ -40,49 +41,16 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-4">
             <Link
               href="/"
-              className="inline-flex items-center gap-2.5 text-[#FAF6F0] focus-visible:outline-none group"
+              className="inline-flex items-center focus-visible:outline-none group hover:opacity-90 transition-opacity"
+              aria-label="Naag Nool UP Home"
             >
-              {/* Authentic Hand-Drawn Botanical Sprig Motif */}
-              <svg
-                className="h-6 w-6 text-[#FAF6F0] group-hover:text-[#D49B4B] transition-colors shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {/* Main stem */}
-                <path d="M5 21C7 16 11 11 19 5" />
-                {/* Top sprout leaf */}
-                <path
-                  d="M19 5C17 2 13 4 14 8C15 8 18 7 19 5Z"
-                  fill="currentColor"
-                  fillOpacity="0.25"
-                />
-                {/* Left leaf */}
-                <path
-                  d="M10 12C7 11 6 14 9 16C10 15 11 13 10 12Z"
-                  fill="currentColor"
-                  fillOpacity="0.25"
-                />
-                {/* Right leaf */}
-                <path
-                  d="M14 9C17 8 18 11 15 13C14 12 13 10 14 9Z"
-                  fill="currentColor"
-                  fillOpacity="0.25"
-                />
-                {/* Base leaf */}
-                <path
-                  d="M7 17C5 17 5 19 8 20C8 19 8 18 7 17Z"
-                  fill="currentColor"
-                  fillOpacity="0.25"
-                />
-              </svg>
-
-              <span className="font-playfair text-lg sm:text-xl font-normal tracking-[0.14em] uppercase text-[#FAF6F0]">
-                NAAG NOOL UP
-              </span>
+              <Image
+                src="/images/logo-footer.png"
+                alt="Naag Nool UP"
+                width={220}
+                height={73}
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
             </Link>
 
             <p className="font-sans text-xs sm:text-[13px] text-[#A69E90] font-normal tracking-wide">

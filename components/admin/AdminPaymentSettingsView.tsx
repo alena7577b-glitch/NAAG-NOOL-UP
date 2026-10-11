@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import {
   CreditCard,
   Smartphone,
@@ -251,9 +252,11 @@ export function AdminPaymentSettingsView({ initialConfig }: AdminPaymentSettings
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-8 rounded-lg bg-white border border-[#EBE6DC] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
-                        <img
+                        <Image
                           src={provider.logo}
                           alt={provider.name}
+                          width={48}
+                          height={32}
                           className="max-h-full max-w-full object-contain"
                         />
                       </div>

@@ -37,11 +37,16 @@ export default async function AdminDashboardPage() {
     realProductsCount,
     realOrdersCount,
     realCustomersCount,
+    paidOrders,
     realOrders,
   ] = await Promise.all([
-    db.product.count().catch(() => 6),
-    db.order.count().catch(() => 12),
-    db.user.count({ where: { role: 'CUSTOMER' } }).catch(() => 8),
+    db.product.count().catch(() => 0),
+    db.order.count().catch(() => 0),
+    db.user.count({ where: { role: 'CUSTOMER' } }).catch(() => 0),
+    db.order.findMany({
+      where: { status: 'PAID' },
+      select: { totalAmount: true },
+    }).catch(() => []),
     db.order.findMany({
       take: 5,
       orderBy: { createdAt: 'desc' },
@@ -49,32 +54,23 @@ export default async function AdminDashboardPage() {
     }).catch(() => []),
   ]);
 
-  // Aggregate stats (harmonized with source of truth)
-  const totalProducts = Math.max(6, realProductsCount);
-  const totalOrders = Math.max(12, realOrdersCount);
-  const totalCustomers = Math.max(8, realCustomersCount);
+  // Real database stats without artificial benchmark padding
+  const totalProducts = realProductsCount;
+  const totalOrders = realOrdersCount;
+  const totalCustomers = realCustomersCount;
 
-  // Calculate revenue from real orders or benchmark
-  const realRevenueSum = realOrders.reduce((sum, ord) => sum + Number(ord.totalAmount || 0), 0);
-  const totalRevenue = realRevenueSum > 0 ? (realRevenueSum + 1150).toFixed(2) : '1,248.50';
+  // Calculate real revenue strictly from verified paid orders
+  const revenueNumber = paidOrders.reduce((sum, ord) => sum + Number(ord.totalAmount || 0), 0);
+  const totalRevenue = revenueNumber.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   // Format today's date
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const dayStr = now.toLocaleDateString('en-US', { weekday: 'long' });
 
-  // Baseline Orders table data
-  const fallbackOrders = [
-    { id: '1', orderNumber: 'NNUP-0012', customer: 'Anonymous', date: 'Oct 31, 2025 10:24 AM', total: '$82.00', status: 'Processing' },
-    { id: '2', orderNumber: 'NNUP-0011', customer: 'Anonymous', date: 'Oct 30, 2025 04:17 PM', total: '$46.00', status: 'Shipped' },
-    { id: '3', orderNumber: 'NNUP-0010', customer: 'Anonymous', date: 'Oct 29, 2025 11:32 AM', total: '$64.90', status: 'Delivered' },
-    { id: '4', orderNumber: 'NNUP-0009', customer: 'Anonymous', date: 'Oct 28, 2025 03:21 PM', total: '$32.20', status: 'Pending' },
-    { id: '5', orderNumber: 'NNUP-0008', customer: 'Anonymous', date: 'Oct 27, 2025 09:15 AM', total: '$78.50', status: 'Cancelled' },
-  ];
-
-  const displayOrders = realOrders.length > 0 ? realOrders.map((o, idx) => ({
+  const displayOrders = realOrders.map((o) => ({
     id: o.id,
-    orderNumber: o.orderNumber || `#NNUP-00${12 - idx}`,
+    orderNumber: o.orderNumber,
     customer: o.customerName || 'Anonymous',
     date: new Date(o.createdAt).toLocaleDateString('en-US', {
       month: 'short',
@@ -85,7 +81,7 @@ export default async function AdminDashboardPage() {
     }),
     total: `$${Number(o.totalAmount).toFixed(2)}`,
     status: o.status === 'PAID' ? 'Shipped' : o.status === 'PENDING_PAYMENT' ? 'Pending' : 'Processing',
-  })) : fallbackOrders;
+  }));
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -102,7 +98,7 @@ export default async function AdminDashboardPage() {
             Good morning
           </h1>
           <p className="font-sans text-sm sm:text-base text-[#6B6152] leading-relaxed">
-            Here's what's happening with your store today.
+            Here&apos;s what&apos;s happening with your store today.
           </p>
           <div className="w-12 h-1 bg-[#B85233] rounded-full mt-2" />
         </div>
@@ -552,40 +548,48 @@ export default async function AdminDashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F5F2EB]">
-                {displayOrders.map((ord) => {
-                  let statusPillClass = 'bg-amber-50 text-amber-700';
-                  if (ord.status === 'Processing') statusPillClass = 'bg-blue-50 text-blue-700';
-                  if (ord.status === 'Shipped') statusPillClass = 'bg-emerald-50 text-emerald-700';
-                  if (ord.status === 'Delivered') statusPillClass = 'bg-purple-50 text-purple-700';
-                  if (ord.status === 'Cancelled') statusPillClass = 'bg-red-50 text-red-700';
+                {displayOrders.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="py-8 text-center text-xs text-[#8A847A]">
+                      No orders recorded yet. Orders will appear here once placed by customers.
+                    </td>
+                  </tr>
+                ) : (
+                  displayOrders.map((ord) => {
+                    let statusPillClass = 'bg-amber-50 text-amber-700';
+                    if (ord.status === 'Processing') statusPillClass = 'bg-blue-50 text-blue-700';
+                    if (ord.status === 'Shipped') statusPillClass = 'bg-emerald-50 text-emerald-700';
+                    if (ord.status === 'Delivered') statusPillClass = 'bg-purple-50 text-purple-700';
+                    if (ord.status === 'Cancelled') statusPillClass = 'bg-red-50 text-red-700';
 
-                  return (
-                    <tr key={ord.id} className="hover:bg-[#FAF8F5] transition-colors">
-                      <td className="py-3.5 font-mono font-bold text-[#1E1C1A]">
-                        {ord.orderNumber}
-                      </td>
-                      <td className="py-3.5 text-[#6B655B]">{ord.customer}</td>
-                      <td className="py-3.5 text-[#8A847A]">{ord.date}</td>
-                      <td className="py-3.5 font-mono font-medium text-[#1E1C1A]">{ord.total}</td>
-                      <td className="py-3.5">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium ${statusPillClass}`}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                          {ord.status}
-                        </span>
-                      </td>
-                      <td className="py-3.5 text-end">
-                        <Link href="/admin/orders">
-                          <button
-                            type="button"
-                            className="px-3 py-1 rounded-full bg-white border border-[#EBE6DC] hover:border-[#B85233] text-xs font-medium text-[#1E1C1A] transition-colors shadow-2xs"
-                          >
-                            View
-                          </button>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
+                    return (
+                      <tr key={ord.id} className="hover:bg-[#FAF8F5] transition-colors">
+                        <td className="py-3.5 font-mono font-bold text-[#1E1C1A]">
+                          {ord.orderNumber}
+                        </td>
+                        <td className="py-3.5 text-[#6B655B]">{ord.customer}</td>
+                        <td className="py-3.5 text-[#8A847A]">{ord.date}</td>
+                        <td className="py-3.5 font-mono font-medium text-[#1E1C1A]">{ord.total}</td>
+                        <td className="py-3.5">
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium ${statusPillClass}`}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                            {ord.status}
+                          </span>
+                        </td>
+                        <td className="py-3.5 text-end">
+                          <Link href="/admin/orders">
+                            <button
+                              type="button"
+                              className="px-3 py-1 rounded-full bg-white border border-[#EBE6DC] hover:border-[#B85233] text-xs font-medium text-[#1E1C1A] transition-colors shadow-2xs"
+                            >
+                              View
+                            </button>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

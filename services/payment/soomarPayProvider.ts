@@ -175,13 +175,29 @@ export class SoomarPayProvider implements PaymentProvider {
     const signature = headers['soomarpay-signature'] || headers['SoomarPay-Signature'];
     const timestamp = headers['soomarpay-timestamp'] || headers['SoomarPay-Timestamp'];
 
+    // In production, signature verification MUST NOT be bypassed
+    if (process.env.NODE_ENV === 'production' && (!this.webhookSecret || !signature || !timestamp)) {
+      logger.warn('SoomarPay webhook rejected: missing webhook secret or signature headers in production');
+      return { handled: false, error: 'Missing webhook secret or signature headers' };
+    }
+
     // Verify HMAC-SHA256 if webhook secret is configured
-    if (this.webhookSecret && signature && timestamp) {
+    if (this.webhookSecret) {
+      if (!signature || !timestamp) {
+        logger.warn('SoomarPay webhook rejected: missing signature or timestamp headers');
+        return { handled: false, error: 'Missing signature or timestamp' };
+      }
+
       try {
         const expected = crypto
           .createHmac('sha256', this.webhookSecret)
           .update(`${timestamp}.${rawBody}`)
           .digest('hex');
+
+        if (signature.length !== expected.length) {
+          logger.warn('SoomarPay webhook signature length mismatch');
+          return { handled: false, error: 'Invalid signature length' };
+        }
 
         const isValid = crypto.timingSafeEqual(
           Buffer.from(signature, 'hex'),
@@ -190,11 +206,11 @@ export class SoomarPayProvider implements PaymentProvider {
 
         if (!isValid) {
           logger.warn('SoomarPay webhook HMAC-SHA256 signature verification failed');
-          return { handled: false };
+          return { handled: false, error: 'Signature verification failed' };
         }
       } catch (err) {
         logger.error('Error during SoomarPay webhook signature verification:', err);
-        return { handled: false };
+        return { handled: false, error: 'Signature validation error' };
       }
     }
 
@@ -203,19 +219,32 @@ export class SoomarPayProvider implements PaymentProvider {
       const eventName = headers['soomarpay-event'] || headers['SoomarPay-Event'] || eventData.event;
       const payment = eventData.payment || eventData.data || eventData;
 
-      if (eventName === 'payment.completed' || payment.status === 'COMPLETED') {
+      const orderRef = payment.orderNumber || payment.orderId || payment.reference;
+      const transactionId = payment.transactionId || payment.id || payment.reference;
+      const amount = payment.amount !== undefined ? Number(payment.amount) : undefined;
+      const currency = payment.currency || 'USD';
+
+      if (eventName === 'payment.completed' || payment.status === 'COMPLETED' || payment.status === 'PAID') {
         return {
           handled: true,
-          orderId: payment.orderId || payment.orderNumber,
+          orderId: orderRef,
+          transactionId,
+          amount,
+          currency,
+          eventType: eventName,
           status: 'PAID',
           rawEvent: eventData,
         };
       }
 
-      if (eventName === 'payment.failed' || payment.status === 'FAILED') {
+      if (eventName === 'payment.failed' || payment.status === 'FAILED' || payment.status === 'DECLINED') {
         return {
           handled: true,
-          orderId: payment.orderId || payment.orderNumber,
+          orderId: orderRef,
+          transactionId,
+          amount,
+          currency,
+          eventType: eventName,
           status: 'FAILED',
           rawEvent: eventData,
         };
@@ -223,12 +252,16 @@ export class SoomarPayProvider implements PaymentProvider {
 
       return {
         handled: true,
-        orderId: payment.orderId || payment.orderNumber,
+        orderId: orderRef,
+        transactionId,
+        amount,
+        currency,
+        eventType: eventName,
         rawEvent: eventData,
       };
     } catch (err) {
       logger.error('Failed to parse SoomarPay webhook payload:', err);
-      return { handled: false };
+      return { handled: false, error: 'Invalid JSON payload' };
     }
   }
 

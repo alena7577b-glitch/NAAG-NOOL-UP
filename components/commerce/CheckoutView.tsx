@@ -158,6 +158,7 @@ export function CheckoutView({
     totalAmount: number;
     paymentUrl?: string;
     customerEmail?: string;
+    paymentStatus?: 'PAID' | 'PENDING_PAYMENT';
   } | null>(null);
 
   // Financial calculations
@@ -225,6 +226,7 @@ export function CheckoutView({
         totalAmount: result.totalAmount!,
         paymentUrl: result.paymentUrl,
         customerEmail: formData.customerEmail,
+        paymentStatus: result.paymentStatus || 'PENDING_PAYMENT',
       });
     } catch {
       setErrorMessage('A network error occurred while placing your order. Please try again.');
@@ -249,27 +251,41 @@ export function CheckoutView({
     );
   }
 
-  // ORDER SUCCESS CONFIRMATION STATE
+  // ORDER SUCCESS / CONFIRMATION STATE
   if (completedOrder) {
+    const isPaid = completedOrder.paymentStatus === 'PAID';
+
     return (
       <div className="py-16 sm:py-24 bg-[#FAF8F5] min-h-[85vh] flex items-center">
         <Container size="narrow">
           <div className="rounded-3xl bg-white border border-[#E8E2D8] p-8 sm:p-14 shadow-lg shadow-[#1E1C1A]/5 text-center space-y-8 animate-in fade-in duration-400">
             <div className="relative inline-block">
-              <div className="w-20 h-20 rounded-full bg-[#4D5844]/15 text-[#4D5844] mx-auto flex items-center justify-center ring-8 ring-[#4D5844]/5">
+              <div
+                className={`w-20 h-20 rounded-full mx-auto flex items-center justify-center ring-8 ${
+                  isPaid
+                    ? 'bg-[#4D5844]/15 text-[#4D5844] ring-[#4D5844]/5'
+                    : 'bg-[#B85233]/15 text-[#B85233] ring-[#B85233]/5'
+                }`}
+              >
                 <CheckCircle2 className="w-10 h-10 stroke-[1.75]" />
               </div>
             </div>
 
             <div className="space-y-3">
-              <span className="text-xs uppercase tracking-[0.25em] font-semibold text-[#4D5844]">
-                Order Confirmed & Secured
+              <span
+                className={`text-xs uppercase tracking-[0.25em] font-semibold ${
+                  isPaid ? 'text-[#4D5844]' : 'text-[#B85233]'
+                }`}
+              >
+                {isPaid ? 'Payment Confirmed & Order Secured' : 'Order Placed — Payment Awaiting Confirmation'}
               </span>
               <h1 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A]">
-                Thank You for Your Order
+                {isPaid ? 'Thank You for Your Order' : 'Order Received'}
               </h1>
               <p className="font-sans text-sm sm:text-base text-[#6B655B] max-w-md mx-auto leading-relaxed">
-                Your order has been recorded and is being prepared with exceptional care. A formal confirmation and receipt have been dispatched to:
+                {isPaid
+                  ? 'Your payment has been verified and your order is being prepared with exceptional care. A formal confirmation has been dispatched to:'
+                  : 'Your order has been recorded. Once your payment confirmation is verified via your mobile provider or bank, fulfillment begins immediately.'}
               </p>
               <p className="font-medium text-[#1E1C1A] text-sm">{completedOrder.customerEmail}</p>
             </div>
@@ -283,23 +299,41 @@ export function CheckoutView({
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[#6B655B]">Total Amount Paid</span>
+                <span className="text-[#6B655B]">Total Amount</span>
                 <span className="font-mono font-bold text-base text-[#1E1C1A]">
                   ${completedOrder.totalAmount.toFixed(2)} USD
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[#6B655B]">Payment Status</span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#4D5844]/15 text-[#4D5844]">
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                    isPaid ? 'bg-[#4D5844]/15 text-[#4D5844]' : 'bg-amber-100 text-amber-800'
+                  }`}
+                >
                   <Check className="w-3 h-3" />
-                  Verified
+                  {isPaid ? 'Verified' : 'Pending Confirmation'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-[#6B655B]">Estimated Dispatch</span>
-                <span className="text-xs text-[#1E1C1A] font-medium">Within 24 Hours</span>
+                <span className="text-xs text-[#1E1C1A] font-medium">Within 24 Hours of Verification</span>
               </div>
             </div>
+
+            {completedOrder.paymentUrl && !isPaid && (
+              <div className="pt-2">
+                <a
+                  href={completedOrder.paymentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#B85233] hover:bg-[#9E4228] text-white font-medium text-sm transition-all shadow-md active:scale-95"
+                >
+                  <span>Complete Payment via Provider</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            )}
 
             {/* Actions */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -311,12 +345,12 @@ export function CheckoutView({
                   Return to Boutique
                 </button>
               </Link>
-              <Link href="/admin/orders" className="w-full sm:w-auto">
+              <Link href="/account/orders" className="w-full sm:w-auto">
                 <button
                   type="button"
                   className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white hover:bg-[#FAF8F5] border border-[#E8E2D8] text-[#1E1C1A] font-medium text-sm transition-all active:scale-95"
                 >
-                  View Order Status
+                  View My Orders
                 </button>
               </Link>
             </div>
@@ -761,9 +795,11 @@ export function CheckoutView({
                           <div className="flex items-center gap-3.5 min-w-0">
                             {/* Selected Logo */}
                             <div className="w-12 h-9 rounded-lg bg-white border border-[#E8E2D8] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
-                              <img
+                              <Image
                                 src={currentMobileOption.logo}
                                 alt={currentMobileOption.name}
+                                width={48}
+                                height={36}
                                 className="max-h-full max-w-full object-contain"
                               />
                             </div>
@@ -808,9 +844,11 @@ export function CheckoutView({
                                 >
                                   <div className="flex items-center gap-3 min-w-0">
                                     <div className="w-12 h-8 rounded-lg bg-white border border-[#E8E2D8] p-1 flex items-center justify-center shrink-0 overflow-hidden">
-                                      <img
+                                      <Image
                                         src={opt.logo}
                                         alt={opt.name}
+                                        width={48}
+                                        height={32}
                                         className="max-h-full max-w-full object-contain"
                                       />
                                     </div>

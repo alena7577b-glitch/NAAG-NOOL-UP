@@ -34,8 +34,13 @@ export interface VerifyPaymentResult {
 export interface WebhookResult {
   handled: boolean;
   orderId?: string;
+  transactionId?: string;
+  amount?: number;
+  currency?: string;
+  eventType?: string;
   status?: 'PAID' | 'FAILED';
   rawEvent?: unknown;
+  error?: string;
 }
 
 export interface PaymentProvider {

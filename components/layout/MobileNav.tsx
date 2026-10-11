@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { X, ShoppingBag, User as UserIcon, Globe, Shield, LogOut, UserCheck } from 'lucide-react';
 import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
@@ -62,11 +63,16 @@ export function MobileNav({
         <Link
           href="/"
           onClick={onClose}
-          className="flex items-center gap-2 focus-visible:outline-none"
+          className="flex items-center focus-visible:outline-none"
+          aria-label="Naag Nool UP Home"
         >
-          <span className="font-playfair text-xl font-medium tracking-wider text-[#1E1C1A]">
-            NAAG NOOL UP
-          </span>
+          <Image
+            src="/images/logo-header.png"
+            alt="Naag Nool UP"
+            width={180}
+            height={60}
+            className="h-9 w-auto object-contain"
+          />
         </Link>
         <button
           type="button"

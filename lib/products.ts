@@ -16,22 +16,23 @@ export interface ProductDetailData extends ProductCardData {
 }
 
 export const CANONICAL_JOURNALS: ProductDetailData[] = [
+  // ==========================================
+  // 1. GUIDED JOURNALS
+  // ==========================================
   {
     id: 'prod-awakening',
     title: 'The Awakening',
     slug: 'the-awakening',
     description: 'A guided journal to help you reconnect with your true self and rediscover your inner strength. The Awakening provides space to reflect, awaken, and move forward with intention.',
     price: 24.00,
-    category: 'Self-Discovery',
+    category: 'Guided Journals',
     imageUrl: '/images/journal-awakening.png',
     isAvailable: true,
     stockQuantity: 150,
-    metadata: { tagline: 'Discover your power.', color: '#1B2A4A' },
+    metadata: { tagline: 'Discover your power.', color: '#1B2A4A', theme: 'Self-Discovery' },
     images: [
       { id: 'img-awakening-1', url: '/images/journal-awakening.png', altText: 'The Awakening Guided Journal Cover', sortOrder: 0 },
       { id: 'img-awakening-2', url: '/images/journal-awakening.png', altText: 'The Awakening Journal Spread', sortOrder: 1 },
-      { id: 'img-awakening-3', url: '/images/journal-awakening.png', altText: 'The Awakening Journal Detail', sortOrder: 2 },
-      { id: 'img-awakening-4', url: '/images/journal-awakening.png', altText: 'The Awakening Journal Flatlay', sortOrder: 3 },
     ],
     createdAt: new Date('2025-01-01'),
   },
@@ -41,16 +42,14 @@ export const CANONICAL_JOURNALS: ProductDetailData[] = [
     slug: 'the-clarity',
     description: 'Clear your mind, release what no longer serves you, and find your direction with gentle daily prompts and grounding exercises.',
     price: 24.00,
-    category: 'Healing & Growth',
+    category: 'Guided Journals',
     imageUrl: '/images/journal-clarity.png',
     isAvailable: true,
     stockQuantity: 120,
-    metadata: { tagline: 'Find your direction.', color: '#4D5844' },
+    metadata: { tagline: 'Find your direction.', color: '#4D5844', theme: 'Healing & Growth' },
     images: [
       { id: 'img-clarity-1', url: '/images/journal-clarity.png', altText: 'The Clarity Guided Journal Cover', sortOrder: 0 },
       { id: 'img-clarity-2', url: '/images/journal-clarity.png', altText: 'The Clarity Journal Spread', sortOrder: 1 },
-      { id: 'img-clarity-3', url: '/images/journal-clarity.png', altText: 'The Clarity Journal Detail', sortOrder: 2 },
-      { id: 'img-clarity-4', url: '/images/journal-clarity.png', altText: 'The Clarity Journal Flatlay', sortOrder: 3 },
     ],
     createdAt: new Date('2025-01-02'),
   },
@@ -60,16 +59,13 @@ export const CANONICAL_JOURNALS: ProductDetailData[] = [
     slug: 'the-healing',
     description: 'A space to process, rebuild, and embrace your new chapter. Dedicated to emotional restoration and gentle inner dialogue.',
     price: 24.00,
-    category: 'Healing & Growth',
+    category: 'Guided Journals',
     imageUrl: '/images/journal-healing.png',
     isAvailable: true,
     stockQuantity: 100,
-    metadata: { tagline: 'Release. Rebuild.', color: '#B85233' },
+    metadata: { tagline: 'Release. Rebuild.', color: '#B85233', theme: 'Healing & Growth' },
     images: [
       { id: 'img-healing-1', url: '/images/journal-healing.png', altText: 'The Healing Guided Journal Cover', sortOrder: 0 },
-      { id: 'img-healing-2', url: '/images/journal-healing.png', altText: 'The Healing Journal Spread', sortOrder: 1 },
-      { id: 'img-healing-3', url: '/images/journal-healing.png', altText: 'The Healing Journal Detail', sortOrder: 2 },
-      { id: 'img-healing-4', url: '/images/journal-healing.png', altText: 'The Healing Journal Flatlay', sortOrder: 3 },
     ],
     createdAt: new Date('2025-01-03'),
   },
@@ -79,16 +75,13 @@ export const CANONICAL_JOURNALS: ProductDetailData[] = [
     slug: 'the-confidence',
     description: 'Build your self-belief, set your goals, and celebrate your progress. Designed to help you speak up and show up boldly.',
     price: 24.00,
-    category: 'Gratitude & Mindfulness',
+    category: 'Guided Journals',
     imageUrl: '/images/journal-confidence.png',
     isAvailable: true,
     stockQuantity: 140,
-    metadata: { tagline: 'Speak. Show up.', color: '#D49B4B' },
+    metadata: { tagline: 'Speak. Show up.', color: '#D49B4B', theme: 'Confidence & Success' },
     images: [
       { id: 'img-confidence-1', url: '/images/journal-confidence.png', altText: 'The Confidence Guided Journal Cover', sortOrder: 0 },
-      { id: 'img-confidence-2', url: '/images/journal-confidence.png', altText: 'The Confidence Journal Spread', sortOrder: 1 },
-      { id: 'img-confidence-3', url: '/images/journal-confidence.png', altText: 'The Confidence Journal Detail', sortOrder: 2 },
-      { id: 'img-confidence-4', url: '/images/journal-confidence.png', altText: 'The Confidence Journal Flatlay', sortOrder: 3 },
     ],
     createdAt: new Date('2025-01-04'),
   },
@@ -98,16 +91,13 @@ export const CANONICAL_JOURNALS: ProductDetailData[] = [
     slug: 'the-abundance',
     description: 'Cultivate gratitude, attract possibility, and create the life you deserve. A daily compass for aligning thoughts with prosperity.',
     price: 24.00,
-    category: 'Legacy & Purpose',
+    category: 'Guided Journals',
     imageUrl: '/images/journal-abundance.png',
     isAvailable: true,
     stockQuantity: 110,
-    metadata: { tagline: 'Create what you deserve.', color: '#7E6B8F' },
+    metadata: { tagline: 'Create what you deserve.', color: '#7E6B8F', theme: 'Gratitude & Mindfulness' },
     images: [
       { id: 'img-abundance-1', url: '/images/journal-abundance.png', altText: 'The Abundance Guided Journal Cover', sortOrder: 0 },
-      { id: 'img-abundance-2', url: '/images/journal-abundance.png', altText: 'The Abundance Journal Spread', sortOrder: 1 },
-      { id: 'img-abundance-3', url: '/images/journal-abundance.png', altText: 'The Abundance Journal Detail', sortOrder: 2 },
-      { id: 'img-abundance-4', url: '/images/journal-abundance.png', altText: 'The Abundance Journal Flatlay', sortOrder: 3 },
     ],
     createdAt: new Date('2025-01-05'),
   },
@@ -117,18 +107,139 @@ export const CANONICAL_JOURNALS: ProductDetailData[] = [
     slug: 'the-legacy',
     description: 'Write your story, honor your journey, and leave a lasting impact. A keepsake journal for recording ancestral wisdom and aspirations.',
     price: 24.00,
-    category: 'Legacy & Purpose',
+    category: 'Guided Journals',
     imageUrl: '/images/journal-legacy.png',
     isAvailable: true,
     stockQuantity: 95,
-    metadata: { tagline: 'Write your next chapter.', color: '#EAE5DC' },
+    metadata: { tagline: 'Write your next chapter.', color: '#EAE5DC', theme: 'Legacy & Purpose' },
     images: [
       { id: 'img-legacy-1', url: '/images/journal-legacy.png', altText: 'The Legacy Guided Journal Cover', sortOrder: 0 },
-      { id: 'img-legacy-2', url: '/images/journal-legacy.png', altText: 'The Legacy Journal Spread', sortOrder: 1 },
-      { id: 'img-legacy-3', url: '/images/journal-legacy.png', altText: 'The Legacy Journal Detail', sortOrder: 2 },
-      { id: 'img-legacy-4', url: '/images/journal-legacy.png', altText: 'The Legacy Journal Flatlay', sortOrder: 3 },
     ],
     createdAt: new Date('2025-01-06'),
+  },
+  {
+    id: 'prod-mahadnaga',
+    title: 'Buugga Mahadnaga (Somali Gratitude Journal)',
+    slug: 'buugga-mahadnaga',
+    description: 'Our signature Somali edition gratitude journal. A sacred linen-bound keepsake celebrating daily reflections, blessings, and cultural pride.',
+    price: 26.00,
+    category: 'Guided Journals',
+    imageUrl: '/images/shop-banner-actual.png',
+    isAvailable: true,
+    stockQuantity: 80,
+    metadata: { tagline: 'Xusuuso Nimcada.', color: '#D49B4B', theme: 'Somali Heritage' },
+    images: [
+      { id: 'img-mahadnaga-1', url: '/images/shop-banner-actual.png', altText: 'Buugga Mahadnaga Journal Cover', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-07'),
+  },
+  {
+    id: 'prod-riyooyinka',
+    title: 'Buugga Riyooyinka (Somali Dreams Journal)',
+    slug: 'buugga-riyooyinka',
+    description: 'Dedicated to visionary Somali women crafting their aspirations. Prompts and structured guidance for visionary dreaming and decisive execution.',
+    price: 26.00,
+    category: 'Guided Journals',
+    imageUrl: '/images/shop-banner-actual.png',
+    isAvailable: true,
+    stockQuantity: 85,
+    metadata: { tagline: 'Riyooyinkaaga Rumee.', color: '#B85233', theme: 'Vision & Purpose' },
+    images: [
+      { id: 'img-riyooyinka-1', url: '/images/shop-banner-actual.png', altText: 'Buugga Riyooyinka Journal Cover', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-08'),
+  },
+
+  // ==========================================
+  // 2. APPAREL & SCARF WEAR
+  // ==========================================
+  {
+    id: 'prod-garbasaar-scarf',
+    title: 'Silk Chiffon Garbasaar (Heritage Modest Scarf)',
+    slug: 'silk-chiffon-garbasaar',
+    description: 'An artisanal silk chiffon modest scarf in warm terracotta and golden ochre. Features delicate metallic thread embroidery inspired by Somali architectural borders.',
+    price: 38.00,
+    category: 'Apparel & Scarf Wear',
+    imageUrl: '/images/merch-garbasaar-scarf.jpg',
+    isAvailable: true,
+    stockQuantity: 65,
+    metadata: { tagline: 'Generational elegance.', material: 'Pure Silk Chiffon' },
+    images: [
+      { id: 'img-garbasaar-1', url: '/images/merch-garbasaar-scarf.jpg', altText: 'Silk Chiffon Garbasaar Flatlay', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-09'),
+  },
+  {
+    id: 'prod-ayeyo-shawl',
+    title: 'Ayeyo Artisanal Handwoven Wrap',
+    slug: 'ayeyo-artisanal-wrap',
+    description: 'Handwoven by master artisans supporting our Ayeyo Koris cooperative. Luxurious soft natural fibers with subtle fringing, designed for comfort and presence.',
+    price: 48.00,
+    category: 'Apparel & Scarf Wear',
+    imageUrl: '/images/merch-garbasaar-scarf.jpg',
+    isAvailable: true,
+    stockQuantity: 40,
+    metadata: { tagline: 'Woven with purpose.', artisan: 'Ayeyo Koris Collective' },
+    images: [
+      { id: 'img-shawl-1', url: '/images/merch-garbasaar-scarf.jpg', altText: 'Ayeyo Artisanal Handwoven Wrap', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-10'),
+  },
+
+  // ==========================================
+  // 3. CULTURAL GOODS & ARTIFACTS
+  // ==========================================
+  {
+    id: 'prod-shax-board',
+    title: 'Handcrafted Wooden Shax Board Game Set',
+    slug: 'handcrafted-shax-board',
+    description: 'The ancient Somali strategy game of Shax, brought to life in hand-carved teak wood with geometric border inlays. Includes polished dark ebony and light playing pieces with handwoven basket.',
+    price: 45.00,
+    category: 'Cultural Goods',
+    imageUrl: '/images/merch-shax-board.jpg',
+    isAvailable: true,
+    stockQuantity: 50,
+    metadata: { tagline: 'Heritage intellect and strategy.', material: 'Carved Teak & Stone' },
+    images: [
+      { id: 'img-shax-1', url: '/images/merch-shax-board.jpg', altText: 'Handcrafted Wooden Shax Board Set', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-11'),
+  },
+  {
+    id: 'prod-dabqaad-burner',
+    title: 'Artisanal Terracotta Dabqaad Incense Burner',
+    slug: 'artisanal-terracotta-dabqaad',
+    description: 'Traditional Somali incense burner hand-sculpted in white-washed natural terracotta. Adorned with ancestral geometric etchings for burning fragrant frankincense and Uunsi.',
+    price: 32.00,
+    category: 'Cultural Goods',
+    imageUrl: '/images/merch-dabqaad-burner.jpg',
+    isAvailable: true,
+    stockQuantity: 75,
+    metadata: { tagline: 'Aromatic tradition.', origin: 'Mogadishu & Hargeisa' },
+    images: [
+      { id: 'img-dabqaad-1', url: '/images/merch-dabqaad-burner.jpg', altText: 'Artisanal Terracotta Dabqaad Burner', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-12'),
+  },
+
+  // ==========================================
+  // 4. LIFESTYLE & ACCESSORIES
+  // ==========================================
+  {
+    id: 'prod-canvas-tote',
+    title: 'Organic Heavyweight "Naag Nool" Canvas Tote',
+    slug: 'naag-nool-canvas-tote',
+    description: 'Heavyweight organic unbleached canvas tote featuring terracotta screenprint: "NAAG NOOL UP — The time to be ALIVE is now". Reinforced handles and interior zip pocket for daily carrying.',
+    price: 25.00,
+    category: 'Lifestyle & Accessories',
+    imageUrl: '/images/merch-canvas-tote.jpg',
+    isAvailable: true,
+    stockQuantity: 120,
+    metadata: { tagline: 'Carry your purpose.', material: '100% Organic Cotton Canvas' },
+    images: [
+      { id: 'img-tote-1', url: '/images/merch-canvas-tote.jpg', altText: 'Naag Nool Canvas Tote Bag', sortOrder: 0 },
+    ],
+    createdAt: new Date('2025-01-13'),
   },
 ];
 
@@ -189,11 +300,10 @@ export async function getAllProducts(options?: {
 }): Promise<{ products: ProductCardData[]; categories: string[] }> {
   const defaultCategories = [
     'All',
-    'Self-Discovery',
-    'Healing & Growth',
-    'Confidence & Success',
-    'Gratitude & Mindfulness',
-    'Legacy & Purpose',
+    'Guided Journals',
+    'Apparel & Scarf Wear',
+    'Cultural Goods',
+    'Lifestyle & Accessories',
   ];
 
   try {

@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Search, ArrowRight, Check, ChevronDown, SlidersHorizontal, X } from 'lucide-react';
 import { useOptionalCart } from '@/lib/cart/CartContext';
 
@@ -23,99 +24,197 @@ export interface ShopCatalogViewProps {
 }
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
+  // Guided Journals
   {
     id: 'prod-awakening',
     title: 'The Awakening',
     slug: 'the-awakening',
-    category: 'Self-Discovery',
+    category: 'Guided Journals',
     description: 'A guided journal to help you reconnect with your true self and rediscover your inner strength.',
     price: '$24.00',
     priceNumber: 24.0,
-    imageUrl: '/images/shop-flatlay-awakening.png',
+    imageUrl: '/images/journal-awakening.png',
     inStock: true,
   },
   {
     id: 'prod-clarity',
     title: 'The Clarity',
     slug: 'the-clarity',
-    category: 'Healing & Growth',
+    category: 'Guided Journals',
     description: 'Clear your mind, release what no longer serves you, and find your direction.',
     price: '$24.00',
     priceNumber: 24.0,
-    imageUrl: '/images/shop-flatlay-clarity.png',
+    imageUrl: '/images/journal-clarity.png',
     inStock: true,
   },
   {
     id: 'prod-healing',
     title: 'The Healing',
     slug: 'the-healing',
-    category: 'Confidence & Success',
+    category: 'Guided Journals',
     description: 'A space to process, rebuild, and embrace your new chapter.',
     price: '$24.00',
     priceNumber: 24.0,
-    imageUrl: '/images/shop-flatlay-healing.png',
+    imageUrl: '/images/journal-healing.png',
     inStock: true,
   },
   {
     id: 'prod-confidence',
     title: 'The Confidence',
     slug: 'the-confidence',
-    category: 'Gratitude & Mindfulness',
+    category: 'Guided Journals',
     description: 'Build your self-belief, set your goals, and celebrate your progress.',
     price: '$24.00',
     priceNumber: 24.0,
-    imageUrl: '/images/shop-flatlay-confidence.png',
+    imageUrl: '/images/journal-confidence.png',
     inStock: true,
   },
   {
     id: 'prod-abundance',
     title: 'The Abundance',
     slug: 'the-abundance',
-    category: 'Legacy & Purpose',
+    category: 'Guided Journals',
     description: 'Cultivate gratitude, attract possibility, and create the life you deserve.',
     price: '$24.00',
     priceNumber: 24.0,
-    imageUrl: '/images/shop-flatlay-abundance.png',
+    imageUrl: '/images/journal-abundance.png',
     inStock: true,
   },
   {
     id: 'prod-legacy',
     title: 'The Legacy',
     slug: 'the-legacy',
-    category: 'Legacy & Purpose',
+    category: 'Guided Journals',
     description: 'Write your story, honor your journey, and leave a lasting impact.',
     price: '$24.00',
     priceNumber: 24.0,
-    imageUrl: '/images/shop-flatlay-legacy.png',
+    imageUrl: '/images/journal-legacy.png',
+    inStock: true,
+  },
+  {
+    id: 'prod-mahadnaga',
+    title: 'Buugga Mahadnaga (Somali Gratitude Journal)',
+    slug: 'buugga-mahadnaga',
+    category: 'Guided Journals',
+    description: 'Signature Somali edition gratitude journal celebrating daily reflections, blessings, and cultural pride.',
+    price: '$26.00',
+    priceNumber: 26.0,
+    imageUrl: '/images/shop-banner-actual.png',
+    inStock: true,
+  },
+  {
+    id: 'prod-riyooyinka',
+    title: 'Buugga Riyooyinka (Somali Dreams Journal)',
+    slug: 'buugga-riyooyinka',
+    category: 'Guided Journals',
+    description: 'Prompts and structured vision guidance for ambitious Somali women reaching their goals.',
+    price: '$26.00',
+    priceNumber: 26.0,
+    imageUrl: '/images/shop-banner-actual.png',
+    inStock: true,
+  },
+
+  // Apparel & Scarf Wear
+  {
+    id: 'prod-garbasaar-scarf',
+    title: 'Silk Chiffon Garbasaar (Heritage Modest Scarf)',
+    slug: 'silk-chiffon-garbasaar',
+    category: 'Apparel & Scarf Wear',
+    description: 'Artisanal silk chiffon modest scarf in terracotta and gold with metallic thread embroidery.',
+    price: '$38.00',
+    priceNumber: 38.0,
+    imageUrl: '/images/merch-garbasaar-scarf.jpg',
+    inStock: true,
+  },
+  {
+    id: 'prod-ayeyo-shawl',
+    title: 'Ayeyo Artisanal Handwoven Wrap',
+    slug: 'ayeyo-artisanal-wrap',
+    category: 'Apparel & Scarf Wear',
+    description: 'Handwoven soft natural fiber wrap supporting our Ayeyo Koris artisan cooperative.',
+    price: '$48.00',
+    priceNumber: 48.0,
+    imageUrl: '/images/merch-garbasaar-scarf.jpg',
+    inStock: true,
+  },
+
+  // Cultural Goods
+  {
+    id: 'prod-shax-board',
+    title: 'Handcrafted Wooden Shax Board Game Set',
+    slug: 'handcrafted-shax-board',
+    category: 'Cultural Goods',
+    description: 'Ancient Somali strategy game of Shax in hand-carved teak wood with polished playing pieces.',
+    price: '$45.00',
+    priceNumber: 45.0,
+    imageUrl: '/images/merch-shax-board.jpg',
+    inStock: true,
+  },
+  {
+    id: 'prod-dabqaad-burner',
+    title: 'Artisanal Terracotta Dabqaad Incense Burner',
+    slug: 'artisanal-terracotta-dabqaad',
+    category: 'Cultural Goods',
+    description: 'Hand-sculpted traditional Somali terracotta burner for natural frankincense and Uunsi resins.',
+    price: '$32.00',
+    priceNumber: 32.0,
+    imageUrl: '/images/merch-dabqaad-burner.jpg',
+    inStock: true,
+  },
+
+  // Lifestyle & Accessories
+  {
+    id: 'prod-canvas-tote',
+    title: 'Organic Heavyweight "Naag Nool" Canvas Tote',
+    slug: 'naag-nool-canvas-tote',
+    category: 'Lifestyle & Accessories',
+    description: 'Heavyweight organic unbleached canvas tote featuring terracotta print: "The time to be ALIVE is now".',
+    price: '$25.00',
+    priceNumber: 25.0,
+    imageUrl: '/images/merch-canvas-tote.jpg',
     inStock: true,
   },
 ];
 
-const CATEGORIES = [
-  'All Journals',
-  'Self-Discovery',
-  'Healing & Growth',
-  'Confidence & Success',
-  'Gratitude & Mindfulness',
-  'Legacy & Purpose',
-] as const;
+const DEFAULT_CATEGORIES = [
+  'All Products',
+  'Guided Journals',
+  'Apparel & Scarf Wear',
+  'Cultural Goods',
+  'Lifestyle & Accessories',
+];
+
+const PRICE_RANGES = ['Under $25', '$25 – $50', '$50 – $100', 'Over $100'];
 
 type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'alpha-asc' | 'newest';
 
 export function ShopCatalogView({
   initialProducts,
+  initialCategories,
 }: ShopCatalogViewProps = {}) {
   const optionalCart = useOptionalCart();
   const rawProducts = initialProducts && initialProducts.length > 0 ? initialProducts : SHOP_PRODUCTS;
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('All Journals');
-  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>(['$20 – $30']);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Products');
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState(true);
   const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [addedIds, setAddedIds] = useState<Record<string, boolean>>({});
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Dynamic Category Resolution
+  const categoriesList = useMemo(() => {
+    const incoming =
+      initialCategories && initialCategories.length > 0
+        ? initialCategories.map((c) => (c === 'All' || c === 'All Journals' ? 'All Products' : c))
+        : DEFAULT_CATEGORIES;
+    const distinctFromProducts = Array.from(
+      new Set(rawProducts.map((p) => p.category).filter(Boolean))
+    );
+    return Array.from(new Set([...incoming, ...distinctFromProducts]));
+  }, [initialCategories, rawProducts]);
 
   // Instant Interactive Filtering
   const filteredProducts = useMemo(() => {
@@ -130,16 +229,21 @@ export function ShopCatalogView({
       }
 
       // 2. Category Filter
-      if (selectedCategory !== 'All Journals' && product.category !== selectedCategory) {
+      if (
+        selectedCategory !== 'All Products' &&
+        selectedCategory !== 'All' &&
+        product.category.toLowerCase() !== selectedCategory.toLowerCase()
+      ) {
         return false;
       }
 
       // 3. Price Filter
       if (selectedPriceRanges.length > 0) {
         const matchesPrice = selectedPriceRanges.some((range) => {
-          if (range === 'Under $20') return product.priceNumber < 20;
-          if (range === '$20 – $30') return product.priceNumber >= 20 && product.priceNumber <= 30;
-          if (range === '$30 – $40') return product.priceNumber > 30 && product.priceNumber <= 40;
+          if (range === 'Under $25') return product.priceNumber < 25;
+          if (range === '$25 – $50') return product.priceNumber >= 25 && product.priceNumber <= 50;
+          if (range === '$50 – $100') return product.priceNumber > 50 && product.priceNumber <= 100;
+          if (range === 'Over $100') return product.priceNumber > 100;
           return true;
         });
         if (!matchesPrice) return false;
@@ -155,9 +259,18 @@ export function ShopCatalogView({
       if (sortBy === 'price-asc') return a.priceNumber - b.priceNumber;
       if (sortBy === 'price-desc') return b.priceNumber - a.priceNumber;
       if (sortBy === 'alpha-asc') return a.title.localeCompare(b.title);
-      return 0; // 'featured' keeps curated Figma order
+      return 0; // 'featured' keeps curated order
     });
   }, [rawProducts, searchQuery, selectedCategory, selectedPriceRanges, inStockOnly, sortBy]);
+
+  const ITEMS_PER_PAGE = 9;
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (safeCurrentPage - 1) * ITEMS_PER_PAGE;
+    return filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredProducts, safeCurrentPage]);
 
   // Cart click feedback
   const handleAddToCart = (product: ShopProduct) => {
@@ -175,7 +288,28 @@ export function ShopCatalogView({
     }, 2200);
   };
 
+  const handleCategorySelect = (cat: string) => {
+    setSelectedCategory(cat);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (val: string) => {
+    setSearchQuery(val);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (sort: SortOption) => {
+    setSortBy(sort);
+    setCurrentPage(1);
+  };
+
+  const handleInStockChange = (val: boolean) => {
+    setInStockOnly(val);
+    setCurrentPage(1);
+  };
+
   const togglePriceRange = (range: string) => {
+    setCurrentPage(1);
     setSelectedPriceRanges((prev) =>
       prev.includes(range) ? prev.filter((r) => r !== range) : [...prev, range]
     );
@@ -183,17 +317,17 @@ export function ShopCatalogView({
 
   const resetAllFilters = () => {
     setSearchQuery('');
-    setSelectedCategory('All Journals');
-    setSelectedPriceRanges(['$20 – $30']);
+    setSelectedCategory('All Products');
+    setSelectedPriceRanges([]);
     setInStockOnly(true);
     setSortBy('featured');
+    setCurrentPage(1);
   };
 
   const hasActiveFilters =
     searchQuery.trim() !== '' ||
-    selectedCategory !== 'All Journals' ||
-    selectedPriceRanges.length !== 1 ||
-    !selectedPriceRanges.includes('$20 – $30') ||
+    (selectedCategory !== 'All Products' && selectedCategory !== 'All') ||
+    selectedPriceRanges.length > 0 ||
     !inStockOnly;
 
   return (
@@ -204,11 +338,13 @@ export function ShopCatalogView({
       <section className="relative w-full min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] xl:min-h-[520px] overflow-hidden flex items-center bg-[#EAE2D5] border-b border-[#DDD4C3]">
         {/* Full-bleed panoramic photography */}
         <div className="absolute inset-0 z-0">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/images/shop-banner-actual.png"
-            alt="Naag Nool UP guided journals on stone pedestal with olive branches"
-            className="w-full h-full object-cover object-[80%_center] sm:object-[82%_center] lg:object-right"
+            alt="Naag Nool UP guided journals official collection banner"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[80%_center] sm:object-[82%_center] lg:object-right"
           />
           {/* Gentle warm atmospheric gradient scrim from left to blend wall background smoothly with text */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6F0] via-[#FAF6F0]/90 via-35% sm:via-[#FAF6F0]/65 sm:via-42% to-transparent pointer-events-none" />
@@ -220,20 +356,20 @@ export function ShopCatalogView({
             {/* Eyebrow */}
             <div className="flex items-center gap-3">
               <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
-                THE JOURNALS
+                OFFICIAL BOUTIQUE
               </p>
               <span className="w-8 sm:w-10 h-[1.5px] bg-[#B85233]/70" />
             </div>
 
             {/* Majestic Headline */}
             <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[44px] xl:text-[48px] font-normal text-[#1E1C1A] leading-[1.14] tracking-tight">
-              More than journals. <br />
-              Tools for a <span className="font-cormorant italic font-normal text-[#B85233]">fuller</span> you.
+              Crafted for living. <br />
+              Tools &amp; goods for a <span className="font-cormorant italic font-normal text-[#B85233]">fuller</span> you.
             </h1>
 
             {/* Editorial Description */}
             <p className="font-sans text-xs sm:text-[13.5px] lg:text-[14px] text-[#4A433A] leading-[1.68] font-normal max-w-[430px]">
-              Explore our collection of thoughtfully crafted journals, designed to support your growth, reflection, and journey toward a more intentional life.
+              Explore our collection of guided journals, modest apparel, cultural goods, and empowering merchandise designed to support your growth, reflection, and Somali heritage.
             </p>
 
             {/* CTA Button */}
@@ -242,7 +378,7 @@ export function ShopCatalogView({
                 href="#catalog"
                 className="inline-flex items-center justify-center gap-2 bg-[#B85233] hover:bg-[#A34327] text-white text-xs sm:text-sm font-medium px-6 py-3 rounded-lg transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98]"
               >
-                <span>Shop the Journals</span>
+                <span>Shop the Collection</span>
                 <ArrowRight className="w-4 h-4 ml-0.5" />
               </a>
             </div>
@@ -269,10 +405,10 @@ export function ShopCatalogView({
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A] tracking-tight">
-                Our Journals
+                Boutique Collection
               </h2>
               <p className="font-sans text-xs sm:text-sm text-[#6E6559] mt-1">
-                Six unique journals. One vision — a stronger, more intentional you.
+                Thoughtfully crafted journals, modest apparel, cultural goods, and empowerment essentials.
               </p>
             </div>
 
@@ -295,7 +431,7 @@ export function ShopCatalogView({
                   <select
                     id="shop-sort"
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortOption)}
+                    onChange={(e) => handleSortChange(e.target.value as SortOption)}
                     className="appearance-none bg-white border border-[#E0D7C6] rounded-lg pl-3 pr-8 py-2 text-xs font-medium text-[#1E1C1A] focus:outline-none focus:border-[#A64426] shadow-xs cursor-pointer"
                   >
                     <option value="featured">Featured</option>
@@ -313,10 +449,10 @@ export function ShopCatalogView({
           {hasActiveFilters && (
             <div className="flex flex-wrap items-center gap-2 pt-4">
               <span className="text-xs text-[#786E63] font-medium">Active filters:</span>
-              {selectedCategory !== 'All Journals' && (
+              {selectedCategory !== 'All Products' && selectedCategory !== 'All' && (
                 <span className="inline-flex items-center gap-1.5 bg-white border border-[#E0D7C6] text-[#1E1C1A] text-[11px] px-2.5 py-1 rounded-full shadow-xs">
                   Category: {selectedCategory}
-                  <button onClick={() => setSelectedCategory('All Journals')} className="hover:text-[#A64426]">
+                  <button onClick={() => handleCategorySelect('All Products')} className="hover:text-[#A64426]">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -324,7 +460,7 @@ export function ShopCatalogView({
               {searchQuery && (
                 <span className="inline-flex items-center gap-1.5 bg-white border border-[#E0D7C6] text-[#1E1C1A] text-[11px] px-2.5 py-1 rounded-full shadow-xs">
                   Search: &ldquo;{searchQuery}&rdquo;
-                  <button onClick={() => setSearchQuery('')} className="hover:text-[#A64426]">
+                  <button onClick={() => handleSearchChange('')} className="hover:text-[#A64426]">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -366,8 +502,8 @@ export function ShopCatalogView({
                     id="shop-search"
                     type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search journals..."
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    placeholder="Search merchandise, journals, apparel..."
                     className="w-full bg-white border border-[#E0D7C6] rounded-lg py-2.5 pl-3.5 pr-9 text-xs text-[#1E1C1A] placeholder-[#8A8276] focus:outline-none focus:border-[#A64426] shadow-xs"
                   />
                   <Search className="w-3.5 h-3.5 text-[#8A8276] absolute right-3 pointer-events-none" />
@@ -380,13 +516,13 @@ export function ShopCatalogView({
                   Categories
                 </h3>
                 <div className="space-y-2 font-sans text-xs">
-                  {CATEGORIES.map((cat) => {
+                  {categoriesList.map((cat) => {
                     const isSelected = selectedCategory === cat;
                     return (
                       <button
                         key={cat}
                         type="button"
-                        onClick={() => setSelectedCategory(cat)}
+                        onClick={() => handleCategorySelect(cat)}
                         className="w-full flex items-center gap-2.5 group text-start py-0.5 cursor-pointer"
                       >
                         <span
@@ -419,7 +555,7 @@ export function ShopCatalogView({
                   Price
                 </h3>
                 <div className="space-y-2 font-sans text-xs text-[#4A433A]">
-                  {['Under $20', '$20 – $30', '$30 – $40'].map((priceLabel) => {
+                  {PRICE_RANGES.map((priceLabel) => {
                     const checked = selectedPriceRanges.includes(priceLabel);
                     return (
                       <label key={priceLabel} className="flex items-center gap-2.5 cursor-pointer group">
@@ -446,10 +582,12 @@ export function ShopCatalogView({
                     <input
                       type="checkbox"
                       checked={inStockOnly}
-                      onChange={(e) => setInStockOnly(e.target.checked)}
+                      onChange={(e) => handleInStockChange(e.target.checked)}
                       className="w-3.5 h-3.5 rounded border-[#C4BBB0] text-[#A64426] focus:ring-0 cursor-pointer accent-[#A64426]"
                     />
-                    <span className="group-hover:text-[#A64426] transition-colors">In Stock (6)</span>
+                    <span className="group-hover:text-[#A64426] transition-colors">
+                      In Stock ({rawProducts.filter((p) => p.inStock).length})
+                    </span>
                   </label>
                   <label className="flex items-center gap-2.5 cursor-not-allowed text-[#A8A196]">
                     <input
@@ -457,7 +595,7 @@ export function ShopCatalogView({
                       disabled
                       className="w-3.5 h-3.5 rounded border-[#D8D2C7] cursor-not-allowed"
                     />
-                    <span>Out of Stock (0)</span>
+                    <span>Out of Stock ({rawProducts.filter((p) => !p.inStock).length})</span>
                   </label>
                 </div>
               </div>
@@ -470,7 +608,7 @@ export function ShopCatalogView({
             <main className="lg:col-span-9 space-y-10">
               {filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-                  {filteredProducts.map((product) => {
+                  {paginatedProducts.map((product) => {
                     const isAdded = !!addedIds[product.id];
 
                     return (
@@ -564,62 +702,56 @@ export function ShopCatalogView({
               ) : (
                 /* Empty Filter State */
                 <div className="rounded-2xl bg-white border border-[#E0D7C6] p-12 text-center space-y-4">
-                  <h3 className="font-playfair text-2xl text-[#1E1C1A]">No Journals Found</h3>
+                  <h3 className="font-playfair text-2xl text-[#1E1C1A]">No Products Found</h3>
                   <p className="text-xs sm:text-sm text-[#6B6357] max-w-sm mx-auto">
-                    We couldn&apos;t find any journals matching your search criteria. Try clearing your filters to see the full collection.
+                    We couldn&apos;t find any merchandise matching your search criteria. Try clearing your filters to see the full collection.
                   </p>
                   <button
                     onClick={resetAllFilters}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#A64426] text-white text-xs font-semibold tracking-wider uppercase hover:bg-[#8E381E] transition-all"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#A64426] text-white text-xs font-semibold tracking-wider uppercase hover:bg-[#8E381E] transition-all cursor-pointer"
                   >
                     <span>Reset All Filters</span>
                   </button>
                 </div>
               )}
 
-              {/* Pagination Controls (Exact Master Figma Design) */}
-              <div className="flex items-center justify-center gap-2 pt-8 border-t border-[#EDE6D8]">
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  aria-label="Previous page"
-                  className="w-8 h-8 rounded-md border border-[#E0D7C6] bg-white flex items-center justify-center text-[#786E63] hover:text-[#1E1C1A] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  <span className="text-sm">←</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage(1)}
-                  className={`w-8 h-8 rounded-md text-xs font-semibold flex items-center justify-center transition-colors ${
-                    currentPage === 1
-                      ? 'bg-[#A64426] text-white shadow-xs'
-                      : 'border border-[#E0D7C6] bg-white text-[#1E1C1A] hover:bg-[#FAF6F0]'
-                  }`}
-                >
-                  1
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage(2)}
-                  className={`w-8 h-8 rounded-md text-xs font-semibold flex items-center justify-center transition-colors ${
-                    currentPage === 2
-                      ? 'bg-[#A64426] text-white shadow-xs'
-                      : 'border border-[#E0D7C6] bg-white text-[#1E1C1A] hover:bg-[#FAF6F0]'
-                  }`}
-                >
-                  2
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage((p) => Math.min(2, p + 1))}
-                  disabled={currentPage === 2}
-                  aria-label="Next page"
-                  className="w-8 h-8 rounded-md border border-[#E0D7C6] bg-white flex items-center justify-center text-[#786E63] hover:text-[#1E1C1A] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                >
-                  <span className="text-sm">→</span>
-                </button>
-              </div>
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 pt-8 border-t border-[#EDE6D8]">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={safeCurrentPage === 1}
+                    aria-label="Previous page"
+                    className="w-8 h-8 rounded-md border border-[#E0D7C6] bg-white flex items-center justify-center text-[#786E63] hover:text-[#1E1C1A] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  >
+                    <span className="text-sm">←</span>
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                    <button
+                      key={pageNum}
+                      type="button"
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-8 h-8 rounded-md text-xs font-semibold flex items-center justify-center transition-colors cursor-pointer ${
+                        safeCurrentPage === pageNum
+                          ? 'bg-[#A64426] text-white shadow-xs'
+                          : 'border border-[#E0D7C6] bg-white text-[#1E1C1A] hover:bg-[#FAF6F0]'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={safeCurrentPage === totalPages}
+                    aria-label="Next page"
+                    className="w-8 h-8 rounded-md border border-[#E0D7C6] bg-white flex items-center justify-center text-[#786E63] hover:text-[#1E1C1A] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  >
+                    <span className="text-sm">→</span>
+                  </button>
+                </div>
+              )}
 
             </main>
 
@@ -637,7 +769,7 @@ export function ShopCatalogView({
             {/* Left Content Column */}
             <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-start">
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.85rem] font-normal leading-[1.15] tracking-tight">
-                More than journals. <br />
+                More than a store. <br />
                 <span className="font-cormorant italic text-[#E8DCC8]">A movement.</span>
               </h2>
 
@@ -659,11 +791,12 @@ export function ShopCatalogView({
             {/* Right Lifestyle Flatlay Image Column */}
             <div className="lg:col-span-6 flex justify-end">
               <div className="relative w-full max-w-[520px] aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/images/shop-impact-books.png"
-                  alt="Stacked olive and gold journals on linen throw with coffee cup"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  alt="Naag Nool UP journals and merchandise collection"
+                  fill
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  sizes="(max-width: 1024px) 100vw, 520px"
                 />
               </div>
             </div>

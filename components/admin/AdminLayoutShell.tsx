@@ -88,16 +88,19 @@ export function AdminLayoutShell({
         <div className="flex flex-col h-full overflow-y-auto custom-scrollbar">
           {/* Brand Logo Header */}
           <div className="p-6 pb-5 flex items-center justify-between border-b border-[#243B30]">
-            <Link href="/admin" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-[#D49B4B] group-hover:border-[#D49B4B] transition-colors">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5">
-                  <path d="M12 2C8 6 6 10 6 14a6 6 0 0 0 12 0c0-4-2-8-6-12z" />
-                  <path d="M12 8v10" />
-                </svg>
-              </div>
-              <span className="font-playfair text-xl tracking-tight text-white font-normal">
-                Naag Nool UP
-              </span>
+            <Link
+              href="/admin"
+              className="flex items-center hover:opacity-90 transition-opacity focus-visible:outline-none"
+              aria-label="Naag Nool UP Admin"
+            >
+              <Image
+                src="/images/logo-admin.png"
+                alt="Naag Nool UP"
+                width={200}
+                height={67}
+                priority
+                className="h-9 w-auto object-contain"
+              />
             </Link>
 
             {/* Mobile close button */}
