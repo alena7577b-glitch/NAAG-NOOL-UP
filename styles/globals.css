@@ -182,7 +182,9 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: transparent !important;
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: #1E1C1A !important;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   font-size: 14px;
@@ -191,17 +193,19 @@
   letter-spacing: 0.01em;
   padding: 15px 30px;
   border-radius: 4px;
-  border: 1px solid rgba(30, 28, 26, 0.45) !important;
+  border: 1px solid rgba(30, 28, 26, 0.35) !important;
   text-decoration: none !important;
   cursor: pointer;
-  transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: transform 160ms var(--ease-out), background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
   white-space: nowrap;
 }
 
 .btn-hero-secondary:hover {
-  background-color: rgba(30, 28, 26, 0.06) !important;
-  border-color: rgba(30, 28, 26, 0.85) !important;
+  background-color: #FFFFFF !important;
+  border-color: rgba(30, 28, 26, 0.75) !important;
   color: #1E1C1A !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   transform: translateY(-1.5px);
 }
 

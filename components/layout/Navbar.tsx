@@ -110,7 +110,7 @@ export function Navbar({
         isHomepage
           ? isScrolled
             ? 'fixed top-0 inset-x-0 bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E5DFC0]/70 shadow-sm animate-in fade-in duration-200'
-            : 'absolute top-0 inset-x-0 bg-transparent border-b border-transparent'
+            : 'absolute top-0 inset-x-0 bg-[#F9F6F0]/60 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none border-b border-[#E5DFC0]/40 sm:border-transparent'
           : 'sticky top-0 bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E5DFC0]/70'
       }`}
     >
