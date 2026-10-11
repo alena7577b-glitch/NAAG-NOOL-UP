@@ -23,158 +23,7 @@ export interface ShopCatalogViewProps {
   initialCategories?: string[];
 }
 
-export const SHOP_PRODUCTS: ShopProduct[] = [
-  // Guided Journals
-  {
-    id: 'prod-awakening',
-    title: 'The Awakening',
-    slug: 'the-awakening',
-    category: 'Guided Journals',
-    description: 'A guided journal to help you reconnect with your true self and rediscover your inner strength.',
-    price: '$24.00',
-    priceNumber: 24.0,
-    imageUrl: '/images/journal-awakening.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-clarity',
-    title: 'The Clarity',
-    slug: 'the-clarity',
-    category: 'Guided Journals',
-    description: 'Clear your mind, release what no longer serves you, and find your direction.',
-    price: '$24.00',
-    priceNumber: 24.0,
-    imageUrl: '/images/journal-clarity.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-healing',
-    title: 'The Healing',
-    slug: 'the-healing',
-    category: 'Guided Journals',
-    description: 'A space to process, rebuild, and embrace your new chapter.',
-    price: '$24.00',
-    priceNumber: 24.0,
-    imageUrl: '/images/journal-healing.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-confidence',
-    title: 'The Confidence',
-    slug: 'the-confidence',
-    category: 'Guided Journals',
-    description: 'Build your self-belief, set your goals, and celebrate your progress.',
-    price: '$24.00',
-    priceNumber: 24.0,
-    imageUrl: '/images/journal-confidence.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-abundance',
-    title: 'The Abundance',
-    slug: 'the-abundance',
-    category: 'Guided Journals',
-    description: 'Cultivate gratitude, attract possibility, and create the life you deserve.',
-    price: '$24.00',
-    priceNumber: 24.0,
-    imageUrl: '/images/journal-abundance.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-legacy',
-    title: 'The Legacy',
-    slug: 'the-legacy',
-    category: 'Guided Journals',
-    description: 'Write your story, honor your journey, and leave a lasting impact.',
-    price: '$24.00',
-    priceNumber: 24.0,
-    imageUrl: '/images/journal-legacy.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-mahadnaga',
-    title: 'Buugga Mahadnaga (Somali Gratitude Journal)',
-    slug: 'buugga-mahadnaga',
-    category: 'Guided Journals',
-    description: 'Signature Somali edition gratitude journal celebrating daily reflections, blessings, and cultural pride.',
-    price: '$26.00',
-    priceNumber: 26.0,
-    imageUrl: '/images/shop-banner-actual.png',
-    inStock: true,
-  },
-  {
-    id: 'prod-riyooyinka',
-    title: 'Buugga Riyooyinka (Somali Dreams Journal)',
-    slug: 'buugga-riyooyinka',
-    category: 'Guided Journals',
-    description: 'Prompts and structured vision guidance for ambitious Somali women reaching their goals.',
-    price: '$26.00',
-    priceNumber: 26.0,
-    imageUrl: '/images/shop-banner-actual.png',
-    inStock: true,
-  },
-
-  // Apparel & Scarf Wear
-  {
-    id: 'prod-garbasaar-scarf',
-    title: 'Silk Chiffon Garbasaar (Heritage Modest Scarf)',
-    slug: 'silk-chiffon-garbasaar',
-    category: 'Apparel & Scarf Wear',
-    description: 'Artisanal silk chiffon modest scarf in terracotta and gold with metallic thread embroidery.',
-    price: '$38.00',
-    priceNumber: 38.0,
-    imageUrl: '/images/merch-garbasaar-scarf.jpg',
-    inStock: true,
-  },
-  {
-    id: 'prod-ayeyo-shawl',
-    title: 'Ayeyo Artisanal Handwoven Wrap',
-    slug: 'ayeyo-artisanal-wrap',
-    category: 'Apparel & Scarf Wear',
-    description: 'Handwoven soft natural fiber wrap supporting our Ayeyo Koris artisan cooperative.',
-    price: '$48.00',
-    priceNumber: 48.0,
-    imageUrl: '/images/merch-garbasaar-scarf.jpg',
-    inStock: true,
-  },
-
-  // Cultural Goods
-  {
-    id: 'prod-shax-board',
-    title: 'Handcrafted Wooden Shax Board Game Set',
-    slug: 'handcrafted-shax-board',
-    category: 'Cultural Goods',
-    description: 'Ancient Somali strategy game of Shax in hand-carved teak wood with polished playing pieces.',
-    price: '$45.00',
-    priceNumber: 45.0,
-    imageUrl: '/images/merch-shax-board.jpg',
-    inStock: true,
-  },
-  {
-    id: 'prod-dabqaad-burner',
-    title: 'Artisanal Terracotta Dabqaad Incense Burner',
-    slug: 'artisanal-terracotta-dabqaad',
-    category: 'Cultural Goods',
-    description: 'Hand-sculpted traditional Somali terracotta burner for natural frankincense and Uunsi resins.',
-    price: '$32.00',
-    priceNumber: 32.0,
-    imageUrl: '/images/merch-dabqaad-burner.jpg',
-    inStock: true,
-  },
-
-  // Lifestyle & Accessories
-  {
-    id: 'prod-canvas-tote',
-    title: 'Organic Heavyweight "Naag Nool" Canvas Tote',
-    slug: 'naag-nool-canvas-tote',
-    category: 'Lifestyle & Accessories',
-    description: 'Heavyweight organic unbleached canvas tote featuring terracotta print: "The time to be ALIVE is now".',
-    price: '$25.00',
-    priceNumber: 25.0,
-    imageUrl: '/images/merch-canvas-tote.jpg',
-    inStock: true,
-  },
-];
+export const SHOP_PRODUCTS: ShopProduct[] = [];
 
 const DEFAULT_CATEGORIES = [
   'All Products',
@@ -193,7 +42,7 @@ export function ShopCatalogView({
   initialCategories,
 }: ShopCatalogViewProps = {}) {
   const optionalCart = useOptionalCart();
-  const rawProducts = initialProducts && initialProducts.length > 0 ? initialProducts : SHOP_PRODUCTS;
+  const rawProducts = initialProducts ?? [];
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Products');
@@ -702,16 +551,16 @@ export function ShopCatalogView({
               ) : (
                 /* Empty Filter State */
                 <div className="rounded-2xl bg-white border border-[#E0D7C6] p-12 text-center space-y-4">
-                  <h3 className="font-playfair text-2xl text-[#1E1C1A]">No Products Found</h3>
+                  <h3 className="font-playfair text-2xl text-[#1E1C1A]">No Products Available</h3>
                   <p className="text-xs sm:text-sm text-[#6B6357] max-w-sm mx-auto">
-                    We couldn&apos;t find any merchandise matching your search criteria. Try clearing your filters to see the full collection.
+                    Our boutique collection is currently being refreshed. Join our community below to be notified as soon as new releases are available!
                   </p>
-                  <button
-                    onClick={resetAllFilters}
+                  <Link
+                    href="/community"
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#A64426] text-white text-xs font-semibold tracking-wider uppercase hover:bg-[#8E381E] transition-all cursor-pointer"
                   >
-                    <span>Reset All Filters</span>
-                  </button>
+                    <span>Join Community</span>
+                  </Link>
                 </div>
               )}
 
