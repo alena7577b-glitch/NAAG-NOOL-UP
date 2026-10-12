@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Shield, Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff, KeyRound } from 'lucide-react';
+import { Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff, KeyRound } from 'lucide-react';
 import { adminLoginAction } from '@/lib/auth/actions';
 
 export default function AdminLoginPage() {
@@ -39,23 +39,16 @@ export default function AdminLoginPage() {
         <div className="bg-[#182821] border border-[#243B30] rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-200">
           {/* Header & Logo */}
           <div className="text-center space-y-3">
-            {/* Brand logo */}
-            <div className="relative inline-block">
-              <Image
-                src="/images/logo-admin.png"
-                alt="Naag Nool UP"
-                width={160}
-                height={64}
-                className="h-16 w-auto mx-auto object-contain"
-                priority
-              />
-              {/* Admin shield badge */}
-              <span className="absolute -bottom-2 -right-2 inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#283C33] border border-[#3A5448] shadow-md">
-                <Shield className="w-3.5 h-3.5 text-[#D49B4B] stroke-[1.5]" />
-              </span>
-            </div>
+            <Image
+              src="/images/logo-admin.png"
+              alt="Naag Nool UP"
+              width={160}
+              height={64}
+              className="h-16 w-auto mx-auto object-contain"
+              priority
+            />
 
-            <div className="space-y-1 pt-1">
+            <div className="space-y-1">
               <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-[#D49B4B]">
                 Staff & Super Admin Authentication
               </span>
