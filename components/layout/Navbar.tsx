@@ -123,12 +123,12 @@ export function Navbar({
             aria-label="Naag Nool UP Home"
           >
             <Image
-              src="/images/logo-official.png"
+              src="/images/logo-header-official.png"
               alt="Naag Nool UP"
-              width={240}
-              height={96}
+              width={280}
+              height={115}
               priority
-              className="h-9 sm:h-11 md:h-12 w-auto object-contain"
+              className="h-11 sm:h-13 md:h-14 lg:h-15 w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
             />
           </Link>
 

@@ -45,11 +45,11 @@ export function Footer() {
               aria-label="Naag Nool UP Home"
             >
               <Image
-                src="/images/logo-footer.png"
+                src="/images/logo-footer-white.png"
                 alt="Naag Nool UP"
-                width={240}
-                height={96}
-                className="h-10 sm:h-12 w-auto object-contain"
+                width={280}
+                height={70}
+                className="h-12 sm:h-14 md:h-15 w-auto object-contain transition-transform duration-200 hover:scale-[1.02]"
               />
             </Link>
 
