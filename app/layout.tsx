@@ -6,6 +6,7 @@ import { constructMetadata } from '@/lib/seo';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { CartProvider } from '@/lib/cart/CartContext';
+import { CurrencyProvider } from '@/lib/currency/context';
 
 export const metadata: Metadata = constructMetadata();
 
@@ -37,9 +38,11 @@ export default async function RootLayout({
     >
       <body className="bg-[#F9F6F0] text-[#1E1C1A] min-h-screen font-sans antialiased flex flex-col justify-between selection:bg-[#B85233]/20 selection:text-[#B85233]">
         <CartProvider>
-          <Navbar currentLocale={locale} />
-          <main className="flex-1 w-full">{children}</main>
-          <Footer />
+          <CurrencyProvider>
+            <Navbar currentLocale={locale} />
+            <main className="flex-1 w-full">{children}</main>
+            <Footer />
+          </CurrencyProvider>
         </CartProvider>
       </body>
     </html>

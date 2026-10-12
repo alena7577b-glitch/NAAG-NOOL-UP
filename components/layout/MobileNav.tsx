@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -19,9 +19,11 @@ import {
   Bookmark,
   Package,
   ArrowRight,
+  Coins,
 } from 'lucide-react';
 import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
+import { CurrencySwitcher } from '@/components/currency/CurrencySwitcher';
 
 export interface AuthUserState {
   id: string;
@@ -81,12 +83,12 @@ export function MobileNav({
   onLocaleChange,
   user,
 }: MobileNavProps) {
-  const [mounted, setMounted] = useState(false);
+  const isClient = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const pathname = usePathname();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -104,7 +106,7 @@ export function MobileNav({
     }
   }, [isOpen, onClose]);
 
-  if (!isOpen || !mounted) return null;
+  if (!isOpen || !isClient) return null;
 
   return createPortal(
     <div
@@ -427,6 +429,18 @@ export function MobileNav({
                 );
               })}
             </div>
+          </div>
+
+          {/* Currency Switcher in Mobile Drawer */}
+          <div className="pt-2 border-t border-[#E8E2D5] space-y-2.5">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8A847A] flex items-center gap-1.5">
+                <Coins className="w-3 h-3 text-[#8A847A]" />
+                Currency
+              </span>
+              <span className="text-[10px] text-[#A69E90]">CAD Default</span>
+            </div>
+            <CurrencySwitcher variant="pill" />
           </div>
         </nav>
 

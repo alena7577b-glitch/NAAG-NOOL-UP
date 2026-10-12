@@ -42,7 +42,7 @@ export function ShopCatalogView({
   initialCategories,
 }: ShopCatalogViewProps = {}) {
   const optionalCart = useOptionalCart();
-  const rawProducts = initialProducts ?? [];
+  const rawProducts = useMemo(() => initialProducts ?? [], [initialProducts]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All Products');

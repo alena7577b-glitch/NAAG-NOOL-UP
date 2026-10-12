@@ -10,6 +10,7 @@ import { MobileNav, NavItem } from './MobileNav';
 import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
 import { useOptionalCart } from '@/lib/cart/CartContext';
+import { CurrencySwitcher } from '@/components/currency/CurrencySwitcher';
 
 export interface AuthUserState {
   id: string;
@@ -199,6 +200,9 @@ export function Navbar({
                 </div>
               )}
             </div>
+
+            {/* Currency Selector */}
+            <CurrencySwitcher variant="navbar" />
 
             {/* Search Trigger */}
             <button

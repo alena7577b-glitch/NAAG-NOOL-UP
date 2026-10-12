@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
+import { CurrencySwitcher } from '@/components/currency/CurrencySwitcher';
 
 export function Footer() {
   const [email, setEmail] = useState('');
@@ -216,9 +217,15 @@ export function Footer() {
 
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="pt-8 text-center text-xs text-[#827A6D] font-sans">
-          &copy; {new Date().getFullYear()} Naag Nool UP. All rights reserved.
+        {/* Bottom Copyright & Currency */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#827A6D] font-sans">
+          <div className="flex items-center gap-2.5">
+            <span className="text-[11px] uppercase tracking-wider text-white/40 font-medium">Currency:</span>
+            <CurrencySwitcher variant="footer" />
+          </div>
+          <div>
+            &copy; {new Date().getFullYear()} Naag Nool UP. All rights reserved.
+          </div>
         </div>
       </Container>
     </footer>

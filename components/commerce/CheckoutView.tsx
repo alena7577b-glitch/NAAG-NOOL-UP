@@ -24,6 +24,7 @@ import { Container } from '@/components/ui/Container';
 import { createOrderAction, CheckoutFormInput } from '@/lib/actions/checkout';
 import { PaymentMethodsConfig, DEFAULT_PAYMENT_CONFIG } from '@/lib/payment/types';
 import { useCart, CartItem } from '@/lib/cart/CartContext';
+import { useCurrency } from '@/lib/currency/context';
 
 interface CheckoutViewProps {
   initialUserEmail?: string;
@@ -109,6 +110,7 @@ export function CheckoutView({
   initialPaymentConfig,
 }: CheckoutViewProps) {
   const { items, subtotal, isHydrated, clearCart } = useCart();
+  const { currency, formatPrice } = useCurrency();
   const paymentConfig = initialPaymentConfig || DEFAULT_PAYMENT_CONFIG;
 
   const availableMobileOptions = MOBILE_MONEY_OPTIONS.filter((opt) => {
@@ -301,7 +303,7 @@ export function CheckoutView({
               <div className="flex items-center justify-between">
                 <span className="text-[#6B655B]">Total Amount</span>
                 <span className="font-mono font-bold text-base text-[#1E1C1A]">
-                  ${completedOrder.totalAmount.toFixed(2)} USD
+                  {formatPrice(completedOrder.totalAmount, { showCode: true })}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -921,7 +923,7 @@ export function CheckoutView({
                   ) : (
                     <>
                       <Lock className="w-4 h-4 opacity-90" />
-                      <span>Complete Order • ${estimatedTotal.toFixed(2)} USD</span>
+                      <span>Complete Order • {formatPrice(estimatedTotal, { showCode: true })}</span>
                       <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                     </>
                   )}
@@ -975,7 +977,7 @@ export function CheckoutView({
                       </div>
 
                       <div className="font-playfair text-sm font-semibold text-[#1E1C1A] font-mono">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        {formatPrice(item.price * item.quantity)}
                       </div>
                     </div>
                   );
@@ -986,7 +988,7 @@ export function CheckoutView({
               <div className="pt-4 border-t border-[#E8E2D8] space-y-3 text-sm">
                 <div className="flex items-center justify-between text-[#6B655B]">
                   <span>Subtotal</span>
-                  <span className="font-mono text-[#1E1C1A] font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="font-mono text-[#1E1C1A] font-medium">{formatPrice(subtotal)}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-[#6B655B]">
@@ -996,7 +998,7 @@ export function CheckoutView({
                       COMPLIMENTARY
                     </span>
                   ) : (
-                    <span className="font-mono text-[#1E1C1A] font-medium">${shippingFee.toFixed(2)}</span>
+                    <span className="font-mono text-[#1E1C1A] font-medium">{formatPrice(shippingFee)}</span>
                   )}
                 </div>
 
@@ -1012,9 +1014,9 @@ export function CheckoutView({
                   <span className="font-playfair text-lg font-medium text-[#1E1C1A]">Total Due</span>
                   <div className="text-end">
                     <span className="font-playfair text-2xl sm:text-3xl font-semibold text-[#1E1C1A]">
-                      ${estimatedTotal.toFixed(2)}
+                      {formatPrice(estimatedTotal)}
                     </span>
-                    <span className="text-[11px] text-[#8A847A] ms-1 uppercase font-mono">USD</span>
+                    <span className="text-[11px] text-[#8A847A] ms-1 uppercase font-mono">{currency}</span>
                   </div>
                 </div>
               </div>

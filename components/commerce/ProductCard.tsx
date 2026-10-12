@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ShoppingBag, Check } from 'lucide-react';
 
+import { useCurrency } from '@/lib/currency/context';
+
 export interface ProductCardData {
   id: string;
   title: string;
@@ -28,14 +30,10 @@ export function ProductCard({
   showDetailsButton = true,
   className = '',
 }: ProductCardProps) {
+  const { formatPrice } = useCurrency();
   const [isAdded, setIsAdded] = useState(false);
 
-  const formattedPrice =
-    typeof product.price === 'number'
-      ? `$${product.price.toFixed(2)}`
-      : product.price.startsWith('$')
-      ? product.price
-      : `$${product.price}`;
+  const formattedPrice = formatPrice(product.price);
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();

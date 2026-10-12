@@ -22,6 +22,7 @@ import {
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { useCart } from '@/lib/cart/CartContext';
+import { useCurrency } from '@/lib/currency/context';
 
 const JOURNAL_IMAGE_FALLBACKS: Record<string, string> = {
   awakening: '/images/book-cover-awakening.png',
@@ -45,6 +46,7 @@ function resolveItemImage(slug: string, imageUrl?: string): string {
 
 export function CartView() {
   const { items, totalItems, subtotal, isHydrated, updateQuantity, removeItem, clearCart } = useCart();
+  const { currency, formatPrice } = useCurrency();
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
   const [giftNote, setGiftNote] = useState('');
@@ -229,12 +231,12 @@ export function CartView() {
                   </span>
                 ) : (
                   <span className="text-[#1E1C1A]">
-                    Add <strong className="text-[#B85233] font-semibold">${amountToFreeShipping.toFixed(2)}</strong> more to unlock <span className="underline decoration-[#B85233]/40">Complimentary Shipping</span>
+                    Add <strong className="text-[#B85233] font-semibold">{formatPrice(amountToFreeShipping)}</strong> more to unlock <span className="underline decoration-[#B85233]/40">Complimentary Shipping</span>
                   </span>
                 )}
               </div>
               <span className="text-xs text-[#8A847A] font-mono shrink-0">
-                ${subtotal.toFixed(2)} / ${shippingThreshold.toFixed(2)}
+                {formatPrice(subtotal)} / {formatPrice(shippingThreshold)}
               </span>
             </div>
 
@@ -337,11 +339,11 @@ export function CartView() {
                         {/* Price Breakdown */}
                         <div className="text-end">
                           <div className="font-playfair text-lg sm:text-xl font-semibold text-[#1E1C1A]">
-                            ${lineTotal.toFixed(2)}
+                            {formatPrice(lineTotal)}
                           </div>
                           {item.quantity > 1 && (
                             <div className="text-[11px] text-[#8A847A] font-mono">
-                              (${item.price.toFixed(2)} each)
+                              ({formatPrice(item.price)} each)
                             </div>
                           )}
                         </div>
@@ -361,7 +363,7 @@ export function CartView() {
               >
                 Clear all items from bag
               </button>
-              <span>Prices listed in USD</span>
+              <span>Prices displayed in {currency}</span>
             </div>
 
             {/* Optional Gift Message & Notes Accordion */}
@@ -427,7 +429,7 @@ export function CartView() {
               <div className="space-y-3.5 text-sm">
                 <div className="flex items-center justify-between text-[#6B655B]">
                   <span>Items Subtotal</span>
-                  <span className="font-mono text-[#1E1C1A] font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="font-mono text-[#1E1C1A] font-medium">{formatPrice(subtotal)}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-[#6B655B]">
@@ -437,7 +439,7 @@ export function CartView() {
                       COMPLIMENTARY
                     </span>
                   ) : (
-                    <span className="font-mono text-[#1E1C1A] font-medium">${shippingFee.toFixed(2)}</span>
+                    <span className="font-mono text-[#1E1C1A] font-medium">{formatPrice(shippingFee)}</span>
                   )}
                 </div>
 
@@ -447,7 +449,7 @@ export function CartView() {
                       <Tag className="w-3.5 h-3.5" />
                       Promo Code Applied
                     </span>
-                    <span className="font-mono font-semibold text-xs">-${discountAmount.toFixed(2)}</span>
+                    <span className="font-mono font-semibold text-xs">-{formatPrice(discountAmount)}</span>
                   </div>
                 )}
 
@@ -482,9 +484,9 @@ export function CartView() {
                   <span className="font-playfair text-lg font-medium text-[#1E1C1A]">Estimated Total</span>
                   <div className="text-end">
                     <span className="font-playfair text-2xl sm:text-3xl font-semibold text-[#1E1C1A]">
-                      ${estimatedTotal.toFixed(2)}
+                      {formatPrice(estimatedTotal, { showCode: false })}
                     </span>
-                    <span className="text-[11px] text-[#8A847A] ms-1 uppercase font-mono">USD</span>
+                    <span className="text-[11px] text-[#8A847A] ms-1 uppercase font-mono">{currency}</span>
                   </div>
                 </div>
                 <p className="text-[11px] text-[#8A847A]">

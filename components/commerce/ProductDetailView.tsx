@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { ProductCard } from '@/components/commerce/ProductCard';
+import { useCurrency } from '@/lib/currency/context';
 import { PreFooterBanner } from '@/components/layout/PreFooterBanner';
 import { ProductDetailData, ProductCardData } from '@/lib/products';
 import { useRouter } from 'next/navigation';
@@ -67,6 +68,7 @@ function getColorHex(colorName: string): string {
 export function ProductDetailView({ product, relatedProducts }: ProductDetailViewProps) {
   const router = useRouter();
   const optionalCart = useOptionalCart();
+  const { formatPrice } = useCurrency();
 
   // Image Gallery State
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -104,12 +106,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
 
   const activeImage = images[selectedImageIndex] || images[0];
 
-  const formattedPrice =
-    typeof product.price === 'number'
-      ? `$${product.price.toFixed(2)}`
-      : product.price.startsWith('$')
-      ? product.price
-      : `$${product.price}`;
+  const formattedPrice = formatPrice(product.price);
 
   const material =
     (product.metadata?.material as string) ||
