@@ -109,6 +109,19 @@ export async function submitContactInquiry(
 
     logger.info(`New contact inquiry received from ${email}: ${subject}`);
 
+    // Dispatch asynchronous notification to admin inbox via Resend
+    try {
+      const { emailService } = await import('@/services/email');
+      await emailService.sendContactInquiryNotification({
+        name,
+        email,
+        subject,
+        message,
+      });
+    } catch (emailErr) {
+      logger.warn('Failed to send inquiry email notification (submission preserved in DB):', emailErr);
+    }
+
     return {
       success: true,
       message: 'Thank you for reaching out. We have received your message and will respond shortly.',

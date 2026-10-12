@@ -190,7 +190,7 @@ export class ProductionEmailService implements EmailService {
           },
           body: JSON.stringify({
             from: this.from,
-            to: this.from,
+            to: process.env.CONTACT_INBOX_EMAIL || 'info@naagnoolup.com',
             reply_to: input.email,
             subject: `New Contact Inquiry: ${input.subject}`,
             text: `From: ${input.name} <${input.email}>\n\nMessage:\n${input.message}`,
