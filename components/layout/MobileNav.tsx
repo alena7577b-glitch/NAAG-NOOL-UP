@@ -9,7 +9,6 @@ import {
   X,
   ShoppingBag,
   User as UserIcon,
-  Globe,
   Shield,
   LogOut,
   ChevronRight,
@@ -21,7 +20,6 @@ import {
   ArrowRight,
   Coins,
 } from 'lucide-react';
-import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
 import { CurrencySwitcher } from '@/components/currency/CurrencySwitcher';
 
@@ -42,8 +40,6 @@ export interface MobileNavProps {
   onClose: () => void;
   items: NavItem[];
   cartCount?: number;
-  currentLocale?: Locale;
-  onLocaleChange?: (locale: Locale) => void;
   user?: AuthUserState | null;
 }
 
@@ -79,8 +75,6 @@ export function MobileNav({
   onClose,
   items,
   cartCount = 0,
-  currentLocale = 'en',
-  onLocaleChange,
   user,
 }: MobileNavProps) {
   const isClient = useSyncExternalStore(
@@ -397,39 +391,7 @@ export function MobileNav({
             )}
           </div>
 
-          {/* Regional & Language Switcher */}
-          <div className="pt-2 border-t border-[#E8E2D5] space-y-2.5">
-            <div className="flex items-center justify-between px-1">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8A847A] flex items-center gap-1.5">
-                <Globe className="w-3 h-3 text-[#8A847A]" />
-                Language
-              </span>
-              <span className="text-[10px] text-[#A69E90]">Worldwide Dispatch</span>
-            </div>
 
-            <div className="grid grid-cols-3 gap-1.5 bg-[#EFEAE1] p-1 rounded-xl">
-              {locales.map((loc) => {
-                const isSelected = currentLocale === loc;
-                return (
-                  <button
-                    key={loc}
-                    type="button"
-                    onClick={() => {
-                      onLocaleChange?.(loc);
-                      onClose();
-                    }}
-                    className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer text-center ${
-                      isSelected
-                        ? 'bg-white text-[#B85233] shadow-xs font-semibold'
-                        : 'text-[#6B655B] hover:text-[#1E1C1A]'
-                    }`}
-                  >
-                    {localeNames[loc].nativeName}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
 
           {/* Currency Switcher in Mobile Drawer */}
           <div className="pt-2 border-t border-[#E8E2D5] space-y-2.5">

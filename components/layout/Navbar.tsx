@@ -4,10 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Search, User as UserIcon, ShoppingBag, Menu, Globe, Shield, LogOut, Package, UserCheck, ChevronDown } from 'lucide-react';
+import { Search, User as UserIcon, ShoppingBag, Menu, Shield, LogOut, Package, UserCheck } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { MobileNav, NavItem } from './MobileNav';
-import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
 import { useOptionalCart } from '@/lib/cart/CartContext';
 import { CurrencySwitcher } from '@/components/currency/CurrencySwitcher';
@@ -22,8 +21,6 @@ export interface AuthUserState {
 export interface NavbarProps {
   cartCount?: number;
   onSearchClick?: () => void;
-  currentLocale?: Locale;
-  onLocaleChange?: (locale: Locale) => void;
   user?: AuthUserState | null;
 }
 
@@ -36,37 +33,24 @@ const defaultNavItems: NavItem[] = [
   { label: 'Contact', href: '/contact' },
 ];
 
-function setLocaleCookie(loc: string) {
-  if (typeof document !== 'undefined') {
-    document.cookie = `NEXT_LOCALE=${loc}; path=/; max-age=31536000; SameSite=Lax`;
-  }
-}
-
 export function Navbar({
   cartCount: propCartCount,
   onSearchClick,
-  currentLocale = 'en',
-  onLocaleChange,
   user: initialUser,
-}: NavbarProps) {
+}: NavbarProps = {}) {
   const optionalCart = useOptionalCart();
   const cartCount = propCartCount !== undefined ? propCartCount : (optionalCart?.totalItems ?? 0);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isLangOpen, setIsLangOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [fetchedUser, setFetchedUser] = useState<AuthUserState | null>(null);
   const currentUser = initialUser !== undefined ? initialUser : fetchedUser;
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
 
-  const langRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
-        setIsLangOpen(false);
-      }
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
         setIsUserMenuOpen(false);
       }
@@ -74,7 +58,6 @@ export function Navbar({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setIsLangOpen(false);
         setIsUserMenuOpen(false);
       }
     };
@@ -119,15 +102,6 @@ export function Navbar({
   }, [initialUser, pathname]);
 
   const isHomepage = pathname === '/';
-
-  const handleLocaleChange = (loc: (typeof locales)[number]) => {
-    setLocaleCookie(loc);
-    if (onLocaleChange) {
-      onLocaleChange(loc);
-    } else {
-      window.location.reload();
-    }
-  };
 
   // Do not render consumer storefront navbar on admin console
   if (pathname?.startsWith('/admin')) {
@@ -191,45 +165,6 @@ export function Navbar({
 
           {/* Right Utility Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Language Switcher Dropdown */}
-            <div className="relative hidden sm:block" ref={langRef}>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsLangOpen(!isLangOpen);
-                  setIsUserMenuOpen(false);
-                }}
-                aria-label="Select language"
-                className="flex items-center gap-1.5 p-2 rounded-full text-[#1E1C1A] hover:bg-black/5 transition-colors cursor-pointer text-xs font-medium"
-              >
-                <Globe className="w-4 h-4" />
-                <span className="uppercase">{currentLocale}</span>
-                <ChevronDown className="w-3 h-3 text-[#1E1C1A]/70" />
-              </button>
-
-              {isLangOpen && (
-                <div className="absolute end-0 mt-2 w-36 rounded-md bg-white p-1.5 shadow-lg border border-[#E5DFC0] z-50 animate-in fade-in zoom-in-95 duration-150">
-                  {locales.map((loc) => (
-                    <button
-                      key={loc}
-                      type="button"
-                      onClick={() => {
-                        handleLocaleChange(loc);
-                        setIsLangOpen(false);
-                      }}
-                      className={`w-full text-start px-3 py-1.5 rounded-sm text-xs transition-colors cursor-pointer ${
-                        currentLocale === loc
-                          ? 'bg-[#B85233]/10 font-semibold text-[#B85233]'
-                          : 'text-[#1E1C1A] hover:bg-[#F9F6F0]'
-                      }`}
-                    >
-                      {localeNames[loc].nativeName}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
             {/* Currency Selector */}
             <CurrencySwitcher variant="navbar" />
 
@@ -251,7 +186,6 @@ export function Navbar({
                     type="button"
                     onClick={() => {
                       setIsUserMenuOpen(!isUserMenuOpen);
-                      setIsLangOpen(false);
                     }}
                     aria-label="Account menu"
                     className="flex items-center gap-2 p-1.5 pe-3 rounded-full bg-sand/60 border border-stone-300/80 text-dusk hover:bg-[#EAE5DC] transition-colors cursor-pointer"
@@ -365,8 +299,6 @@ export function Navbar({
         onClose={() => setIsMobileOpen(false)}
         items={defaultNavItems}
         cartCount={cartCount}
-        currentLocale={currentLocale}
-        onLocaleChange={handleLocaleChange}
         user={currentUser}
       />
     </header>
