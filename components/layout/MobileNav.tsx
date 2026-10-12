@@ -4,7 +4,22 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
-import { X, ShoppingBag, User as UserIcon, Globe, Shield, LogOut, UserCheck } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import {
+  X,
+  ShoppingBag,
+  User as UserIcon,
+  Globe,
+  Shield,
+  LogOut,
+  ChevronRight,
+  Sparkles,
+  BookOpen,
+  Coffee,
+  Bookmark,
+  Package,
+  ArrowRight,
+} from 'lucide-react';
 import { locales, localeNames, Locale } from '@/config/i18n';
 import { logoutAction } from '@/lib/auth/actions';
 
@@ -30,6 +45,33 @@ export interface MobileNavProps {
   user?: AuthUserState | null;
 }
 
+const categoryHighlights = [
+  {
+    name: 'Journals',
+    subtext: 'Guided reflection',
+    href: '/shop?category=Journals',
+    icon: BookOpen,
+  },
+  {
+    name: 'Mugs',
+    subtext: 'Artisan ceramics',
+    href: '/shop?category=Mugs',
+    icon: Coffee,
+  },
+  {
+    name: 'Notebooks',
+    subtext: 'Everyday notes',
+    href: '/shop?category=Notebooks',
+    icon: Bookmark,
+  },
+  {
+    name: 'Bags',
+    subtext: 'Cultural totes',
+    href: '/shop?category=Bags',
+    icon: Package,
+  },
+];
+
 export function MobileNav({
   isOpen,
   onClose,
@@ -40,6 +82,7 @@ export function MobileNav({
   user,
 }: MobileNavProps) {
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
@@ -72,210 +115,348 @@ export function MobileNav({
     >
       {/* 1. Backdrop Overlay */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in"
+        className="fixed inset-0 bg-black/65 backdrop-blur-[4px] transition-opacity duration-300 animate-in fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* 2. Slide-Over Sidebar Drawer */}
+      {/* 2. Slide-Over Luxury Sidebar Drawer */}
       <aside
-        className="relative z-10 w-full max-w-sm sm:max-w-md bg-[#FAF8F5] text-[#1E1C1A] h-full h-[100dvh] shadow-2xl flex flex-col overflow-hidden border-l border-[#E5DFC0] animate-in slide-in-from-right duration-300"
+        className="relative z-10 w-full max-w-sm sm:max-w-md bg-[#FAF7F2] text-[#1E1C1A] h-full h-[100dvh] shadow-2xl flex flex-col overflow-hidden border-l border-[#E5DFC0]/80 animate-in slide-in-from-right duration-300"
       >
-        {/* Mobile Nav Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#E5DFC0] bg-[#FAF8F5] shrink-0">
-          <Link
-            href="/"
-            onClick={onClose}
-            className="flex items-center focus-visible:outline-none"
-            aria-label="Naag Nool UP Home"
-          >
-            <Image
-              src="/images/logo-header-official.png"
-              alt="Naag Nool UP"
-              width={240}
-              height={98}
-              className="h-10 sm:h-11 w-auto object-contain"
-            />
-          </Link>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close menu"
-            className="p-2 rounded-full text-[#1E1C1A] hover:bg-[#EAE5DC] transition-colors cursor-pointer focus-visible:outline-none"
-          >
-            <X className="w-6 h-6" />
-          </button>
+        {/* Top Decorative Brand Ribbon */}
+        <div className="h-1 w-full bg-gradient-to-r from-[#B85233] via-[#D49B4B] to-[#2D5A43]" />
+
+        {/* Header: Logo, Close Button, and Brand Subtitle */}
+        <div className="px-6 pt-5 pb-4 border-b border-[#E8E2D5] bg-[#FAF7F2] shrink-0">
+          <div className="flex items-center justify-between">
+            <Link
+              href="/"
+              onClick={onClose}
+              className="flex items-center focus-visible:outline-none transition-transform hover:scale-[1.02]"
+              aria-label="Naag Nool UP Home"
+            >
+              <Image
+                src="/images/logo-header-official.png"
+                alt="Naag Nool UP"
+                width={240}
+                height={98}
+                className="h-10 sm:h-11 w-auto object-contain"
+                priority
+              />
+            </Link>
+
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close menu"
+              className="p-2.5 rounded-full text-[#4A463F] hover:text-[#1E1C1A] hover:bg-[#EAE5DC] active:scale-95 transition-all cursor-pointer focus-visible:outline-none"
+            >
+              <X className="w-5 h-5 transition-transform duration-200 hover:rotate-90" />
+            </button>
+          </div>
+
+          <div className="mt-2.5 flex items-center justify-between text-[11px] font-sans tracking-[0.16em] uppercase text-[#8A847A]">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#B85233]" />
+              Resilient • Worthy • In Charge
+            </span>
+            <span className="text-[#D49B4B] font-serif italic text-xs lowercase">est. 2025</span>
+          </div>
         </div>
 
         {/* Scrollable Navigation Body */}
-        <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-6 custom-scrollbar">
-          {/* Main Editorial Navigation */}
-          <ul className="space-y-3 pb-4 border-b border-[#E5DFC0]/70">
-            {items.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={onClose}
-                  className="block font-playfair text-2xl text-[#1E1C1A] hover:text-[#B85233] transition-colors py-1 focus-visible:outline-none"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Core Categories Quick Access */}
-          <div className="space-y-2.5 pb-4 border-b border-[#E5DFC0]/70">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8A847A]">
-              Shop Collections
+        <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-7 custom-scrollbar">
+          {/* Main Editorial Menu */}
+          <div className="space-y-1">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8A847A] block mb-2 px-1">
+              Navigation
             </span>
-            <div className="grid grid-cols-2 gap-2 pt-1">
-              {[
-                { name: 'Mugs', href: '/shop?category=Mugs' },
-                { name: 'Journals', href: '/shop?category=Journals' },
-                { name: 'Notebooks', href: '/shop?category=Notebooks' },
-                { name: 'Bags', href: '/shop?category=Bags' },
-              ].map((cat) => (
-                <Link
-                  key={cat.name}
-                  href={cat.href}
-                  onClick={onClose}
-                  className="px-3.5 py-2 rounded-lg bg-white border border-[#EBE6DC] text-xs font-medium text-[#1E1C1A] hover:border-[#B85233] hover:text-[#B85233] transition-colors shadow-xs"
-                >
-                  {cat.name}
-                </Link>
-              ))}
+            <ul className="space-y-1">
+              {items.map((item, idx) => {
+                const isActive =
+                  item.href === '/'
+                    ? pathname === '/'
+                    : pathname?.startsWith(item.href);
+
+                // Editorial badge tags for specific cultural destinations
+                const badge =
+                  item.href === '/ayeyo-koris'
+                    ? 'Cultural Heritage'
+                    : item.href === '/shop'
+                    ? 'Bespoke Goods'
+                    : item.href === '/community'
+                    ? 'Movement & Shax'
+                    : null;
+
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={onClose}
+                      className={`group flex items-center justify-between px-3 py-2.5 rounded-xl transition-all ${
+                        isActive
+                          ? 'bg-[#B85233]/10 text-[#B85233] font-medium'
+                          : 'text-[#1E1C1A] hover:bg-white hover:shadow-xs'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-[11px] text-[#A69E90] group-hover:text-[#B85233] transition-colors w-5">
+                          {String(idx + 1).padStart(2, '0')}
+                        </span>
+                        <span className="font-playfair text-xl sm:text-2xl group-hover:translate-x-1 transition-transform">
+                          {item.label}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        {badge && (
+                          <span className="hidden sm:inline-block text-[9px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#EAE5DC] text-[#6B655B]">
+                            {badge}
+                          </span>
+                        )}
+                        <ChevronRight
+                          className={`w-4 h-4 transition-all duration-200 ${
+                            isActive
+                              ? 'text-[#B85233] translate-x-0.5'
+                              : 'text-[#A69E90] opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:text-[#B85233]'
+                          }`}
+                        />
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Curated Collections Grid */}
+          <div className="space-y-3 pt-2 border-t border-[#E8E2D5]">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8A847A]">
+                Shop Collections
+              </span>
+              <Link
+                href="/shop"
+                onClick={onClose}
+                className="text-xs text-[#B85233] hover:underline font-medium inline-flex items-center gap-1"
+              >
+                <span>View all</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2.5">
+              {categoryHighlights.map((cat) => {
+                const IconComponent = cat.icon;
+                return (
+                  <Link
+                    key={cat.name}
+                    href={cat.href}
+                    onClick={onClose}
+                    className="group p-3 rounded-xl bg-white border border-[#EBE6DC] hover:border-[#B85233] transition-all hover:shadow-xs flex flex-col justify-between"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="w-7 h-7 rounded-lg bg-[#FAF7F2] text-[#B85233] flex items-center justify-center group-hover:bg-[#B85233] group-hover:text-white transition-colors">
+                        <IconComponent className="w-3.5 h-3.5" />
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 text-[#C4BEB3] group-hover:text-[#B85233] group-hover:translate-x-0.5 transition-all" />
+                    </div>
+                    <div>
+                      <h4 className="font-playfair text-sm font-medium text-[#1E1C1A] group-hover:text-[#B85233] transition-colors">
+                        {cat.name}
+                      </h4>
+                      <p className="text-[11px] text-[#8A847A] font-sans mt-0.5">
+                        {cat.subtext}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
-          {/* User Account Controls */}
-          {user ? (
-            <div className="pt-2 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#6B655B]">
-                  <UserCheck className="w-4 h-4 text-[#B85233]" />
-                  <span>Account ({user.fullName || user.email.split('@')[0]})</span>
+          {/* Heritage & Sisterhood Cultural Banner */}
+          <div className="p-3.5 rounded-xl bg-gradient-to-br from-[#2D5A43]/10 via-[#2D5A43]/5 to-[#B85233]/10 border border-[#2D5A43]/20 flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#2D5A43] text-[#FAF7F2] flex items-center justify-center shrink-0 mt-0.5">
+              <Sparkles className="w-4 h-4 text-[#D49B4B]" />
+            </div>
+            <div className="space-y-1">
+              <h5 className="font-playfair text-sm font-medium text-[#1E1C1A]">
+                Ayeyo Koris Foundation
+              </h5>
+              <p className="text-xs text-[#6B655B] leading-relaxed">
+                Empowering generational wisdom, elderly elder care, and the mindful play of traditional Somali Shax.
+              </p>
+              <Link
+                href="/ayeyo-koris"
+                onClick={onClose}
+                className="text-xs text-[#2D5A43] font-semibold hover:underline inline-flex items-center gap-1 pt-1"
+              >
+                <span>Discover the Mission</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Account Profile / Authentication Module */}
+          <div className="pt-2 border-t border-[#E8E2D5] space-y-3">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8A847A] block px-1">
+              Account & Profile
+            </span>
+
+            {user ? (
+              <div className="p-3.5 rounded-xl bg-white border border-[#E8E2D5] space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-[#B85233]/10 text-[#B85233] flex items-center justify-center font-bold text-xs">
+                      {(user.fullName || user.email)[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-[#1E1C1A] leading-tight">
+                        {user.fullName || user.email.split('@')[0]}
+                      </p>
+                      <p className="text-[11px] text-[#8A847A] truncate max-w-[170px]">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  {user.role !== 'CUSTOMER' && (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+                      {user.role}
+                    </span>
+                  )}
                 </div>
-                {user.role !== 'CUSTOMER' && (
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
-                    {user.role}
-                  </span>
-                )}
-              </div>
-              <div className="space-y-1.5 pt-1">
-                <Link
-                  href="/account"
-                  onClick={onClose}
-                  className="block text-sm font-medium text-stone-700 hover:text-[#B85233] transition-colors py-1"
-                >
-                  Account Overview
-                </Link>
-                <Link
-                  href="/account/orders"
-                  onClick={onClose}
-                  className="block text-sm font-medium text-stone-700 hover:text-[#B85233] transition-colors py-1"
-                >
-                  Order History
-                </Link>
-                <Link
-                  href="/account/profile"
-                  onClick={onClose}
-                  className="block text-sm font-medium text-stone-700 hover:text-[#B85233] transition-colors py-1"
-                >
-                  Personal Profile
-                </Link>
-                {(user.role === 'ADMIN' || user.role === 'SUPERADMIN') && (
+
+                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-[#F0EBE1]">
                   <Link
-                    href="/admin"
+                    href="/account"
                     onClick={onClose}
-                    className="flex items-center gap-2 text-sm font-semibold text-amber-950 bg-amber-50 hover:bg-amber-100 px-3 py-2 rounded-lg transition-colors border border-amber-200 mt-2"
+                    className="text-xs font-medium text-[#4A463F] hover:text-[#B85233] py-1 px-2 rounded hover:bg-[#FAF7F2] transition-colors"
                   >
-                    <Shield className="w-4 h-4 text-amber-700" />
-                    <span>Admin Dashboard</span>
+                    Overview
                   </Link>
-                )}
-                <form action={logoutAction} className="pt-2">
+                  <Link
+                    href="/account/orders"
+                    onClick={onClose}
+                    className="text-xs font-medium text-[#4A463F] hover:text-[#B85233] py-1 px-2 rounded hover:bg-[#FAF7F2] transition-colors"
+                  >
+                    Order History
+                  </Link>
+                  <Link
+                    href="/account/profile"
+                    onClick={onClose}
+                    className="text-xs font-medium text-[#4A463F] hover:text-[#B85233] py-1 px-2 rounded hover:bg-[#FAF7F2] transition-colors"
+                  >
+                    Edit Profile
+                  </Link>
+                  {(user.role === 'ADMIN' || user.role === 'SUPERADMIN') && (
+                    <Link
+                      href="/admin"
+                      onClick={onClose}
+                      className="text-xs font-semibold text-amber-800 hover:text-amber-950 py-1 px-2 rounded hover:bg-amber-50 transition-colors flex items-center gap-1"
+                    >
+                      <Shield className="w-3 h-3" />
+                      <span>Admin Portal</span>
+                    </Link>
+                  )}
+                </div>
+
+                <form action={logoutAction} className="pt-2 border-t border-[#F0EBE1]">
                   <button
                     type="submit"
                     onClick={onClose}
-                    className="flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-700 py-1 cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 text-xs font-medium text-red-600 hover:text-red-700 py-1.5 cursor-pointer rounded hover:bg-red-50 transition-colors"
                   >
-                    <LogOut className="w-4 h-4 text-red-500" />
+                    <LogOut className="w-3.5 h-3.5" />
                     <span>Sign Out</span>
                   </button>
                 </form>
               </div>
-            </div>
-          ) : (
-            <div className="pt-2 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#6B655B]">
-                <UserIcon className="w-4 h-4" />
-                <span>Account Access</span>
-              </div>
-              <div className="flex gap-2.5 pt-1">
+            ) : (
+              <div className="grid grid-cols-2 gap-2.5">
                 <Link
                   href="/login"
                   onClick={onClose}
-                  className="flex-1 text-center py-2.5 px-4 bg-[#B85233] text-white rounded-xl font-medium text-xs tracking-wide hover:bg-[#A04428] transition-colors shadow-xs"
+                  className="flex items-center justify-center gap-2 py-2.5 px-4 bg-[#B85233] hover:bg-[#A04428] text-white rounded-xl font-medium text-xs tracking-wider transition-colors shadow-xs"
                 >
-                  Sign In
+                  <UserIcon className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
                 </Link>
                 <Link
                   href="/register"
                   onClick={onClose}
-                  className="flex-1 text-center py-2.5 px-4 bg-white border border-[#E5DFC0] text-[#1E1C1A] rounded-xl font-medium text-xs tracking-wide hover:bg-[#EAE5DC] transition-colors"
+                  className="flex items-center justify-center py-2.5 px-4 bg-white border border-[#E5DFC0] text-[#1E1C1A] hover:bg-[#EAE5DC] rounded-xl font-medium text-xs tracking-wider transition-colors"
                 >
                   Register
                 </Link>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Language Selection */}
-          <div className="pt-4 border-t border-[#E5DFC0]/70 space-y-2.5">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#6B655B]">
-              <Globe className="w-4 h-4" />
-              <span>Language</span>
+          {/* Regional & Language Switcher */}
+          <div className="pt-2 border-t border-[#E8E2D5] space-y-2.5">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#8A847A] flex items-center gap-1.5">
+                <Globe className="w-3 h-3 text-[#8A847A]" />
+                Language
+              </span>
+              <span className="text-[10px] text-[#A69E90]">Worldwide Dispatch</span>
             </div>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {locales.map((loc) => (
-                <button
-                  key={loc}
-                  type="button"
-                  onClick={() => {
-                    onLocaleChange?.(loc);
-                    onClose();
-                  }}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer ${
-                    currentLocale === loc
-                      ? 'bg-[#B85233] text-white shadow-xs'
-                      : 'bg-white border border-[#E5DFC0] text-[#1E1C1A] hover:bg-[#EAE5DC]'
-                  }`}
-                >
-                  {localeNames[loc].nativeName}
-                </button>
-              ))}
+
+            <div className="grid grid-cols-3 gap-1.5 bg-[#EFEAE1] p-1 rounded-xl">
+              {locales.map((loc) => {
+                const isSelected = currentLocale === loc;
+                return (
+                  <button
+                    key={loc}
+                    type="button"
+                    onClick={() => {
+                      onLocaleChange?.(loc);
+                      onClose();
+                    }}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-all cursor-pointer text-center ${
+                      isSelected
+                        ? 'bg-white text-[#B85233] shadow-xs font-semibold'
+                        : 'text-[#6B655B] hover:text-[#1E1C1A]'
+                    }`}
+                  >
+                    {localeNames[loc].nativeName}
+                  </button>
+                );
+              })}
             </div>
           </div>
         </nav>
 
-        {/* Mobile Footer Utility Actions (Pinned to Bottom) */}
-        <div className="p-5 border-t border-[#E5DFC0] bg-white flex items-center justify-between shrink-0">
-          <Link
-            href={user ? '/account' : '/login'}
-            onClick={onClose}
-            className="flex items-center gap-2 text-sm font-medium text-[#1E1C1A] hover:text-[#B85233] transition-colors"
-          >
-            <UserIcon className="w-4 h-4 text-[#8A847A]" />
-            <span>{user ? 'My Account' : 'Sign In'}</span>
-          </Link>
+        {/* Pinned Bottom Luxury Action Bar */}
+        <div className="p-4 sm:p-5 border-t border-[#E5DFC0] bg-white/95 backdrop-blur-md flex items-center gap-3 shrink-0">
           <Link
             href="/cart"
             onClick={onClose}
-            className="flex items-center gap-2 text-sm font-semibold text-white bg-[#B85233] hover:bg-[#A04428] px-4 py-2 rounded-full transition-colors shadow-xs"
+            className="flex-1 flex items-center justify-between bg-[#B85233] hover:bg-[#A04428] text-white px-5 py-3 rounded-xl transition-all shadow-sm active:scale-[0.99] group"
           >
-            <ShoppingBag className="w-4 h-4" />
-            <span>Bag ({cartCount})</span>
+            <div className="flex items-center gap-2.5">
+              <div className="relative">
+                <ShoppingBag className="w-4 h-4" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1.5 -end-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-white text-[8px] font-bold text-[#B85233]">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-xs font-semibold tracking-wide uppercase">
+                View Shopping Bag
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-medium text-white/90">
+                ({cartCount} {cartCount === 1 ? 'item' : 'items'})
+              </span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </div>
           </Link>
         </div>
       </aside>
