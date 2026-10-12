@@ -47,6 +47,16 @@ export function constructMetadata({
       description,
       images: [image],
     },
+    icons: {
+      icon: [
+        { url: '/icon.png', type: 'image/png' },
+        { url: '/images/favicon.png', sizes: '192x192', type: 'image/png' },
+      ],
+      apple: [
+        { url: '/images/favicon.png', sizes: '180x180', type: 'image/png' },
+      ],
+      shortcut: '/favicon.ico',
+    },
     robots: noIndex
       ? { index: false, follow: false }
       : { index: true, follow: true },

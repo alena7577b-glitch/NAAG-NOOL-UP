@@ -47,8 +47,8 @@ export function Footer() {
               <Image
                 src="/images/logo-footer.png"
                 alt="Naag Nool UP"
-                width={220}
-                height={73}
+                width={240}
+                height={96}
                 className="h-10 sm:h-12 w-auto object-contain"
               />
             </Link>

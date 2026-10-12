@@ -67,10 +67,10 @@ export function MobileNav({
           aria-label="Naag Nool UP Home"
         >
           <Image
-            src="/images/logo-header.png"
+            src="/images/logo-official.png"
             alt="Naag Nool UP"
-            width={180}
-            height={60}
+            width={200}
+            height={80}
             className="h-9 w-auto object-contain"
           />
         </Link>

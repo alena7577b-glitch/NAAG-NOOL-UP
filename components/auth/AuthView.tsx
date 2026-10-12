@@ -202,8 +202,8 @@ export function AuthView({ initialMode }: AuthViewProps) {
             <Image
               src="/images/logo-auth.png"
               alt="Naag Nool UP"
-              width={220}
-              height={73}
+              width={240}
+              height={96}
               priority
               className="h-11 sm:h-12 w-auto object-contain"
             />
@@ -279,10 +279,10 @@ export function AuthView({ initialMode }: AuthViewProps) {
           <div className="lg:hidden">
             <Link href="/" aria-label="Naag Nool UP Home">
               <Image
-                src="/images/logo-header.png"
+                src="/images/logo-official.png"
                 alt="Naag Nool UP"
-                width={160}
-                height={53}
+                width={180}
+                height={72}
                 className="h-8 w-auto object-contain"
               />
             </Link>
