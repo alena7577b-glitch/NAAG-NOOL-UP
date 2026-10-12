@@ -13,10 +13,16 @@ const pool =
   globalForPrisma.pool ??
   new Pool({
     connectionString,
-    max: 5,
+    max: 10,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 5000,
+    connectionTimeoutMillis: 15000,
+    ssl: { rejectUnauthorized: false },
   });
+
+pool.on('error', (err) => {
+  console.error('[DB POOL] Unexpected error on idle database client:', err.message);
+});
+
 const adapter = new PrismaPg(pool);
 
 export const db =

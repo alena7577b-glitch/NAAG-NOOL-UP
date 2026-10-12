@@ -35,10 +35,16 @@ export async function submitCommunitySignup(
     }
 
     const { fullName, email, marketingConsent } = parsed.data;
+    const cleanEmail = email.trim().toLowerCase();
 
-    // Check if user already signed up
-    const existing = await db.communitySignup.findUnique({
-      where: { email },
+    // Check if user already signed up (case-insensitive check)
+    const existing = await db.communitySignup.findFirst({
+      where: {
+        email: {
+          equals: cleanEmail,
+          mode: 'insensitive',
+        },
+      },
     });
 
     if (existing) {
@@ -50,13 +56,13 @@ export async function submitCommunitySignup(
 
     await db.communitySignup.create({
       data: {
-        fullName,
-        email,
+        fullName: fullName.trim(),
+        email: cleanEmail,
         marketingConsent,
       },
     });
 
-    logger.info(`New community member joined: ${email}`);
+    logger.info(`New community member joined: ${cleanEmail}`);
 
     return {
       success: true,
@@ -64,9 +70,23 @@ export async function submitCommunitySignup(
     };
   } catch (err: unknown) {
     logger.error('Failed to process community signup', err);
+
+    // If duplicate entry due to race condition or unique index constraint
+    if (
+      typeof err === 'object' &&
+      err !== null &&
+      'code' in err &&
+      (err as { code: string }).code === 'P2002'
+    ) {
+      return {
+        success: true,
+        message: "You're already part of the Naag Nool UP movement! Thank you for your continued support.",
+      };
+    }
+
     return {
       success: false,
-      error: 'Unable to submit your registration at this time. Please try again later.',
+      error: 'Unable to submit your registration at this time. Please try again in a moment.',
     };
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -58,6 +58,35 @@ export function Navbar({
   const currentUser = initialUser !== undefined ? initialUser : fetchedUser;
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  const langRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setIsLangOpen(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsLangOpen(false);
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -163,7 +192,7 @@ export function Navbar({
           {/* Right Utility Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Language Switcher Dropdown */}
-            <div className="relative hidden sm:block">
+            <div className="relative hidden sm:block" ref={langRef}>
               <button
                 type="button"
                 onClick={() => {
@@ -215,7 +244,7 @@ export function Navbar({
             </button>
 
             {/* Customer Account / Auth Dropdown */}
-            <div className="relative">
+            <div className="relative" ref={userMenuRef}>
               {currentUser ? (
                 <div>
                   <button
