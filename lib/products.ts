@@ -74,10 +74,10 @@ export async function getAllProducts(options?: {
 }): Promise<{ products: ProductCardData[]; categories: string[] }> {
   const defaultCategories = [
     'All',
-    'Guided Journals',
-    'Apparel & Scarf Wear',
-    'Cultural Goods',
-    'Lifestyle & Accessories',
+    'Journals',
+    'Notebooks',
+    'Mugs',
+    'Bags',
   ];
 
   try {

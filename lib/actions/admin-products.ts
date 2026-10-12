@@ -16,6 +16,10 @@ const productSchema = z.object({
   isAvailable: z.boolean().default(true),
   metadata: z.record(z.string(), z.any()).optional(),
   imageUrl: z.string().url('Image URL must be valid').optional().or(z.literal('')),
+  imageUrls: z.array(z.string()).optional(),
+  colors: z.array(z.string()).optional(),
+  material: z.string().optional(),
+  dimensions: z.string().optional(),
 });
 
 export type AdminProductInput = z.infer<typeof productSchema>;
@@ -46,7 +50,21 @@ export async function createProductAction(input: AdminProductInput) {
     };
   }
 
-  const { title, slug, description, price, stockQuantity, category, isAvailable, metadata, imageUrl } = parsed.data;
+  const {
+    title,
+    slug,
+    description,
+    price,
+    stockQuantity,
+    category,
+    isAvailable,
+    metadata,
+    imageUrl,
+    imageUrls,
+    colors,
+    material,
+    dimensions,
+  } = parsed.data;
 
   // Check unique slug
   const existing = await db.product.findUnique({
@@ -60,6 +78,21 @@ export async function createProductAction(input: AdminProductInput) {
     };
   }
 
+  const allImages: string[] = [];
+  if (imageUrl && imageUrl.trim()) allImages.push(imageUrl.trim());
+  if (imageUrls && Array.isArray(imageUrls)) {
+    for (const u of imageUrls) {
+      if (u && u.trim() && !allImages.includes(u.trim())) allImages.push(u.trim());
+    }
+  }
+
+  const mergedMetadata = {
+    ...(metadata || {}),
+    ...(colors && colors.length > 0 ? { colors } : {}),
+    ...(material ? { material } : {}),
+    ...(dimensions ? { dimensions } : {}),
+  };
+
   try {
     const product = await db.product.create({
       data: {
@@ -70,18 +103,17 @@ export async function createProductAction(input: AdminProductInput) {
         stockQuantity,
         category,
         isAvailable,
-        metadata: metadata ? (metadata as any) : undefined,
-        images: imageUrl
-          ? {
-              create: [
-                {
-                  url: imageUrl,
-                  altText: title,
-                  sortOrder: 0,
-                },
-              ],
-            }
-          : undefined,
+        metadata: Object.keys(mergedMetadata).length > 0 ? mergedMetadata : undefined,
+        images:
+          allImages.length > 0
+            ? {
+                create: allImages.map((u, i) => ({
+                  url: u,
+                  altText: `${title} - Image ${i + 1}`,
+                  sortOrder: i,
+                })),
+              }
+            : undefined,
       },
     });
 
@@ -115,23 +147,39 @@ export async function updateProductAction(id: string, input: Partial<AdminProduc
     if (input.stockQuantity !== undefined) dataToUpdate.stockQuantity = input.stockQuantity;
     if (input.category !== undefined) dataToUpdate.category = input.category;
     if (input.isAvailable !== undefined) dataToUpdate.isAvailable = input.isAvailable;
-    if (input.metadata !== undefined) dataToUpdate.metadata = input.metadata;
+
+    const mergedMetadata = {
+      ...((existing.metadata as Record<string, any>) || {}),
+      ...((input.metadata as Record<string, any>) || {}),
+      ...(input.colors !== undefined ? { colors: input.colors } : {}),
+      ...(input.material !== undefined ? { material: input.material } : {}),
+      ...(input.dimensions !== undefined ? { dimensions: input.dimensions } : {}),
+    };
+    dataToUpdate.metadata = mergedMetadata;
 
     const updated = await db.product.update({
       where: { id },
       data: dataToUpdate,
     });
 
-    // If an image URL was provided and updated
-    if (input.imageUrl && input.imageUrl.trim() !== '') {
+    // Handle image updates
+    const updatedImages: string[] = [];
+    if (input.imageUrl && input.imageUrl.trim()) updatedImages.push(input.imageUrl.trim());
+    if (input.imageUrls && Array.isArray(input.imageUrls)) {
+      for (const u of input.imageUrls) {
+        if (u && u.trim() && !updatedImages.includes(u.trim())) updatedImages.push(u.trim());
+      }
+    }
+
+    if (updatedImages.length > 0) {
       await db.productImage.deleteMany({ where: { productId: id } });
-      await db.productImage.create({
-        data: {
+      await db.productImage.createMany({
+        data: updatedImages.map((url, idx) => ({
           productId: id,
-          url: input.imageUrl,
-          altText: updated.title,
-          sortOrder: 0,
-        },
+          url,
+          altText: `${updated.title} - Image ${idx + 1}`,
+          sortOrder: idx,
+        })),
       });
     }
 

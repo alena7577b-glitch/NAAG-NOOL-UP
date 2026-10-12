@@ -27,10 +27,10 @@ export const SHOP_PRODUCTS: ShopProduct[] = [];
 
 const DEFAULT_CATEGORIES = [
   'All Products',
-  'Guided Journals',
-  'Apparel & Scarf Wear',
-  'Cultural Goods',
-  'Lifestyle & Accessories',
+  'Journals',
+  'Notebooks',
+  'Mugs',
+  'Bags',
 ];
 
 const PRICE_RANGES = ['Under $25', '$25 – $50', '$50 – $100', 'Over $100'];
@@ -469,7 +469,7 @@ export function ShopCatalogView({
                         <div>
                           {/* Book Flatlay Image Frame */}
                           <Link
-                            href={`/shop/${product.slug}`}
+                            href={`/product/${product.slug}`}
                             className="relative block w-full aspect-[4/3] rounded-lg overflow-hidden bg-[#FAF6F0] mb-3.5 focus-visible:outline-none"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -488,7 +488,7 @@ export function ShopCatalogView({
 
                           {/* Title */}
                           <h3 className="font-playfair text-lg sm:text-[19px] font-normal text-[#1E1C1A] leading-snug group-hover:text-[#A64426] transition-colors">
-                            <Link href={`/shop/${product.slug}`}>
+                            <Link href={`/product/${product.slug}`}>
                               {product.title}
                             </Link>
                           </h3>
@@ -536,7 +536,7 @@ export function ShopCatalogView({
 
                             {/* View Details Button */}
                             <Link
-                              href={`/shop/${product.slug}`}
+                              href={`/product/${product.slug}`}
                               className="w-full py-2 px-3 rounded-lg text-xs font-medium text-[#1E1C1A] bg-transparent border border-[#DFD7C7] hover:bg-[#FAF6F0] hover:border-[#1E1C1A] transition-all duration-200 active:scale-[0.97] text-center flex items-center justify-center"
                             >
                               View Details

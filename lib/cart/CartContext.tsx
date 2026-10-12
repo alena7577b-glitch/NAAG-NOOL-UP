@@ -10,6 +10,7 @@ export interface CartItem {
   imageUrl?: string;
   quantity: number;
   category?: string;
+  color?: string;
 }
 
 interface CartState {
@@ -32,7 +33,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     }
     case 'ADD_ITEM': {
       const { item, quantity = 1 } = action.payload;
-      const existingIndex = state.items.findIndex((i) => i.id === item.id);
+      const existingIndex = state.items.findIndex(
+        (i) => i.id === item.id && (i.color || '') === (item.color || '')
+      );
 
       if (existingIndex > -1) {
         const updatedItems = [...state.items];
