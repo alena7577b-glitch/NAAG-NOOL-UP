@@ -481,10 +481,17 @@ export function ShopCatalogView({
                             />
                           </Link>
 
-                          {/* Category Tag */}
-                          <p className="font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#7A7165] mb-1">
-                            {product.category}
-                          </p>
+                          {/* Category Tag & Editions */}
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <p className="font-sans text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#7A7165]">
+                              {product.category}
+                            </p>
+                            {product.category?.toLowerCase().includes('journal') && (
+                              <span className="text-[10px] font-semibold text-[#2E6B38] bg-[#EDF3EC] px-2 py-0.5 rounded-full border border-[#D0E8D4]">
+                                EN & SO Editions
+                              </span>
+                            )}
+                          </div>
 
                           {/* Title */}
                           <h3 className="font-playfair text-lg sm:text-[19px] font-normal text-[#1E1C1A] leading-snug group-hover:text-[#A64426] transition-colors">

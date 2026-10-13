@@ -76,21 +76,63 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
   const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'specs' | 'shipping'>('overview');
   const [isAdded, setIsAdded] = useState(false);
 
+  const categoryLower = (product.category || '').toLowerCase();
+  const isJournal =
+    categoryLower.includes('journal') ||
+    product.metadata?.isJournal === true ||
+    product.metadata?.hasDualEditions === true;
+
+  // Language / Edition State for Journals
+  const [selectedEdition, setSelectedEdition] = useState<'English' | 'Somali'>('English');
+
+  const englishTitle = (product.metadata?.englishTitle as string) || product.title;
+  const somaliTitle =
+    (product.metadata?.somaliTitle as string) ||
+    (product.title.includes('/') ? product.title.split('/')[1]?.trim() : `Buugga ${product.title}`);
+
+  const englishSubtitle =
+    (product.metadata?.englishSubtitle as string) || (product.metadata?.tagline as string) || '';
+  const somaliSubtitle =
+    (product.metadata?.somaliSubtitle as string) || (product.metadata?.tagline as string) || '';
+
+  const englishImage = (product.metadata?.englishImage as string) || product.imageUrl;
+  const somaliImage = (product.metadata?.somaliImage as string) || product.imageUrl;
+
+  const displayedTitle = isJournal
+    ? selectedEdition === 'Somali'
+      ? somaliTitle
+      : englishTitle
+    : product.title;
+
+  const displayedSubtitle = isJournal
+    ? selectedEdition === 'Somali'
+      ? somaliSubtitle
+      : englishSubtitle
+    : (product.metadata?.tagline as string) || '';
+
   // Derive Color Options
   const metaColors: string[] = Array.isArray(product.metadata?.colors)
     ? product.metadata.colors
     : [];
 
-  const categoryLower = (product.category || '').toLowerCase();
-
   const defaultCategoryColors = categoryLower.includes('mug')
-    ? ['Terracotta', 'Warm Ivory', 'Desert Sand', 'Midnight Slate']
+    ? ['Obsidian Black', 'Warm White']
     : categoryLower.includes('bag')
-    ? ['Natural Canvas', 'Terracotta', 'Onyx Black']
-    : ['Terracotta', 'Warm Ivory', 'Sage Green', 'Midnight Slate'];
+    ? ['Natural Canvas', 'Terracotta']
+    : [];
 
   const availableColors = metaColors.length > 0 ? metaColors : defaultCategoryColors;
-  const [selectedColor, setSelectedColor] = useState<string>(availableColors[0] || 'Terracotta');
+  const [selectedColor, setSelectedColor] = useState<string>(availableColors[0] || 'Default');
+
+  // Handle color change for mugs / items with colorImages
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color);
+    if (product.metadata?.colorImages && product.metadata.colorImages[color]) {
+      const targetImg = product.metadata.colorImages[color];
+      const idx = images.findIndex((img) => img.url === targetImg);
+      if (idx > -1) setSelectedImageIndex(idx);
+    }
+  };
 
   const images =
     product.images && product.images.length > 0
@@ -104,14 +146,26 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
           },
         ];
 
-  const activeImage = images[selectedImageIndex] || images[0];
+  // If user selected Somali edition, prioritize the Somali cover; if English, prioritize English cover
+  const activeImageUrl = isJournal
+    ? selectedEdition === 'Somali'
+      ? somaliImage
+      : englishImage
+    : images[selectedImageIndex]?.url || product.imageUrl;
+
+  const activeImage = images[selectedImageIndex] || {
+    id: 'current-img',
+    url: activeImageUrl,
+    altText: displayedTitle,
+    sortOrder: 0,
+  };
 
   const formattedPrice = formatPrice(product.price);
 
   const material =
     (product.metadata?.material as string) ||
     (categoryLower.includes('mug')
-      ? 'Artisanal Ceramic Stoneware'
+      ? 'Artisanal Ceramic Stoneware (12 oz / 350 ml)'
       : categoryLower.includes('bag')
       ? '100% Heavyweight Organic Cotton Canvas'
       : 'Cloth Hardcover with Gold Foil Embellishment');
@@ -122,7 +176,16 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
       ? '12 oz (350 ml) Capacity'
       : categoryLower.includes('bag')
       ? '15" W x 16" H with 11" Shoulder Drop'
-      : '6" x 8.5" (200 archival unlined/lined pages)');
+      : '6" x 8.5" (220 archival pages with ribbon bookmark)');
+
+  const handleEditionChange = (edition: 'English' | 'Somali') => {
+    setSelectedEdition(edition);
+    const targetUrl = edition === 'Somali' ? somaliImage : englishImage;
+    const foundIdx = images.findIndex((img) => img.url === targetUrl);
+    if (foundIdx > -1) {
+      setSelectedImageIndex(foundIdx);
+    }
+  };
 
   const handleAddToCart = () => {
     const numericPrice =
@@ -130,15 +193,26 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
         ? product.price
         : parseFloat(String(product.price).replace(/[^0-9.]/g, '')) || 24;
 
+    const cartImageUrl = isJournal
+      ? selectedEdition === 'Somali'
+        ? somaliImage
+        : englishImage
+      : activeImageUrl;
+
     optionalCart?.addItem(
       {
-        id: product.id,
-        title: product.title,
+        id: isJournal ? `${product.id}-${selectedEdition.toLowerCase()}` : product.id,
+        title: isJournal ? (selectedEdition === 'Somali' ? somaliTitle : englishTitle) : product.title,
         slug: product.slug,
         price: numericPrice,
-        imageUrl: activeImage?.url || product.imageUrl,
+        imageUrl: cartImageUrl,
         category: product.category,
-        color: selectedColor,
+        color: !isJournal && availableColors.length > 0 ? selectedColor : undefined,
+        edition: isJournal
+          ? selectedEdition === 'Somali'
+            ? 'Somali (Af-Soomaali)'
+            : 'English Edition'
+          : undefined,
       },
       quantity
     );
@@ -209,8 +283,8 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
               <div className="relative flex-1 aspect-[4/5] sm:aspect-square lg:aspect-[4/5] w-full rounded-2xl bg-[#F4EFE6] border border-[#E5DFC0]/70 overflow-hidden shadow-sm p-4 sm:p-10 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={activeImage.url}
-                  alt={activeImage.altText || product.title}
+                  src={isJournal ? (selectedEdition === 'Somali' ? somaliImage : englishImage) : activeImage.url}
+                  alt={displayedTitle}
                   className="w-full h-full object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.03]"
                 />
                 <div className="absolute bottom-4 end-4 w-9 h-9 rounded-full bg-white/90 backdrop-blur-xs border border-[#E5DFC0] text-[#1E1C1A] flex items-center justify-center shadow-xs">
@@ -223,12 +297,25 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
             <div className="lg:col-span-5 space-y-6">
               {/* Category Eyebrow & Title */}
               <div className="space-y-2">
-                <span className="inline-block px-3 py-1 rounded-full text-[10.5px] font-semibold uppercase tracking-[0.2em] bg-[#F4EFE6] text-[#B85233] border border-[#E5DFC0]">
-                  {product.category || 'BOUTIQUE'}
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-block px-3 py-1 rounded-full text-[10.5px] font-semibold uppercase tracking-[0.2em] bg-[#F4EFE6] text-[#B85233] border border-[#E5DFC0]">
+                    {product.category || 'BOUTIQUE'}
+                  </span>
+                  {isJournal && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-semibold bg-[#EDF3EC] text-[#2E6B38] border border-[#D0E8D4]">
+                      <Check className="w-3 h-3 text-[#2E6B38]" />
+                      <span>English & Somali Editions Available</span>
+                    </span>
+                  )}
+                </div>
                 <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[2.75rem] font-normal text-[#1E1C1A] leading-tight">
-                  {product.title}
+                  {displayedTitle}
                 </h1>
+                {displayedSubtitle && (
+                  <p className="font-cormorant italic text-lg sm:text-xl text-[#B85233] leading-snug">
+                    "{displayedSubtitle}"
+                  </p>
+                )}
               </div>
 
               {/* Price & Stock Indicator */}
@@ -262,9 +349,88 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
               </p>
 
               {/* -------------------------------------------------------------
-                  COLOR SELECTOR SECTION (Requested Feature)
+                  LANGUAGE / EDITION SELECTOR (For All Journals)
               ------------------------------------------------------------- */}
-              {availableColors.length > 0 && (
+              {isJournal && (
+                <div className="space-y-3 pt-2 pb-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#1E1C1A]">
+                      Select Language Edition:{' '}
+                      <span className="font-semibold text-[#B85233]">
+                        {selectedEdition === 'Somali' ? 'Somali (Af-Soomaali)' : 'English Edition'}
+                      </span>
+                    </span>
+                    <span className="text-[11px] text-[#8A8276]">2 Editions</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* English Edition Option */}
+                    <button
+                      type="button"
+                      onClick={() => handleEditionChange('English')}
+                      className={`group relative flex flex-col p-3.5 rounded-2xl text-left transition-all border cursor-pointer ${
+                        selectedEdition === 'English'
+                          ? 'border-[#B85233] bg-[#FAF3EC] ring-2 ring-[#B85233]/25 shadow-xs'
+                          : 'border-[#E5DFC0] bg-white hover:border-[#B85233]/50 hover:bg-[#FAF7F2]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full mb-1">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#1E1C1A]">
+                          English Edition
+                        </span>
+                        {selectedEdition === 'English' && (
+                          <span className="w-4 h-4 rounded-full bg-[#B85233] text-white flex items-center justify-center shrink-0">
+                            <Check className="w-2.5 h-2.5" />
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs font-playfair font-medium text-[#1E1C1A] truncate w-full">
+                        {englishTitle}
+                      </p>
+                      {englishSubtitle && (
+                        <p className="text-[10.5px] text-[#7A7165] line-clamp-1 italic mt-0.5">
+                          "{englishSubtitle}"
+                        </p>
+                      )}
+                    </button>
+
+                    {/* Somali Edition Option */}
+                    <button
+                      type="button"
+                      onClick={() => handleEditionChange('Somali')}
+                      className={`group relative flex flex-col p-3.5 rounded-2xl text-left transition-all border cursor-pointer ${
+                        selectedEdition === 'Somali'
+                          ? 'border-[#B85233] bg-[#FAF3EC] ring-2 ring-[#B85233]/25 shadow-xs'
+                          : 'border-[#E5DFC0] bg-white hover:border-[#B85233]/50 hover:bg-[#FAF7F2]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full mb-1">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#1E1C1A]">
+                          Af-Soomaali
+                        </span>
+                        {selectedEdition === 'Somali' && (
+                          <span className="w-4 h-4 rounded-full bg-[#B85233] text-white flex items-center justify-center shrink-0">
+                            <Check className="w-2.5 h-2.5" />
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs font-playfair font-medium text-[#1E1C1A] truncate w-full">
+                        {somaliTitle}
+                      </p>
+                      {somaliSubtitle && (
+                        <p className="text-[10.5px] text-[#7A7165] line-clamp-1 italic mt-0.5">
+                          "{somaliSubtitle}"
+                        </p>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* -------------------------------------------------------------
+                  COLOR SELECTOR SECTION (For Non-Journal products like Mugs & Bags)
+              ------------------------------------------------------------- */}
+              {!isJournal && availableColors.length > 0 && (
                 <div className="space-y-3 pt-2 pb-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold uppercase tracking-wider text-[#1E1C1A]">
@@ -284,7 +450,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
                         <button
                           key={color}
                           type="button"
-                          onClick={() => setSelectedColor(color)}
+                          onClick={() => handleColorChange(color)}
                           className={`group relative flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer border ${
                             isSelected
                               ? 'border-[#B85233] bg-[#FAF3EC] text-[#1E1C1A] shadow-xs ring-1 ring-[#B85233]'

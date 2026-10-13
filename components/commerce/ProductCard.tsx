@@ -68,11 +68,18 @@ export function ProductCard({
 
         {/* Category Eyebrow & Title */}
         <div className="space-y-1.5 mb-3.5 text-start">
-          {product.category && (
-            <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-              {product.category}
-            </span>
-          )}
+          <div className="flex items-center justify-between gap-2">
+            {product.category && (
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#B85233]">
+                {product.category}
+              </span>
+            )}
+            {product.category?.toLowerCase().includes('journal') && (
+              <span className="text-[10px] font-semibold text-[#4D5844] bg-[#EDF3EC] px-2 py-0.5 rounded-full border border-[#D5E4D4]">
+                EN & SO
+              </span>
+            )}
+          </div>
           <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] tracking-tight">
             <Link
               href={`/product/${product.slug}`}

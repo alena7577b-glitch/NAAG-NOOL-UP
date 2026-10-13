@@ -284,13 +284,28 @@ export function CartView() {
                       <div className="flex items-start justify-between gap-2">
                         <div>
                           <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#8A847A]">
-                            Hardcover Guided Journal
+                            {item.category || 'Hardcover Guided Journal'}
                           </span>
-                          <Link href={`/shop/${item.slug}`}>
+                          <Link href={`/product/${item.slug}`}>
                             <h3 className="font-playfair text-lg sm:text-xl font-medium text-[#1E1C1A] hover:text-[#B85233] transition-colors truncate">
                               {item.title}
                             </h3>
                           </Link>
+                          {/* Variant Pills: Edition (English/Somali) & Color */}
+                          {(item.edition || item.color) && (
+                            <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                              {item.edition && (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FAF3EC] text-[#B85233] border border-[#E5DFC0]">
+                                  Edition: {item.edition}
+                                </span>
+                              )}
+                              {item.color && (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F5F2EB] text-[#5C554B] border border-[#E8E2D8]">
+                                  Color: {item.color}
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </div>
 
                         {/* Remove Action */}
