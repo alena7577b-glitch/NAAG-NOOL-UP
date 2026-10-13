@@ -450,31 +450,68 @@ export const CANONICAL_JOURNALS: ProductDetailData[] = [
   // ==========================================
   {
     id: 'prod-canvas-tote',
-    title: 'Naag Nool Heritage Canvas Tote',
-    slug: 'heritage-canvas-tote-bag',
+    title: 'Naag Nool Statement Tote Bag',
+    slug: 'naag-nool-statement-tote-bag',
     description:
-      'Heavyweight 100% organic cotton canvas tote featuring reinforced cross-stitch straps and screen-printed empowerment insignia. Ideal for everyday market and library essentials.',
-    price: 32.0,
+      'Bold canvas tote bag printed with "THE OWNER OF THIS BAG IS NAAG NOOL." Available in striking Black and classic Natural canvas. Heavyweight cotton, reinforced strap seams — built to carry everything and still look effortless.',
+    price: 28.0,
     category: 'Bags',
-    imageUrl: '/images/merch-canvas-tote.jpg',
+    imageUrl: '/images/tote-bag-black.jpg',
     isAvailable: true,
-    stockQuantity: 90,
+    stockQuantity: 120,
     metadata: {
-      colors: ['Natural Canvas', 'Terracotta'],
-      tagline: 'Carry your power.',
-      material: '100% Heavyweight Organic Cotton Canvas',
+      colors: ['Black', 'Natural'],
+      colorImages: {
+        Black: '/images/tote-bag-black.jpg',
+        Natural: '/images/tote-bag-natural.jpg',
+      },
+      tagline: 'The owner of this bag is Naag Nool.',
+      material: '100% Heavyweight Cotton Canvas',
       dimensions: '15" W x 16" H with 11" Shoulder Drop',
-      aliases: ['tote-bag', 'canvas-tote'],
+      aliases: ['tote-bag', 'canvas-tote', 'naag-nool-tote', 'statement-tote', 'heritage-canvas-tote-bag'],
     },
     images: [
       {
-        id: 'img-tote-1',
-        url: '/images/merch-canvas-tote.jpg',
-        altText: 'Naag Nool Heritage Canvas Tote Flatlay',
+        id: 'img-tote-black',
+        url: '/images/tote-bag-black.jpg',
+        altText: 'Naag Nool Statement Tote Bag — Black',
         sortOrder: 0,
+      },
+      {
+        id: 'img-tote-natural',
+        url: '/images/tote-bag-natural.jpg',
+        altText: 'Naag Nool Statement Tote Bag — Natural Canvas',
+        sortOrder: 1,
       },
     ],
     createdAt: new Date('2025-01-13'),
+  },
+  {
+    id: 'prod-zipper-pouch',
+    title: 'Naag Nool Geometric Zipper Pouch',
+    slug: 'naag-nool-geometric-zipper-pouch',
+    description:
+      'Compact canvas zipper pouch featuring a rich terracotta geometric mountain print and "THE OWNER OF THIS BAG IS NAAG NOOL" inscription. Cotton rope tassel zipper pull. Perfect for essentials, cosmetics, or stationery on the go.',
+    price: 18.0,
+    category: 'Bags',
+    imageUrl: '/images/zipper-pouch-natural.jpg',
+    isAvailable: true,
+    stockQuantity: 100,
+    metadata: {
+      tagline: 'The owner of this bag is Naag Nool.',
+      material: 'Natural Canvas with Screen Print',
+      dimensions: '9" W x 6" H with Cotton Rope Zipper Tassel',
+      aliases: ['zipper-pouch', 'pouch', 'cosmetic-bag', 'canvas-pouch'],
+    },
+    images: [
+      {
+        id: 'img-zipper-pouch',
+        url: '/images/zipper-pouch-natural.jpg',
+        altText: 'Naag Nool Geometric Zipper Pouch — Natural Canvas with Terracotta Mountain Print',
+        sortOrder: 0,
+      },
+    ],
+    createdAt: new Date('2025-01-14'),
   },
 ];
 
