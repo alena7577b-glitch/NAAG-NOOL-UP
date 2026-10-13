@@ -168,6 +168,8 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
       ? 'Artisanal Ceramic Stoneware (12 oz / 350 ml)'
       : categoryLower.includes('bag')
       ? '100% Heavyweight Organic Cotton Canvas'
+      : categoryLower.includes('notebook')
+      ? 'Luxury Hardcover Bound with Heavyweight Ruled Pages'
       : 'Cloth Hardcover with Gold Foil Embellishment');
 
   const dimensions =
@@ -176,6 +178,8 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
       ? '12 oz (350 ml) Capacity'
       : categoryLower.includes('bag')
       ? '15" W x 16" H with 11" Shoulder Drop'
+      : categoryLower.includes('notebook')
+      ? 'A5 (5.8" x 8.3") — 192-240 Archival Ruled Pages'
       : '6" x 8.5" (220 archival pages with ribbon bookmark)');
 
   const handleEditionChange = (edition: 'English' | 'Somali') => {
@@ -193,16 +197,35 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
         ? product.price
         : parseFloat(String(product.price).replace(/[^0-9.]/g, '')) || 24;
 
+    const activeColorImg =
+      product.metadata?.colorImages && product.metadata.colorImages[selectedColor]
+        ? product.metadata.colorImages[selectedColor]
+        : null;
+
     const cartImageUrl = isJournal
       ? selectedEdition === 'Somali'
         ? somaliImage
         : englishImage
-      : activeImageUrl;
+      : activeColorImg || activeImageUrl;
+
+    const cartItemId = isJournal
+      ? `${product.id}-${selectedEdition.toLowerCase()}`
+      : availableColors.length > 0 && selectedColor !== 'Default'
+      ? `${product.id}-${selectedColor.toLowerCase().replace(/\s+/g, '-')}`
+      : product.id;
+
+    const cartTitle = isJournal
+      ? selectedEdition === 'Somali'
+        ? somaliTitle
+        : englishTitle
+      : availableColors.length > 0 && selectedColor !== 'Default'
+      ? `${product.title} (${selectedColor})`
+      : product.title;
 
     optionalCart?.addItem(
       {
-        id: isJournal ? `${product.id}-${selectedEdition.toLowerCase()}` : product.id,
-        title: isJournal ? (selectedEdition === 'Somali' ? somaliTitle : englishTitle) : product.title,
+        id: cartItemId,
+        title: cartTitle,
         slug: product.slug,
         price: numericPrice,
         imageUrl: cartImageUrl,
@@ -283,7 +306,14 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
               <div className="relative flex-1 aspect-[4/5] sm:aspect-square lg:aspect-[4/5] w-full rounded-2xl bg-[#F4EFE6] border border-[#E5DFC0]/70 overflow-hidden shadow-sm p-4 sm:p-10 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={isJournal ? (selectedEdition === 'Somali' ? somaliImage : englishImage) : activeImage.url}
+                  src={
+                    isJournal
+                      ? selectedEdition === 'Somali'
+                        ? somaliImage
+                        : englishImage
+                      : (product.metadata?.colorImages && product.metadata.colorImages[selectedColor]) ||
+                        activeImage.url
+                  }
                   alt={displayedTitle}
                   className="w-full h-full object-contain drop-shadow-xl transition-transform duration-300 hover:scale-[1.03]"
                 />
@@ -508,6 +538,25 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
                     <div className="flex items-center gap-2">
                       <Package className="w-4 h-4 text-[#1E1C1A] shrink-0" />
                       <span className="text-[11px] font-medium text-[#1E1C1A] leading-tight">Heavy Duty</span>
+                    </div>
+                  </>
+                ) : categoryLower.includes('notebook') ? (
+                  <>
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="w-4 h-4 text-[#B85233] shrink-0" />
+                      <span className="text-[11px] font-medium text-[#1E1C1A] leading-tight">Hardcover Bound</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#4D5844] shrink-0" />
+                      <span className="text-[11px] font-medium text-[#1E1C1A] leading-tight">Archival Ruled</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-[#D49B4B] shrink-0" />
+                      <span className="text-[11px] font-medium text-[#1E1C1A] leading-tight">180° Lay-Flat</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Package className="w-4 h-4 text-[#1E1C1A] shrink-0" />
+                      <span className="text-[11px] font-medium text-[#1E1C1A] leading-tight">Ribbon Marker</span>
                     </div>
                   </>
                 ) : (
