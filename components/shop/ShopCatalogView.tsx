@@ -33,7 +33,7 @@ const DEFAULT_CATEGORIES = [
   'Bags',
 ];
 
-const PRICE_RANGES = ['Under $25', '$25 – $50', '$50 – $100', 'Over $100'];
+const PRICE_RANGES = ['$5 (Notebooks & Mugs)', '$7 (Bags)', '$10 (Journals)'];
 
 type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'alpha-asc' | 'newest';
 
@@ -89,10 +89,9 @@ export function ShopCatalogView({
       // 3. Price Filter
       if (selectedPriceRanges.length > 0) {
         const matchesPrice = selectedPriceRanges.some((range) => {
-          if (range === 'Under $25') return product.priceNumber < 25;
-          if (range === '$25 – $50') return product.priceNumber >= 25 && product.priceNumber <= 50;
-          if (range === '$50 – $100') return product.priceNumber > 50 && product.priceNumber <= 100;
-          if (range === 'Over $100') return product.priceNumber > 100;
+          if (range.includes('$5')) return product.priceNumber === 5;
+          if (range.includes('$7')) return product.priceNumber === 7;
+          if (range.includes('$10')) return product.priceNumber === 10;
           return true;
         });
         if (!matchesPrice) return false;
@@ -181,59 +180,6 @@ export function ShopCatalogView({
 
   return (
     <div className="w-full bg-[#FAF6F0] text-[#1E1C1A]">
-      {/* =========================================================================
-          1. EDITORIAL SHOP HERO BANNER (Exact Match to Design Mockup)
-      ========================================================================= */}
-      <section className="relative w-full min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] xl:min-h-[520px] overflow-hidden flex items-center bg-[#EAE2D5] border-b border-[#DDD4C3]">
-        {/* Full-bleed panoramic photography */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/shop-banner-actual.png"
-            alt="Naag Nool UP guided journals official collection banner"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[80%_center] sm:object-[82%_center] lg:object-right"
-          />
-          {/* Gentle warm atmospheric gradient scrim from left to blend wall background smoothly with text */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6F0] via-[#FAF6F0]/90 via-35% sm:via-[#FAF6F0]/65 sm:via-42% to-transparent pointer-events-none" />
-        </div>
-
-        {/* Left Narrative Content Overlay */}
-        <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-14 py-12 sm:py-16">
-          <div className="max-w-md sm:max-w-lg lg:max-w-xl text-start space-y-4 sm:space-y-5">
-            {/* Eyebrow */}
-            <div className="flex items-center gap-3">
-              <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
-                OFFICIAL BOUTIQUE
-              </p>
-              <span className="w-8 sm:w-10 h-[1.5px] bg-[#B85233]/70" />
-            </div>
-
-            {/* Majestic Headline */}
-            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[44px] xl:text-[48px] font-normal text-[#1E1C1A] leading-[1.14] tracking-tight">
-              Crafted for living. <br />
-              Tools &amp; goods for a <span className="font-cormorant italic font-normal text-[#B85233]">fuller</span> you.
-            </h1>
-
-            {/* Editorial Description */}
-            <p className="font-sans text-xs sm:text-[13.5px] lg:text-[14px] text-[#4A433A] leading-[1.68] font-normal max-w-[430px]">
-              Explore our collection of guided journals, modest apparel, cultural goods, and empowering merchandise designed to support your growth, reflection, and Somali heritage.
-            </p>
-
-            {/* CTA Button */}
-            <div className="pt-2">
-              <a
-                href="#catalog"
-                className="inline-flex items-center justify-center gap-2 bg-[#B85233] hover:bg-[#A34327] text-white text-xs sm:text-sm font-medium px-6 py-3 rounded-lg transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98]"
-              >
-                <span>Shop the Collection</span>
-                <ArrowRight className="w-4 h-4 ml-0.5" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* =========================================================================
           2. CATALOG CONTROLS & BREADCRUMBS ROW
@@ -467,7 +413,7 @@ export function ShopCatalogView({
                       >
                         {/* Upper Product Clickable Content */}
                         <div>
-                          {/* Book Flatlay Image Frame */}
+                          {/* Book Image Frame — object-contain to show the full book */}
                           <Link
                             href={`/product/${product.slug}`}
                             className="relative block w-full aspect-[4/3] rounded-lg overflow-hidden bg-[#FAF6F0] mb-3.5 focus-visible:outline-none"
@@ -476,7 +422,7 @@ export function ShopCatalogView({
                             <img
                               src={product.imageUrl}
                               alt={product.title}
-                              className="w-full h-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                              className="w-full h-full object-contain object-center p-3 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                               loading="lazy"
                             />
                           </Link>

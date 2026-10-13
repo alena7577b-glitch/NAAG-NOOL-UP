@@ -48,9 +48,9 @@ export default function AboutPage() {
               <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-woman-portrait.png"
-                  alt="Woman in terracotta hijab looking upward"
-                  className="w-full h-full object-cover object-center"
+                  src="/images/about-hero-woman.jpg"
+                  alt="Woman holding Buugga Riyooyinka journal in front of blooming garden"
+                  className="w-full h-full object-cover object-[28%_center]"
                 />
               </div>
             </div>
@@ -75,12 +75,12 @@ export default function AboutPage() {
                   />
                 </div>
                 {/* Secondary Lower Overlapping Image */}
-                <div className="col-span-7 -mt-16 -ms-8 sm:-ms-12 rounded-xl overflow-hidden shadow-lg border-2 border-white aspect-square bg-[#FAF8F5] z-10">
+                <div className="col-span-8 -mt-16 -ms-8 sm:-ms-12 rounded-xl overflow-hidden shadow-lg border-2 border-white aspect-[4/3] bg-[#FAF8F5] z-10">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/journal-awakening.png"
-                    alt="Guided journal artwork"
-                    className="w-full h-full object-cover"
+                    src="/images/story-women-journals.jpg"
+                    alt="Two women holding Naag Nool UP journals together"
+                    className="w-full h-full object-cover object-center"
                   />
                 </div>
                 {/* Botanical Accent */}
@@ -209,8 +209,8 @@ export default function AboutPage() {
           <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-full bg-[#3D4736]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/somali-women-group.png"
-              alt="Somali women gathering outdoors in sisterhood"
+              src="/images/mission-women-community.jpg"
+              alt="Two women sharing a moment with the Mogadishu coordinates notebook and Koobka Naag Nool mug"
               className="w-full h-full object-cover object-center"
             />
           </div>
