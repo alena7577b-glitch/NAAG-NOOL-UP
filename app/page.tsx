@@ -2,13 +2,25 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { TypographyTransition } from '@/components/home/TypographyTransition';
 import { MovementSection } from '@/components/home/MovementSection';
+import { JournalsShowcase } from '@/components/home/JournalsShowcase';
 import { WhyJournalingSection } from '@/components/home/WhyJournalingSection';
 import { AyeyoKorisSection } from '@/components/home/AyeyoKorisSection';
 import { CommunitySection } from '@/components/home/CommunitySection';
+import { getAllProducts } from '@/lib/products';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
+  const { products } = await getAllProducts();
+  const showcaseProducts = products.map((p) => ({
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    description: p.description,
+    price: Number(p.price),
+    category: p.category || 'Boutique',
+    imageUrl: p.imageUrl,
+  }));
   return (
     <div className="w-full bg-[#FAF6F0] text-[#1E1C1A]">
       {/* =========================================================================
@@ -83,7 +95,12 @@ export default async function HomePage() {
       <MovementSection />
 
       {/* =========================================================================
-          4. WHY JOURNALING?
+          4. BOUTIQUE / SHOP SHOWCASE SECTION
+      ========================================================================= */}
+      <JournalsShowcase products={showcaseProducts} />
+
+      {/* =========================================================================
+          5. WHY JOURNALING?
       ========================================================================= */}
       <WhyJournalingSection />
 
