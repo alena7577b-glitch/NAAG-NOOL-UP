@@ -33,6 +33,12 @@ export default function CommunityPage() {
                 Join the Naag Nool UP community — a space for women who support, encourage and grow together. Here, you’ll find inspiration, resources and a sisterhood that believes in your potential.
               </p>
 
+              <div className="pt-1">
+                <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233]">
+                  Together we rise.
+                </p>
+              </div>
+
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
                   href="#interactive-journey"
@@ -52,7 +58,7 @@ export default function CommunityPage() {
             </div>
 
             {/* Right Hero Image */}
-            <div className="lg:col-span-6 relative">
+            <div className="lg:col-span-6">
               <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -60,11 +66,6 @@ export default function CommunityPage() {
                   alt="Naag Nool UP community member"
                   className="w-full h-full object-cover object-[center_12%]"
                 />
-              </div>
-              <div className="absolute top-4 end-4 z-10">
-                <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233] drop-shadow-sm">
-                  Together we rise.
-                </p>
               </div>
             </div>
           </div>
