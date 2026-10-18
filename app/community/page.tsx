@@ -158,12 +158,12 @@ export default function CommunityPage() {
       <section className="py-0 bg-[#4D5844] text-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
           {/* Left Group Image */}
-          <div className="lg:col-span-6 relative min-h-[300px] lg:min-h-full bg-[#3D4736]">
+          <div className="lg:col-span-6 relative min-h-[360px] lg:min-h-full bg-[#3D4736]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/somali-women-group.png"
-              alt="Group of smiling women sitting outdoors in sisterhood"
-              className="w-full h-full object-cover object-center"
+              src="/images/community-sisterhood-sunset.jpg"
+              alt="Group of Somali women in modest abayas standing together at sunset by the coast"
+              className="w-full h-full object-cover object-[center_35%]"
             />
           </div>
 
