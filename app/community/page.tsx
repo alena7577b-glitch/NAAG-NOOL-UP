@@ -25,17 +25,21 @@ export default function CommunityPage() {
               </p>
 
               <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
-                Real women. <br />
-                A stronger circle.
+                Let your <br />
+                <span className="font-cormorant italic text-[#B85233]">strength</span> show!
               </h1>
 
+              <p className="font-sans text-xs sm:text-sm font-semibold tracking-wide uppercase text-[#B85233]">
+                Providing every woman and girl a room to let her strength show &mdash; HER WAY!
+              </p>
+
               <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-xl leading-relaxed">
-                Join the Naag Nool UP community — a space for women who support, encourage and grow together. Here, you’ll find inspiration, resources and a sisterhood that believes in your potential.
+                Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. By combining guided journals with meaningful community engagement, Naag Nool UP creates safe and inspiring spaces that encourage personal growth, emotional awareness, and mindful connection.
               </p>
 
               <div className="pt-1">
                 <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233]">
-                  Together we rise.
+                  The time to be ALIVE is now!
                 </p>
               </div>
 
@@ -222,18 +226,17 @@ export default function CommunityPage() {
             {/* Left Column */}
             <div className="lg:col-span-6 space-y-6">
               <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                JOIN TODAY
+                SIGN UP SHEET TO BECOME A NAAG NOOL
               </p>
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
-                Be part of something bigger.
+                Become a Naag Nool.
               </h2>
               <p className="font-sans text-xs sm:text-sm text-[#6B655B] max-w-lg leading-relaxed">
-                Your voice, your story and your presence matter. Join Naag Nool UP and help build a stronger, more empowered future for women and girls.
+                The company&apos;s mission is to build a stronger, more emotionally intelligent community where people feel supported, seen, and empowered to thrive. Complete the sign up sheet below to join our sisterhood and receive free daily affirmations.
               </p>
               <div className="pt-2">
                 <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233]">
-                  Stronger women. <br />
-                  Stronger communities.
+                  The time to be ALIVE is now!
                 </p>
               </div>
             </div>

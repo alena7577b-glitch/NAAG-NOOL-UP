@@ -183,7 +183,7 @@ export default function AyeyoKorisPage() {
                   <div className="w-10 h-10 rounded-full bg-[#F4EFE6] border border-[#E5DFC0] text-[#B85233] flex items-center justify-center mx-auto sm:mx-0">
                     <BookOpen className="w-4 h-4" />
                   </div>
-                  <h4 className="font-playfair text-xs sm:text-sm text-[#1E1C1A] font-semibold">Education Support</h4>
+                  <h4 className="font-playfair text-xs sm:text-sm text-[#1E1C1A] font-semibold">Ayeyo Koris Scholarship</h4>
                 </div>
 
                 <div className="space-y-2 text-center sm:text-start">

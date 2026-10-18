@@ -2,11 +2,24 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, BookOpen, Users, GraduationCap, Sparkles, RefreshCw } from 'lucide-react';
+
+const DAILY_AFFIRMATIONS = [
+  'I am resilient, I am worthy, and I am in charge of my story.',
+  'Providing myself the room to let my strength show — my way.',
+  'The time to be ALIVE is now. I step into my power with grace and confidence.',
+  'I honor my healing, trust my path, and create safe spaces for myself to thrive.',
+  'My voice is valid, my dreams have purpose, and I am becoming who I was meant to be.',
+];
 
 export function CommunitySection() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [affirmationIndex, setAffirmationIndex] = useState(0);
+
+  const nextAffirmation = () => {
+    setAffirmationIndex((prev) => (prev + 1) % DAILY_AFFIRMATIONS.length);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +34,163 @@ export function CommunitySection() {
   return (
     <div className="w-full bg-[#FAF7F2] text-[#1E1C1A]">
       
+      {/* =========================================================================
+          0. FOUR CALLS TO ACTION (4 Pathways to Rise)
+      ========================================================================= */}
+      <section className="relative w-full py-16 sm:py-20 lg:py-24 border-b border-[#EBE3D3] bg-[#FAF8F5]">
+        <div className="w-full max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-14">
+          <div className="text-center max-w-2xl mx-auto space-y-4 mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2">
+              <span className="w-5 h-[1.5px] bg-[#A64426]" />
+              <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#A64426]">
+                WAYS TO CONNECT & RISE
+              </p>
+              <span className="w-5 h-[1.5px] bg-[#A64426]" />
+            </div>
+            <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.85rem] font-normal text-[#1E1C1A] tracking-tight leading-[1.15]">
+              Let your strength show &mdash; <br className="hidden sm:inline" />
+              <span className="font-cormorant italic text-[#A64426]">HER WAY!</span>
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+              Explore the four ways to experience Naag Nool UP &mdash; through physical guided journals, our community circle, education scholarships, and daily mindful affirmations.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6">
+            {/* CTA 1: Shop */}
+            <div className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md hover:border-[#A64426]/50 transition-all duration-300">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-[#A64426]/10 text-[#A64426] flex items-center justify-center transition-transform group-hover:scale-105">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#A64426]">
+                    01 / THE SHOP
+                  </span>
+                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] leading-snug">
+                    4 Journals, Notebooks & Coffee Mug
+                  </h3>
+                </div>
+                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
+                  Discover our four signature guided journals ($10 CAD), Somali-themed notebooks ($5 CAD), and coffee mug ($5 CAD) to ground your daily journaling rituals.
+                </p>
+              </div>
+              <div className="pt-6">
+                <Link
+                  href="/shop"
+                  className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#A64426] group-hover:text-[#8E381E] transition-colors"
+                >
+                  <span>Shop Collection</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+
+            {/* CTA 2: Join Community */}
+            <div className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md hover:border-[#4D5844]/50 transition-all duration-300">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-[#4D5844]/10 text-[#4D5844] flex items-center justify-center transition-transform group-hover:scale-105">
+                  <Users className="w-6 h-6" />
+                </div>
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#4D5844]">
+                    02 / SISTERHOOD
+                  </span>
+                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] leading-snug">
+                    Sign up sheet to become a naag nool
+                  </h3>
+                </div>
+                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
+                  Join a safe, empowering circle dedicated to healing, self-discovery, and sisterhood. Fill out our sign-up sheet and step into your community.
+                </p>
+              </div>
+              <div className="pt-6">
+                <Link
+                  href="/community#join-form"
+                  className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#4D5844] hover:text-[#3D4736] transition-colors"
+                >
+                  <span>Join Community</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+
+            {/* CTA 3: Ayeyo Koris Scholarship */}
+            <div className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md hover:border-[#D49B4B]/70 transition-all duration-300">
+              <div className="space-y-4">
+                <div className="w-12 h-12 rounded-xl bg-[#D49B4B]/15 text-[#B87A2B] flex items-center justify-center transition-transform group-hover:scale-105">
+                  <GraduationCap className="w-6 h-6" />
+                </div>
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#B87A2B]">
+                    03 / IMPACT & PURPOSE
+                  </span>
+                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] leading-snug">
+                    Learn more about the Ayeyo Koris Scholarship
+                  </h3>
+                </div>
+                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
+                  Every journal purchase helps fund the Ayeyo Koris Scholarship, unlocking education, mentorship, and opportunities for young women and girls.
+                </p>
+              </div>
+              <div className="pt-6">
+                <Link
+                  href="/ayeyo-koris"
+                  className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#B87A2B] hover:text-[#9A621E] transition-colors"
+                >
+                  <span>Learn More</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+
+            {/* CTA 4: Naag Nool App */}
+            <div className="group flex flex-col justify-between bg-[#1E1C1A] text-white rounded-2xl p-6 sm:p-7 border border-[#332E29] shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden">
+              <div className="space-y-4 relative z-10">
+                <div className="w-12 h-12 rounded-xl bg-[#FFD6A5]/15 text-[#FFD6A5] flex items-center justify-center transition-transform group-hover:scale-105">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#FFD6A5]">
+                    04 / NAAG NOOL APP
+                  </span>
+                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#FAF6F0] leading-snug">
+                    Become a Naag Nool with free daily affirmations
+                  </h3>
+                </div>
+                
+                {/* Interactive Affirmation Capsule */}
+                <div className="rounded-xl bg-white/10 p-3.5 border border-white/10 space-y-2">
+                  <div className="flex items-center justify-between text-[10px] text-[#FFD6A5] font-sans uppercase tracking-wider">
+                    <span>Today&apos;s Affirmation</span>
+                    <button
+                      onClick={nextAffirmation}
+                      className="hover:text-white transition-colors flex items-center gap-1 cursor-pointer"
+                      title="Next Affirmation"
+                    >
+                      <RefreshCw className="w-3 h-3" />
+                      <span>Next</span>
+                    </button>
+                  </div>
+                  <p className="font-cormorant italic text-sm text-[#FAF6F0] leading-snug min-h-[40px]">
+                    &ldquo;{DAILY_AFFIRMATIONS[affirmationIndex]}&rdquo;
+                  </p>
+                </div>
+              </div>
+              <div className="pt-6 relative z-10">
+                <Link
+                  href="/community#join-form"
+                  className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#FFD6A5] hover:text-white transition-colors"
+                >
+                  <span>Get Free Affirmations</span>
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* =========================================================================
           1. THE SISTERHOOD SANCTUARY
       ========================================================================= */}

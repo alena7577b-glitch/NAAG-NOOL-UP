@@ -26,15 +26,14 @@ export function MovementSection() {
             </div>
 
             {/* 3-line Majestic Headline with Cormorant Italic Nuance */}
-            <h2 className="font-playfair text-3xl sm:text-[2.5rem] lg:text-[2.85rem] font-normal text-[#1E1C1A] leading-[1.12] tracking-tight">
-              You are <span className="font-cormorant italic text-[#A64426]">resilient.</span><br />
-              You are <span className="font-cormorant italic text-[#1E1C1A]">worthy.</span><br />
-              You are in <span className="font-cormorant italic text-[#A64426]">charge.</span>
+            <h2 className="font-playfair text-3xl sm:text-[2.5rem] lg:text-[2.85rem] font-normal text-[#1E1C1A] leading-[1.15] tracking-tight">
+              Let your <br />
+              <span className="font-cormorant italic text-[#A64426]">strength</span> show.
             </h2>
 
             {/* Refined Editorial Narrative */}
             <p className="font-sans text-sm sm:text-[14.5px] text-[#4D453D] leading-[1.75] max-w-[390px] font-normal">
-              Naag Nool UP is more than a brand — it’s a movement. A sanctuary for women to reconnect with their power, write their own stories and create a more intentional future.
+              Our mission is to build a stronger, more emotionally intelligent community where people feel supported, seen, and empowered to thrive &mdash; providing every woman and girl a room to let her strength show &mdash; HER WAY!
             </p>
 
             {/* Tactile Luxury CTA Button */}

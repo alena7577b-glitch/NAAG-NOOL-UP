@@ -56,12 +56,17 @@ export default async function HomePage() {
               <span className="font-cormorant italic text-[#A64426] font-medium">
                 ALIVE
               </span>{' '}
-              is now.
+              is now!
             </h1>
 
-            {/* Refined Narrative with generous line height and spacing */}
+            {/* Tagline 2: Providing every woman and girl a room to let her strength show - HER WAY! */}
+            <p className="font-sans text-xs sm:text-sm font-semibold tracking-wide uppercase text-[#A64426] mb-3">
+              Providing every woman and girl a room to let her strength show &mdash; HER WAY!
+            </p>
+
+            {/* Refined Narrative with Introduction */}
             <p className="font-sans text-xs sm:text-base lg:text-[1.025rem] text-[#2C2723] leading-[1.7] sm:leading-[1.8] max-w-lg font-normal mb-6 sm:mb-10">
-              Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
+              Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. By combining guided journals with meaningful community engagement, Naag Nool UP creates safe and inspiring spaces that encourage personal growth, emotional awareness, and mindful connection.
             </p>
 
             {/* Refined Luxury Buttons (Stacked on mobile for ergonomic thumb tapping, inline on tablet/desktop) */}

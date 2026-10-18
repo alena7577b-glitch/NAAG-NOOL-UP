@@ -98,12 +98,15 @@ export function JournalsShowcase({ products = [] }: JournalsShowcaseProps) {
             <div className="flex items-center gap-2 mb-2">
               <span className="w-4 h-[1.5px] bg-[#A64426]" />
               <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-[#A64426]">
-                BOUTIQUE COLLECTION
+                SHOP THE BOUTIQUE
               </p>
             </div>
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.65rem] font-normal text-[#1E1C1A] leading-[1.15] tracking-tight">
-              Crafted for Intention & Growth.
+              4 Journals, Notebooks & Coffee Mug
             </h2>
+            <p className="font-sans text-xs sm:text-sm text-[#6E6559] mt-1">
+              Providing every woman and girl a room to let her strength show &mdash; HER WAY!
+            </p>
           </div>
 
           {/* Carousel Arrows & Counter */}

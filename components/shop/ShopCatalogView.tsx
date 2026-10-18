@@ -199,11 +199,14 @@ export function ShopCatalogView({
           {/* Catalog Title + Right Controls (Sort & Mobile Toggle) */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A] tracking-tight">
-                Boutique Collection
+              <span className="text-[11px] font-sans font-semibold uppercase tracking-[0.22em] text-[#A64426]">
+                The time to be ALIVE is now!
+              </span>
+              <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A] tracking-tight mt-1">
+                4 Journals, Notebooks & Coffee Mug
               </h2>
               <p className="font-sans text-xs sm:text-sm text-[#6E6559] mt-1">
-                Thoughtfully crafted journals, modest apparel, cultural goods, and empowerment essentials.
+                Providing every woman and girl a room to let her strength show &mdash; HER WAY!
               </p>
             </div>
 

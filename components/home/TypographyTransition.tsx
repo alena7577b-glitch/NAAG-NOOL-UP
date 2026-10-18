@@ -1,9 +1,9 @@
 'use client';
 
 const MANTRAS = [
-  'You are resilient.',
-  'You are worthy.',
-  'You are in charge.',
+  'The time to be ALIVE is now!',
+  'Providing every woman and girl a room to let her strength show — HER WAY!',
+  'Let your strength show!',
 ];
 
 export function TypographyTransition() {

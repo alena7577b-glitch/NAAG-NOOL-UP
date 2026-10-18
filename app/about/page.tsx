@@ -28,17 +28,16 @@ export default function AboutPage() {
               </h1>
 
               <p className="font-sans text-sm sm:text-base lg:text-lg font-medium text-[#1E1C1A]">
-                A movement. A community. A call to rise.
+                The time to be ALIVE is now!
               </p>
 
               <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-xl leading-relaxed">
-                Naag Nool UP is a universal women’s empowerment brand and movement, created to help women live with greater intention, confidence, self-worth and agency.
+                Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. By combining guided journals with meaningful community engagement, Naag Nool UP creates safe and inspiring spaces that encourage personal growth, emotional awareness, and mindful connection.
               </p>
 
               <div className="pt-2">
-                <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233]">
-                  Real women. Real growth. <br />
-                  A brighter future.
+                <p className="font-cormorant italic text-xl sm:text-2xl text-[#B85233] leading-relaxed">
+                  Providing every woman and girl a room to let her strength show — HER WAY!
                 </p>
               </div>
             </div>
@@ -58,7 +57,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* 2. OUR STORY SECTION ("More than a brand. A movement.") */}
+      {/* 2. OUR STORY SECTION */}
       <section className="py-16 sm:py-24 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
         <Container size="default">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
@@ -98,26 +97,32 @@ export default function AboutPage() {
             {/* Right Text */}
             <div className="lg:col-span-6 space-y-5">
               <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                OUR STORY
+                BRAND STORY
               </p>
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
-                More than a brand. <br />
-                A movement.
+                How Naag Nool UP <br />
+                Began.
               </h2>
               <div className="space-y-4 font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
                 <p>
-                  Naag Nool UP was born from a simple truth — when a woman believes in herself, everything changes.
+                  Naag Nool UP was born during one of the most uncertain times in the world. During the Covid-19 lockdown, while life stood still and the world felt disconnected, one young woman found herself struggling with her identity, purpose and emotions.
                 </p>
                 <p>
-                  We created this brand to give women the tools, space and inspiration to reflect, heal, grow and take charge of their lives. Through beautifully crafted journals, intentional resources and community support, we’re building a future where every woman feels seen, valued and empowered.
+                  Alone in her apartment with endless time to reflect, she began decluttering her space and stumbled across a few unused guided journals and blank notebooks tucked away and forgotten. What started as a simple way to pass time became a life-changing journey of self-discovery.
+                </p>
+                <p>
+                  Page by page, prompt by prompt she began unpacking her thoughts, fears, dreams, and emotions. Through journaling, she was finally able to put into words who she truly was and who she wanted to become in a forever-changing world.
+                </p>
+                <p>
+                  That transformation inspired the creation of Naag Nool UP — a brand dedicated to helping women reconnect with themselves through guided journals, self-reflection, mindfulness, and community. Naag Nool UP exists to empower women to heal, grow, live intentionally and embrace life in the present moment — their way.
                 </p>
               </div>
               <div className="pt-2">
                 <Link
-                  href="/community"
+                  href="/shop"
                   className="inline-flex items-center gap-2 rounded-md bg-[#B85233] text-white px-6 py-2.5 text-xs sm:text-sm font-medium hover:bg-[#A64426] transition-colors"
                 >
-                  <span>Our Story</span>
+                  <span>Explore the Journals</span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </Link>
               </div>
@@ -191,16 +196,17 @@ export default function AboutPage() {
               OUR MISSION
             </p>
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15]">
-              Empower today. <br />
-              Transform tomorrow.
+              Let your strength show!
             </h2>
+            <p className="font-sans text-xs sm:text-sm text-white/90 max-w-xl leading-relaxed">
+              Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. By combining guided journals with meaningful community engagement, Naag Nool UP creates safe and inspiring spaces that encourage personal growth, emotional awareness, and mindful connection.
+            </p>
             <p className="font-sans text-xs sm:text-sm text-white/80 max-w-xl leading-relaxed">
-              Our mission is to empower women through education, connection and opportunity — creating a ripple effect of confident, independent and empowered women and girls in our communities and beyond.
+              The company&apos;s mission is to build a stronger, more emotionally intelligent community where people feel supported, seen, and empowered to thrive.
             </p>
             <div className="pt-2">
-              <p className="font-cormorant italic text-2xl text-[#D49B4B]">
-                Stronger women. <br />
-                Stronger communities.
+              <p className="font-cormorant italic text-xl sm:text-2xl text-[#D49B4B] leading-snug">
+                &ldquo;Providing every woman and girl a room to let her strength show &mdash; HER WAY!&rdquo;
               </p>
             </div>
           </div>
