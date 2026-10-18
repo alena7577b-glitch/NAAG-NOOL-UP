@@ -43,16 +43,16 @@ export function CommunitySection() {
             <div className="inline-flex items-center gap-2">
               <span className="w-5 h-[1.5px] bg-[#A64426]" />
               <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#A64426]">
-                WAYS TO CONNECT & RISE
+                FOUR PATHWAYS TO CONNECT & RISE
               </p>
               <span className="w-5 h-[1.5px] bg-[#A64426]" />
             </div>
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.85rem] font-normal text-[#1E1C1A] tracking-tight leading-[1.15]">
               Let your strength show &mdash; <br className="hidden sm:inline" />
-              <span className="font-cormorant italic text-[#A64426]">HER WAY!</span>
+              <span className="font-cormorant italic text-[#A64426]">HER WAY.</span>
             </h2>
-            <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
-              Explore the four ways to experience Naag Nool UP &mdash; through physical guided journals, our community circle, education scholarships, and daily mindful affirmations.
+            <p className="font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed max-w-xl mx-auto">
+              Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. Choose how you begin your journey today:
             </p>
           </div>
 
@@ -65,14 +65,14 @@ export function CommunitySection() {
                 </div>
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#A64426]">
-                    01 / THE SHOP
+                    01 / THE BOUTIQUE
                   </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] leading-snug">
-                    4 Journals, Notebooks & Coffee Mug
+                  <h3 className="font-playfair text-xl sm:text-2xl font-normal text-[#1E1C1A] leading-snug">
+                    Guided Journals & Essentials
                   </h3>
                 </div>
-                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
-                  Discover our four signature guided journals ($10 CAD), Somali-themed notebooks ($5 CAD), and coffee mug ($5 CAD) to ground your daily journaling rituals.
+                <p className="font-sans text-xs sm:text-[13px] text-[#6B655B] leading-relaxed">
+                  Shop our 4 signature guided journals ($10 CAD), Somali-themed notebooks ($5 CAD), and ceramic coffee mugs ($5 CAD) crafted for daily mindfulness.
                 </p>
               </div>
               <div className="pt-6">
@@ -94,14 +94,14 @@ export function CommunitySection() {
                 </div>
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#4D5844]">
-                    02 / SISTERHOOD
+                    02 / THE SISTERHOOD
                   </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] leading-snug">
-                    Sign up sheet to become a naag nool
+                  <h3 className="font-playfair text-xl sm:text-2xl font-normal text-[#1E1C1A] leading-snug">
+                    Become a Naag Nool
                   </h3>
                 </div>
-                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
-                  Join a safe, empowering circle dedicated to healing, self-discovery, and sisterhood. Fill out our sign-up sheet and step into your community.
+                <p className="font-sans text-xs sm:text-[13px] text-[#6B655B] leading-relaxed">
+                  Join our official membership sign-up sheet to enter a supportive circle of intentional women committed to healing, growth, and mutual elevation.
                 </p>
               </div>
               <div className="pt-6">
@@ -109,7 +109,7 @@ export function CommunitySection() {
                   href="/community#join-form"
                   className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#4D5844] hover:text-[#3D4736] transition-colors"
                 >
-                  <span>Join Community</span>
+                  <span>Sign Up to Join</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -123,14 +123,14 @@ export function CommunitySection() {
                 </div>
                 <div className="space-y-1.5">
                   <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#B87A2B]">
-                    03 / IMPACT & PURPOSE
+                    03 / IMPACT & SCHOLARSHIP
                   </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#1E1C1A] leading-snug">
-                    Learn more about the Ayeyo Koris Scholarship
+                  <h3 className="font-playfair text-xl sm:text-2xl font-normal text-[#1E1C1A] leading-snug">
+                    The Ayeyo Koris Scholarship
                   </h3>
                 </div>
-                <p className="font-sans text-xs text-[#6B655B] leading-relaxed">
-                  Every journal purchase helps fund the Ayeyo Koris Scholarship, unlocking education, mentorship, and opportunities for young women and girls.
+                <p className="font-sans text-xs sm:text-[13px] text-[#6B655B] leading-relaxed">
+                  Learn how your journal purchases directly fund the Ayeyo Koris Scholarship &mdash; investing in education, books, and brighter futures for girls.
                 </p>
               </div>
               <div className="pt-6">
@@ -154,10 +154,13 @@ export function CommunitySection() {
                   <span className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-[#FFD6A5]">
                     04 / NAAG NOOL APP
                   </span>
-                  <h3 className="font-playfair text-lg sm:text-xl font-normal text-[#FAF6F0] leading-snug">
-                    Become a Naag Nool with free daily affirmations
+                  <h3 className="font-playfair text-xl sm:text-2xl font-normal text-[#FAF6F0] leading-snug">
+                    Free Daily Affirmations
                   </h3>
                 </div>
+                <p className="font-sans text-xs text-white/80 leading-relaxed">
+                  Become a Naag Nool with free daily affirmations that ground your mornings in clarity, self-love, and unstoppable confidence.
+                </p>
                 
                 {/* Interactive Affirmation Capsule */}
                 <div className="rounded-xl bg-white/10 p-3.5 border border-white/10 space-y-2">

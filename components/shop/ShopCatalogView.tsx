@@ -203,10 +203,10 @@ export function ShopCatalogView({
                 The time to be ALIVE is now!
               </span>
               <h2 className="font-playfair text-3xl sm:text-4xl font-normal text-[#1E1C1A] tracking-tight mt-1">
-                4 Journals, Notebooks & Coffee Mug
+                The Guided Journals & Rituals Collection
               </h2>
               <p className="font-sans text-xs sm:text-sm text-[#6E6559] mt-1">
-                Providing every woman and girl a room to let her strength show &mdash; HER WAY!
+                Providing every woman and girl a room to let her strength show &mdash; <span className="font-cormorant italic text-[#A64426] text-base">HER WAY!</span>
               </p>
             </div>
 

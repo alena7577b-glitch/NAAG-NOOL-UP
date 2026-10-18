@@ -24,20 +24,20 @@ export default function AboutPage() {
 
               <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
                 Who is <br />
-                Naag Nool UP?
+                <span className="font-cormorant italic text-[#B85233]">Naag Nool UP?</span>
               </h1>
 
-              <p className="font-sans text-sm sm:text-base lg:text-lg font-medium text-[#1E1C1A]">
-                The time to be ALIVE is now!
+              <p className="font-cormorant italic text-xl sm:text-2xl text-[#1E1C1A] font-medium leading-snug">
+                &ldquo;The time to be ALIVE is now!&rdquo;
               </p>
 
               <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-xl leading-relaxed">
-                Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. By combining guided journals with meaningful community engagement, Naag Nool UP creates safe and inspiring spaces that encourage personal growth, emotional awareness, and mindful connection.
+                Naag Nool UP is a purpose-driven company dedicated to empowering individuals through healing, self-development, and self-love. By combining guided journals with meaningful community engagement, we create safe and inspiring spaces that encourage personal growth, emotional awareness, and mindful connection.
               </p>
 
-              <div className="pt-2">
-                <p className="font-cormorant italic text-xl sm:text-2xl text-[#B85233] leading-relaxed">
-                  Providing every woman and girl a room to let her strength show — HER WAY!
+              <div className="pt-1">
+                <p className="font-sans text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#B85233]">
+                  Providing every woman and girl a room to let her strength show &mdash; HER WAY!
                 </p>
               </div>
             </div>
@@ -101,20 +101,28 @@ export default function AboutPage() {
               </p>
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
                 How Naag Nool UP <br />
-                Began.
+                <span className="font-cormorant italic text-[#B85233]">Began.</span>
               </h2>
-              <div className="space-y-4 font-sans text-xs sm:text-sm text-[#6B655B] leading-relaxed">
+              <div className="space-y-4 font-sans text-xs sm:text-sm text-[#5C5349] leading-relaxed">
                 <p>
-                  Naag Nool UP was born during one of the most uncertain times in the world. During the Covid-19 lockdown, while life stood still and the world felt disconnected, one young woman found herself struggling with her identity, purpose and emotions.
+                  Naag Nool UP was born during one of the most uncertain chapters in modern history. During the Covid-19 lockdown, while the world stood still and daily life felt profoundly disconnected, one young woman found herself navigating an intimate struggle with identity, purpose, and raw emotion.
                 </p>
                 <p>
-                  Alone in her apartment with endless time to reflect, she began decluttering her space and stumbled across a few unused guided journals and blank notebooks tucked away and forgotten. What started as a simple way to pass time became a life-changing journey of self-discovery.
+                  Alone in her apartment with endless time to reflect, she began decluttering her space &mdash; and stumbled across a few unused guided journals and forgotten blank notebooks tucked away in a drawer. What began as a simple ritual to pass the quiet hours quickly unfolded into a life-changing journey of deep self-discovery.
                 </p>
+
+                {/* Editorial Highlight Quote */}
+                <div className="my-2 py-3 px-4 border-s-2 border-[#D49B4B] bg-[#FAF6F0] rounded-r-lg">
+                  <p className="font-cormorant italic text-base sm:text-lg text-[#1E1C1A] leading-snug">
+                    &ldquo;Page by page, prompt by prompt, she unpacked her thoughts, fears, dreams, and healing. Through journaling, she was finally able to put into words who she truly was &mdash; and who she was destined to become in a forever-changing world.&rdquo;
+                  </p>
+                </div>
+
                 <p>
-                  Page by page, prompt by prompt she began unpacking her thoughts, fears, dreams, and emotions. Through journaling, she was finally able to put into words who she truly was and who she wanted to become in a forever-changing world.
+                  That profound transformation became the catalyst for Naag Nool UP &mdash; an empowering movement dedicated to helping women reconnect with their innermost power through guided journals, mindful self-reflection, and compassionate community.
                 </p>
-                <p>
-                  That transformation inspired the creation of Naag Nool UP — a brand dedicated to helping women reconnect with themselves through guided journals, self-reflection, mindfulness, and community. Naag Nool UP exists to empower women to heal, grow, live intentionally and embrace life in the present moment — their way.
+                <p className="font-medium text-[#1E1C1A]">
+                  Naag Nool UP exists to empower women to heal, grow, live intentionally, and embrace life in the present moment &mdash; <span className="font-cormorant italic text-[#B85233] text-base">their way.</span>
                 </p>
               </div>
               <div className="pt-2">

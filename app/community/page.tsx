@@ -158,12 +158,12 @@ export default function CommunityPage() {
       <section className="py-0 bg-[#4D5844] text-white overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
           {/* Left Group Image */}
-          <div className="lg:col-span-6 relative min-h-[360px] lg:min-h-full bg-[#3D4736]">
+          <div className="lg:col-span-6 relative min-h-[420px] lg:min-h-full bg-[#3D4736]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/community-sisterhood-sunset.jpg"
               alt="Group of Somali women in modest abayas standing together at sunset by the coast"
-              className="w-full h-full object-cover object-[center_35%]"
+              className="w-full h-full object-cover object-top"
             />
           </div>
 
@@ -185,8 +185,8 @@ export default function CommunityPage() {
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.15]">
               A safe space. Real conversations. Lasting impact.
             </h2>
-            <p className="font-sans text-xs sm:text-sm text-white/80 max-w-xl leading-relaxed">
-              Our community is a place to share, ask, learn and be inspired. From journal prompts and self-development resources to exclusive updates and events, you’ll always have a place here.
+            <p className="font-sans text-xs sm:text-sm text-white/85 max-w-xl leading-relaxed">
+              Our community is a sanctuary to share openly, reflect deeply, and grow courageously. Through guided journal prompts, mindful emotional intelligence resources, and intimate sisterhood circles, you will always have a welcoming room to let your strength show &mdash; your way.
             </p>
 
             <ul className="space-y-3 pt-2 font-sans text-xs sm:text-sm text-white/90">
@@ -194,25 +194,25 @@ export default function CommunityPage() {
                 <div className="h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
-                <span>Exclusive content & resources</span>
+                <span>Curated guided journal prompts & mindfulness reflections</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
-                <span>Monthly challenges & conversations</span>
+                <span>Monthly personal growth challenges & supportive sister circles</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
-                <span>Updates on Ayeyo Koris and Naag Nool UP</span>
+                <span>Exclusive updates on the Ayeyo Koris Scholarship & community grants</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
-                <span>A supportive and respectful community</span>
+                <span>An authentic, emotionally intelligent community where you are seen and valued</span>
               </li>
             </ul>
           </div>
@@ -225,14 +225,18 @@ export default function CommunityPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Column */}
             <div className="lg:col-span-6 space-y-6">
-              <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
-                SIGN UP SHEET TO BECOME A NAAG NOOL
-              </p>
+              <div className="flex items-center gap-2">
+                <span className="w-4 h-[1.5px] bg-[#B85233]" />
+                <p className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[#B85233]">
+                  BECOME A NAAG NOOL
+                </p>
+              </div>
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] leading-[1.15]">
-                Become a Naag Nool.
+                Your seat in the circle <br />
+                is waiting.
               </h2>
               <p className="font-sans text-xs sm:text-sm text-[#6B655B] max-w-lg leading-relaxed">
-                The company&apos;s mission is to build a stronger, more emotionally intelligent community where people feel supported, seen, and empowered to thrive. Complete the sign up sheet below to join our sisterhood and receive free daily affirmations.
+                Naag Nool UP is dedicated to building a stronger, more emotionally intelligent community where women feel supported, seen, and empowered to thrive. Complete the membership sign-up sheet below to join our sisterhood, access members-only discussions, and receive free daily affirmations delivered straight to your morning routine.
               </p>
               <div className="pt-2">
                 <p className="font-cormorant italic text-2xl sm:text-3xl text-[#B85233]">

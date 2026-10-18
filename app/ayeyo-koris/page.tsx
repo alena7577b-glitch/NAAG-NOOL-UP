@@ -24,11 +24,15 @@ export default function AyeyoKorisPage() {
 
               <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-normal text-[#1E1C1A] leading-[1.08] tracking-tight">
                 More than a cause. <br />
-                A lasting impact.
+                <span className="font-cormorant italic text-[#B85233]">A lasting impact.</span>
               </h1>
 
+              <p className="font-sans text-xs sm:text-sm font-semibold tracking-wide uppercase text-[#B85233]">
+                The Ayeyo Koris Scholarship Fund
+              </p>
+
               <p className="font-sans text-xs sm:text-sm lg:text-base text-[#6B655B] max-w-xl leading-relaxed">
-                Ayeyo Koris is Naag Nool UP’s commitment to creating real change. Through your support and purchases, we invest in education, opportunity and brighter futures for women and girls in our communities.
+                Ayeyo Koris is Naag Nool UP&apos;s direct commitment to creating real change. Through your journal purchases and community support, we invest directly in scholarships, educational resources, and brighter futures for women and girls in our communities.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">
