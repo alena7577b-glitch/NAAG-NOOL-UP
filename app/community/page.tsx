@@ -56,9 +56,9 @@ export default function CommunityPage() {
               <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/hero-woman-portrait.png"
-                  alt="Woman in terracotta hijab against mountains"
-                  className="w-full h-full object-cover object-center"
+                  src="/images/community-hero-woman.jpg"
+                  alt="Naag Nool UP community member"
+                  className="w-full h-full object-cover object-[center_12%]"
                 />
               </div>
               <div className="absolute top-4 end-4 z-10">
