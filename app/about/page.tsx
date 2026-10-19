@@ -68,9 +68,9 @@ export default function AboutPage() {
                 <div className="col-span-8 rounded-xl overflow-hidden shadow-md border border-[#E5DFC0]/60 aspect-[4/5] bg-[#FAF8F5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/contact-hero-women.jpg"
-                    alt="Naag Nool UP co-founders and sisters"
-                    className="w-full h-full object-cover object-[center_20%]"
+                    src="/images/about-story-founder.jpg"
+                    alt="Naag Nool UP founder portrait"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
                 {/* Secondary Lower Overlapping Image */}
