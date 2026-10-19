@@ -28,7 +28,7 @@ const defaultNavItems: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'Shop', href: '/shop' },
   { label: 'About', href: '/about' },
-  { label: 'Ayeyo Koris', href: '/ayeyo-koris' },
+  { label: 'Ayeeyo Koris', href: '/ayeyo-koris' },
   { label: 'Community', href: '/community' },
   { label: 'Contact', href: '/contact' },
 ];

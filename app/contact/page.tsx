@@ -37,9 +37,9 @@ export default function ContactPage() {
               <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/contact-hero-women.jpg"
-                  alt="Naag Nool UP team members"
-                  className="w-full h-full object-cover object-[center_20%]"
+                  src="/images/movement-sisterhood.jpg"
+                  alt="Naag Nool UP sisters on lounge bench"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
             </div>

@@ -82,7 +82,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/ayeyo-koris" className="hover:text-[#FAF6F0] transition-colors">
-                  Ayeyo Koris
+                  Ayeeyo Koris
                 </Link>
               </li>
               <li>

@@ -279,7 +279,7 @@ export function MobileNav({
             </div>
             <div className="space-y-1">
               <h5 className="font-playfair text-sm font-medium text-[#1E1C1A]">
-                Ayeyo Koris Foundation
+                Ayeeyo Koris Foundation
               </h5>
               <p className="text-xs text-[#6B655B] leading-relaxed">
                 Empowering generational wisdom, elderly elder care, and the mindful play of traditional Somali Shax.

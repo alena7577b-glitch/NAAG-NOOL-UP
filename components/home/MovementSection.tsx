@@ -98,9 +98,9 @@ export function MovementSection() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/movement-sisterhood.jpg"
+                  src="/images/contact-hero-women.jpg"
                   alt="Two empowered Somali sisters with the Naag Nool UP guided journals"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover object-[center_20%] transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
 

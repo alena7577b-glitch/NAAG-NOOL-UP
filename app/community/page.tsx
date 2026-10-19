@@ -206,7 +206,7 @@ export default function CommunityPage() {
                 <div className="h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
                   <Check className="w-3.5 h-3.5" />
                 </div>
-                <span>Exclusive updates on the Ayeyo Koris Scholarship & community grants</span>
+                <span>Exclusive updates on the Ayeeyo Koris Scholarship & community grants</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">

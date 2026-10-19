@@ -110,7 +110,7 @@ export default async function HomePage() {
       <WhyJournalingSection />
 
       {/* =========================================================================
-          6. AYEYO KORIS — OUR IMPACT
+          6. AYEEYO KORIS — OUR IMPACT
       ========================================================================= */}
       <AyeyoKorisSection />
 

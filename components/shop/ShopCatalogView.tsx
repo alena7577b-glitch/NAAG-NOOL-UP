@@ -579,7 +579,7 @@ export function ShopCatalogView({
               </h2>
 
               <p className="font-sans text-xs sm:text-sm lg:text-[14px] text-[#D8CEBC] max-w-md leading-relaxed font-normal">
-                Each purchase supports a bigger purpose. Join us in creating opportunities through Ayeyo Koris.
+                Each purchase supports a bigger purpose. Join us in creating opportunities through Ayeeyo Koris.
               </p>
 
               <div className="pt-2">
@@ -587,7 +587,7 @@ export function ShopCatalogView({
                   href="/ayeyo-koris"
                   className="group inline-flex items-center gap-2.5 rounded-full border border-[#FAF6F0] text-[#FAF6F0] hover:bg-white hover:text-[#353D30] px-6 sm:px-7 py-3 text-xs sm:text-[13px] font-semibold tracking-wider uppercase transition-all duration-200 active:scale-[0.98]"
                 >
-                  <span>Learn About Ayeyo Koris</span>
+                  <span>Learn About Ayeeyo Koris</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>

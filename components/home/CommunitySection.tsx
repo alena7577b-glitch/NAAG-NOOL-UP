@@ -115,7 +115,7 @@ export function CommunitySection() {
               </div>
             </div>
 
-            {/* CTA 3: Ayeyo Koris Scholarship */}
+            {/* CTA 3: Ayeeyo Koris Scholarship */}
             <div className="group flex flex-col justify-between bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md hover:border-[#D49B4B]/70 transition-all duration-300">
               <div className="space-y-4">
                 <div className="w-12 h-12 rounded-xl bg-[#D49B4B]/15 text-[#B87A2B] flex items-center justify-center transition-transform group-hover:scale-105">
@@ -126,11 +126,11 @@ export function CommunitySection() {
                     03 / IMPACT & SCHOLARSHIP
                   </span>
                   <h3 className="font-playfair text-xl sm:text-2xl font-normal text-[#1E1C1A] leading-snug">
-                    The Ayeyo Koris Scholarship
+                    The Ayeeyo Koris Scholarship
                   </h3>
                 </div>
                 <p className="font-sans text-xs sm:text-[13px] text-[#6B655B] leading-relaxed">
-                  Learn how your journal purchases directly fund the Ayeyo Koris Scholarship &mdash; investing in education, books, and brighter futures for girls.
+                  Learn how your journal purchases directly fund the Ayeeyo Koris Scholarship &mdash; investing in education, books, and brighter futures for girls.
                 </p>
               </div>
               <div className="pt-6">

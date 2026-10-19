@@ -12,7 +12,7 @@ export function AyeyoKorisSection() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/ayeyo-actual-hero.png"
-            alt="Ayeyo Koris - Empowering women and girls in our communities"
+            alt="Ayeeyo Koris - Empowering women and girls in our communities"
             className="w-full h-full object-cover object-[80%_center] sm:object-[78%_center] lg:object-[82%_center]"
           />
           {/* Deep Olive/Sage Gradient Scrim blending naturally with twilight landscape */}
@@ -42,12 +42,12 @@ export function AyeyoKorisSection() {
 
             {/* Headline */}
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.85rem] font-normal text-[#FAF7F2] leading-[1.15] tracking-tight">
-              Ayeyo Koris
+              Ayeeyo Koris
             </h2>
 
             {/* Narrative Description */}
             <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#E0D8C9] leading-[1.8] font-normal max-w-md">
-              Ayeyo Koris is our commitment to creating real change. Through your support and purchases, we invest in education, opportunity and brighter futures for women and girls in our communities.
+              Ayeeyo Koris is our commitment to creating real change. Through your support and purchases, we invest in education, opportunity and brighter futures for women and girls in our communities.
             </p>
 
             {/* Dual Action Buttons matching Figma Design */}
