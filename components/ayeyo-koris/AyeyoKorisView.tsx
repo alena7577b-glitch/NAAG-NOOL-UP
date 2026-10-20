@@ -183,41 +183,41 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           2. HERO SECTION: Grandmothers Raise Tomorrow
       ========================================================================= */}
-      <section className="relative w-full bg-[#181512] text-white overflow-hidden min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center">
-        {/* Background Canvas: Full Official Sunset Hero Banner */}
+      <section className="relative w-full bg-[#181512] text-white overflow-hidden min-h-[540px] sm:min-h-[600px] lg:min-h-[660px] flex items-center">
+        {/* Background Canvas: Full Official Sunset Hero Banner pinned to the right */}
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/ayeeyo-hero-family.jpg"
             alt="Ayeeyo Koris - Somali grandmother with grandson and granddaughter at sunset"
-            className="w-full h-full object-cover object-[78%_center] sm:object-[75%_center] lg:object-[center_center]"
+            className="w-full h-full object-cover object-right lg:object-[right_center]"
           />
-          {/* Deep Cinematic Gradient Overlay for legibility */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#14120F]/95 via-[#14120F]/85 via-45% sm:via-[#14120F]/70 sm:via-55% lg:via-[#14120F]/55 lg:via-50% to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/80 via-transparent to-transparent sm:hidden" />
+          {/* Deep Cinematic Gradient Overlay: Darker on the left to create a dedicated reading pane */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#14120F] via-[#14120F]/95 via-35% sm:via-[#14120F]/80 sm:via-45% lg:via-[#14120F]/45 lg:via-55% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/85 via-transparent to-transparent sm:hidden" />
         </div>
 
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12 py-16 sm:py-24 lg:py-32">
-          <div className="max-w-xl lg:max-w-2xl space-y-5 sm:space-y-6">
+        {/* Hero Content - Confined to the far left */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-14 xl:px-16 py-16 sm:py-24 lg:py-32">
+          <div className="max-w-md lg:max-w-[460px] xl:max-w-[500px] space-y-5 sm:space-y-6 text-start">
             {/* Tag / Eyebrow */}
             <p className="font-sans text-xs sm:text-[13px] font-semibold uppercase tracking-[0.25em] text-[#D3A03A]">
               AYEEYO KORIS
             </p>
 
             {/* Headline */}
-            <h1 className="font-playfair text-3xl sm:text-5xl lg:text-[3.5rem] font-normal text-white leading-[1.12] tracking-tight">
-              Grandmothers <br className="hidden sm:inline" />
+            <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[3.25rem] font-normal text-white leading-[1.12] tracking-tight">
+              Grandmothers <br />
               Raise Tomorrow
             </h1>
 
             {/* Narrative Paragraph */}
-            <p className="font-sans text-xs sm:text-sm lg:text-[15px] text-[#E0D8C9] leading-[1.8] font-normal max-w-xl">
+            <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#E0D8C9] leading-[1.8] font-normal">
               Ayeeyo Koris is about the boys and girls who are raised by their grandmothers when their parents are absent, have passed away, or are unable to provide care. It&apos;s a story of love, responsibility, resilience and hope.
             </p>
 
             {/* CTA Button */}
-            <div className="pt-2 sm:pt-4">
+            <div className="pt-2 sm:pt-3">
               <a
                 href="#about-ayeeyo"
                 className="inline-flex items-center gap-2 bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] text-xs sm:text-[13px] font-semibold px-6 sm:px-7 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98]"
