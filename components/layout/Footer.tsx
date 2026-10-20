@@ -13,7 +13,7 @@ export function Footer() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const pathname = usePathname();
 
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/admin') || pathname === '/ayeyo-koris' || pathname?.startsWith('/ayeyo-koris/')) {
     return null;
   }
 

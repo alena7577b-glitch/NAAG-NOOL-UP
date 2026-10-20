@@ -103,8 +103,8 @@ export function Navbar({
 
   const isHomepage = pathname === '/';
 
-  // Do not render consumer storefront navbar on admin console
-  if (pathname?.startsWith('/admin')) {
+  // Do not render consumer storefront navbar on admin console or standalone Ayeeyo Koris non-profit page
+  if (pathname?.startsWith('/admin') || pathname === '/ayeyo-koris' || pathname?.startsWith('/ayeyo-koris/')) {
     return null;
   }
 
