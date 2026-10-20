@@ -11,12 +11,12 @@ export function AyeyoKorisSection() {
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/ayeyo-actual-hero.png"
-            alt="Ayeeyo Koris - Empowering women and girls in our communities"
-            className="w-full h-full object-cover object-[80%_center] sm:object-[78%_center] lg:object-[82%_center]"
+            src="/images/ayeeyo-hero-family.jpg"
+            alt="Ayeeyo Koris - Grandmothers Raise Tomorrow"
+            className="w-full h-full object-cover object-[78%_center] sm:object-[75%_center] lg:object-[center_center]"
           />
           {/* Deep Olive/Sage Gradient Scrim blending naturally with twilight landscape */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#2F362A] via-[#2F362A] via-42% sm:via-[#2F362A]/90 sm:via-55% lg:via-[#2F362A]/75 lg:via-50% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#20271C] via-[#20271C]/90 via-42% sm:via-[#20271C]/80 sm:via-55% lg:via-[#20271C]/65 lg:via-50% to-transparent" />
         </div>
 
         {/* Decorative Botanical Leaf Line Illustration on Far Left */}
@@ -36,8 +36,8 @@ export function AyeyoKorisSection() {
           <div className="max-w-lg lg:max-w-xl text-start space-y-4 sm:space-y-5">
             
             {/* Eyebrow */}
-            <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#D8CEBD]">
-              OUR IMPACT
+            <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#D3A03A]">
+              NON-PROFIT INITIATIVE
             </p>
 
             {/* Headline */}
@@ -47,7 +47,7 @@ export function AyeyoKorisSection() {
 
             {/* Narrative Description */}
             <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#E0D8C9] leading-[1.8] font-normal max-w-md">
-              Ayeeyo Koris is our commitment to creating real change. Through your support and purchases, we invest in education, opportunity and brighter futures for women and girls in our communities.
+              Grandmothers Raise Tomorrow. Ayeeyo Koris is a purpose-driven initiative dedicated to children raised by their grandmothers, investing in love, education, and brighter futures across our communities.
             </p>
 
             {/* Dual Action Buttons matching Figma Design */}

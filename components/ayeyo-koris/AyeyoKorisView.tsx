@@ -183,18 +183,18 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           2. HERO SECTION: Grandmothers Raise Tomorrow
       ========================================================================= */}
-      <section className="relative w-full bg-[#181512] text-white overflow-hidden">
-        {/* Background Canvas: Portrait of Grandmother, Boy, and Girl */}
-        <div className="absolute inset-0 z-0 flex justify-end">
+      <section className="relative w-full bg-[#181512] text-white overflow-hidden min-h-[520px] sm:min-h-[580px] lg:min-h-[640px] flex items-center">
+        {/* Background Canvas: Full Official Sunset Hero Banner */}
+        <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/ayeeyo-hero-family.jpg"
-            alt="Somali grandmother with grandson and granddaughter"
-            className="w-full lg:w-[65%] h-full object-cover object-[70%_center] lg:object-center opacity-85 lg:opacity-95"
+            alt="Ayeeyo Koris - Somali grandmother with grandson and granddaughter at sunset"
+            className="w-full h-full object-cover object-[78%_center] sm:object-[75%_center] lg:object-[center_center]"
           />
           {/* Deep Cinematic Gradient Overlay for legibility */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#181512] via-[#181512]/95 via-35% sm:via-[#181512]/85 sm:via-48% lg:via-[#181512]/70 lg:via-45% to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#181512] via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#14120F]/95 via-[#14120F]/85 via-45% sm:via-[#14120F]/70 sm:via-55% lg:via-[#14120F]/55 lg:via-50% to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14120F]/80 via-transparent to-transparent sm:hidden" />
         </div>
 
         {/* Hero Content */}
