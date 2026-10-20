@@ -432,15 +432,34 @@ export function AyeyoKorisView() {
               </div>
             </div>
 
-            {/* Right Photo: School Girls Writing in Classroom */}
-            <div className="lg:col-span-6 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-lg aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/ayeeyo-education-girls.jpg"
-                  alt="Young Somali girls in classroom writing in notebooks"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+            {/* Right Photo Collage: School Girls Reading & Classroom Study */}
+            <div className="lg:col-span-6 flex justify-center lg:justify-end pt-4 pb-6 sm:pb-0">
+              <div className="relative w-full max-w-lg">
+                {/* Main Large Image: Girls Reading Somali Textbook Together Outdoors */}
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ayeeyo-education-reading.jpg"
+                    alt="Young Somali schoolgirls reading an open textbook together in the schoolyard"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                  <div className="absolute bottom-4 left-4 text-white text-xs font-sans">
+                    <span className="inline-block px-3 py-1 bg-[#0A3929]/90 backdrop-blur-sm rounded-full font-medium text-[#D3A03A] border border-[#D3A03A]/30">
+                      Education &amp; Literacy
+                    </span>
+                  </div>
+                </div>
+
+                {/* Overlapping Secondary Card: Classroom Focused Study */}
+                <div className="hidden sm:block absolute -bottom-6 -left-6 sm:-left-8 w-44 sm:w-52 aspect-[4/3] rounded-xl overflow-hidden shadow-2xl border-4 border-white bg-white z-10 transition-transform duration-500 hover:scale-105">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ayeeyo-education-girls.jpg"
+                    alt="Young Somali girl writing in classroom"
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
               </div>
             </div>
           </div>
