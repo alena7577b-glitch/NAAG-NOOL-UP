@@ -259,13 +259,13 @@ export function AyeyoKorisView() {
               </p>
             </div>
 
-            {/* Right Photo: Grandmother & Grandson */}
+            {/* Right Photo: Grandmother & Grandchildren */}
             <div className="lg:col-span-6 flex justify-center lg:justify-end">
-              <div className="relative w-full max-w-lg aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
+              <div className="relative w-full max-w-lg aspect-[3/2] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/ayeeyo-care-boy.jpg"
-                  alt="Somali grandmother and young boy smiling together"
+                  src="/images/ayeeyo-about-family.jpg"
+                  alt="Somali grandmother with her three grandchildren smiling together outdoors"
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
