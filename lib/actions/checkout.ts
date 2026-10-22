@@ -96,7 +96,7 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
     const orderNumber = `NNU-${Date.now().toString().slice(-6)}-${randomSuffix}`;
 
-    const paymentProvider = getPaymentProvider();
+    const paymentProvider = getPaymentProvider(paymentMethod);
 
     // 6. Concurrency-Safe Atomic Stock Reservation & Order Creation Transaction
     let order;

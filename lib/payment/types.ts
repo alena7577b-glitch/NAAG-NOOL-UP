@@ -1,19 +1,23 @@
 export interface PaymentMethodsConfig {
   cardEnabled: boolean;
-  mobileMoneyEnabled: boolean;
-  evcEnabled: boolean;
-  zaadEnabled: boolean;
-  sahalEnabled: boolean;
-  edahabEnabled: boolean;
-  premierEnabled: boolean;
+  paypalEnabled: boolean;
+  stripeEnabled?: boolean;
+  mobileMoneyEnabled?: boolean;
+  evcEnabled?: boolean;
+  zaadEnabled?: boolean;
+  sahalEnabled?: boolean;
+  edahabEnabled?: boolean;
+  premierEnabled?: boolean;
 }
 
 export const DEFAULT_PAYMENT_CONFIG: PaymentMethodsConfig = {
   cardEnabled: true,
-  mobileMoneyEnabled: true,
-  evcEnabled: true,
-  zaadEnabled: true,
-  sahalEnabled: true,
-  edahabEnabled: true,
-  premierEnabled: true,
+  stripeEnabled: true,
+  paypalEnabled: true,
+  mobileMoneyEnabled: false,
+  evcEnabled: false,
+  zaadEnabled: false,
+  sahalEnabled: false,
+  edahabEnabled: false,
+  premierEnabled: false,
 };

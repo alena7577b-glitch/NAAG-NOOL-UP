@@ -12,8 +12,6 @@ import {
   AlertCircle,
   Truck,
   CreditCard,
-  Smartphone,
-  ChevronDown,
   Sparkles,
   ArrowLeft,
   Check,
@@ -31,58 +29,6 @@ interface CheckoutViewProps {
   initialUserName?: string;
   initialPaymentConfig?: PaymentMethodsConfig;
 }
-
-interface MobileMoneyOption {
-  id: 'EVC' | 'ZAAD' | 'SAHAL' | 'EDAHAB' | 'PREMIER';
-  name: string;
-  network: string;
-  logo: string;
-  placeholder: string;
-  helpText: string;
-}
-
-const MOBILE_MONEY_OPTIONS: MobileMoneyOption[] = [
-  {
-    id: 'EVC',
-    name: 'EVC Plus',
-    network: 'Hormuud Telecom',
-    logo: '/images/payment-methods/EVC-PLUS-Logo-01-230x128.webp',
-    placeholder: '61X XXXXXX',
-    helpText: 'An instant USSD verification prompt will appear on your Hormuud phone to enter your PIN.',
-  },
-  {
-    id: 'ZAAD',
-    name: 'ZAAD Service',
-    network: 'Telesom',
-    logo: '/images/payment-methods/zaad.png',
-    placeholder: '63X XXXXXX',
-    helpText: 'An instant USSD approval prompt will be sent to your Telesom registered number.',
-  },
-  {
-    id: 'SAHAL',
-    name: 'Sahal Service',
-    network: 'Golis Telecom',
-    logo: '/images/payment-methods/Golis_Telecom_Logo.png',
-    placeholder: '90X XXXXXX',
-    helpText: 'An instant push notification/USSD prompt will be sent to your Golis mobile phone.',
-  },
-  {
-    id: 'EDAHAB',
-    name: 'eDahab',
-    network: 'Dahabshiil',
-    logo: '/images/payment-methods/edahab.jpg',
-    placeholder: '65X XXXXXX',
-    helpText: 'You will receive an authorization prompt on your Dahabshiil eDahab account.',
-  },
-  {
-    id: 'PREMIER',
-    name: 'Premier Wallet',
-    network: 'Premier Bank',
-    logo: '/images/payment-methods/premier wallet.png',
-    placeholder: '68X XXXXXX',
-    helpText: 'Approval notification will be dispatched to your Premier Wallet account.',
-  },
-];
 
 const JOURNAL_IMAGE_FALLBACKS: Record<string, string> = {
   awakening: '/images/book-cover-awakening.png',
@@ -113,25 +59,10 @@ export function CheckoutView({
   const { currency, formatPrice } = useCurrency();
   const paymentConfig = initialPaymentConfig || DEFAULT_PAYMENT_CONFIG;
 
-  const availableMobileOptions = MOBILE_MONEY_OPTIONS.filter((opt) => {
-    if (opt.id === 'EVC') return paymentConfig.evcEnabled;
-    if (opt.id === 'ZAAD') return paymentConfig.zaadEnabled;
-    if (opt.id === 'SAHAL') return paymentConfig.sahalEnabled;
-    if (opt.id === 'EDAHAB') return paymentConfig.edahabEnabled;
-    if (opt.id === 'PREMIER') return paymentConfig.premierEnabled;
-    return true;
-  });
-
-  // Primary Payment Category: defaults to Card if active, else Mobile Money
-  const [primaryMethod, setPrimaryMethod] = useState<'CARD' | 'MOBILE_MONEY'>(
-    paymentConfig.cardEnabled ? 'CARD' : 'MOBILE_MONEY'
+  // Primary Payment Category: defaults to Card if active, else PayPal
+  const [primaryMethod, setPrimaryMethod] = useState<'CARD' | 'PAYPAL'>(
+    paymentConfig.cardEnabled ? 'CARD' : 'PAYPAL'
   );
-
-  // Selected Mobile Money Provider (when Mobile Money is chosen)
-  const [selectedMobileService, setSelectedMobileService] = useState<'EVC' | 'ZAAD' | 'SAHAL' | 'EDAHAB' | 'PREMIER'>(
-    availableMobileOptions[0]?.id || 'EVC'
-  );
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Card Inputs (Simulated encrypted fields for aesthetic polish)
   const [cardData, setCardData] = useState({
@@ -168,11 +99,6 @@ export function CheckoutView({
   const shippingFee = subtotal >= shippingThreshold || subtotal === 0 ? 0.0 : 5.0;
   const estimatedTotal = subtotal + shippingFee;
 
-  const currentMobileOption =
-    availableMobileOptions.find((opt) => opt.id === selectedMobileService) ||
-    availableMobileOptions[0] ||
-    MOBILE_MONEY_OPTIONS[0];
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -194,14 +120,8 @@ export function CheckoutView({
       return;
     }
 
-    // Determine backend payment method code
-    const resolvedMethod = primaryMethod === 'CARD' ? 'CARD' : selectedMobileService;
-
-    // Validate phone number if mobile money is selected
-    if (primaryMethod === 'MOBILE_MONEY' && !formData.customerPhone?.trim()) {
-      setErrorMessage(`Please enter your mobile phone number for ${currentMobileOption.name} payment.`);
-      return;
-    }
+    // Determine backend payment method code ('CARD' or 'PAYPAL')
+    const resolvedMethod = primaryMethod;
 
     setIsSubmitting(true);
 
@@ -222,6 +142,13 @@ export function CheckoutView({
 
       // Order created successfully
       clearCart();
+
+      // If PayPal returned an approval URL, redirect immediately
+      if (resolvedMethod === 'PAYPAL' && result.paymentUrl) {
+        window.location.href = result.paymentUrl;
+        return;
+      }
+
       setCompletedOrder({
         orderId: result.orderId!,
         orderNumber: result.orderNumber!,
@@ -661,50 +588,51 @@ export function CheckoutView({
                     </button>
                   )}
 
-                  {/* OPTION 2: Mobile Money */}
-                  {paymentConfig.mobileMoneyEnabled && availableMobileOptions.length > 0 && (
+                  {/* OPTION 2: PayPal */}
+                  {paymentConfig.paypalEnabled && (
                     <button
                       type="button"
-                      onClick={() => setPrimaryMethod('MOBILE_MONEY')}
+                      onClick={() => setPrimaryMethod('PAYPAL')}
                       className={`relative p-5 rounded-2xl text-start transition-all duration-300 border-2 flex flex-col justify-between gap-3 ${
-                        primaryMethod === 'MOBILE_MONEY'
-                          ? 'border-[#B85233] bg-[#B85233]/5 shadow-sm ring-4 ring-[#B85233]/5'
-                          : 'border-[#E8E2D8] bg-[#FAF8F5] hover:border-[#D48344]/50'
+                        primaryMethod === 'PAYPAL'
+                          ? 'border-[#0070BA] bg-[#0070BA]/5 shadow-sm ring-4 ring-[#0070BA]/10'
+                          : 'border-[#E8E2D8] bg-[#FAF8F5] hover:border-[#0070BA]/40'
                       }`}
                     >
                       <div className="flex items-center justify-between w-full">
-                        <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B85233]">
-                          <Smartphone className="w-5 h-5" />
+                        <div className="w-10 h-10 rounded-xl bg-white border border-[#E8E2D8] flex items-center justify-center text-[#003087]">
+                          <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.76A.948.948 0 0 1 5.88 2h7.02c3.08 0 5.348.814 6.368 2.302 1.054 1.536.87 3.792-.472 5.922-1.572 2.493-4.143 3.864-7.433 3.864H9.014l-1.042 6.582a.641.641 0 0 1-.633.544l-.263.125z" fill="#003087" />
+                            <path d="M19.268 7.37c-.32 2.336-1.575 4.394-3.737 5.768-1.532.975-3.418 1.488-5.452 1.488h-1.65a.82.82 0 0 0-.81.693l-1.162 7.362a.51.51 0 0 0 .504.59h3.702a.76.76 0 0 0 .752-.644l.808-5.112a.82.82 0 0 1 .81-.693h1.166c3.968 0 7.07-1.611 7.973-6.26.377-1.942.062-3.473-.91-4.49-.24-.251-.53-.478-.85-.68l-.556 1.978z" fill="#0079C1" />
+                          </svg>
                         </div>
                         <span
                           className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                            primaryMethod === 'MOBILE_MONEY'
-                              ? 'border-[#B85233] bg-[#B85233] text-white'
+                            primaryMethod === 'PAYPAL'
+                              ? 'border-[#0070BA] bg-[#0070BA] text-white'
                               : 'border-[#C4BCB0] bg-white'
                           }`}
                         >
-                          {primaryMethod === 'MOBILE_MONEY' && <Check className="w-3 h-3 stroke-[3]" />}
+                          {primaryMethod === 'PAYPAL' && <Check className="w-3 h-3 stroke-[3]" />}
                         </span>
                       </div>
 
                       <div>
                         <h3 className="font-playfair text-base font-medium text-[#1E1C1A]">
-                          Mobile Money
+                          PayPal
                         </h3>
                         <p className="text-xs text-[#6B655B] mt-0.5">
-                          Instant USSD prompt & wallet settlement
+                          PayPal account, Pay in 4, or Cards
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-1 pt-1 overflow-hidden">
-                        {availableMobileOptions.slice(0, 4).map((opt) => (
-                          <span
-                            key={opt.id}
-                            className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E8E2D8] font-medium text-[#1E1C1A]"
-                          >
-                            {opt.name}
-                          </span>
-                        ))}
+                      <div className="flex items-center gap-1.5 pt-1">
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E8E2D8] font-bold text-[#003087]">
+                          PayPal
+                        </span>
+                        <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E8E2D8] font-semibold text-[#1E1C1A]">
+                          Buyer Protection
+                        </span>
                       </div>
                     </button>
                   )}
@@ -776,133 +704,39 @@ export function CheckoutView({
                     </div>
 
                     <p className="text-[11px] text-[#8A847A] leading-relaxed pt-1">
-                      Your payment is processed securely. All card numbers are strictly tokenized and encrypted according to PCI-DSS Level 1 standards.
+                      Your payment is processed securely via Stripe. All card numbers are strictly tokenized and encrypted according to PCI-DSS Level 1 standards.
                     </p>
                   </div>
                 ) : (
-                  /* MOBILE MONEY ACCORDION & DROPDOWN */
-                  <div className="p-5 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D8] space-y-5 animate-in fade-in duration-300">
-                    <div className="space-y-2">
-                      <label className="text-xs font-semibold text-[#1E1C1A] uppercase tracking-wider block">
-                        Choose Mobile Money Service
-                      </label>
-
-                      {/* Custom Luxury Dropdown Selector */}
-                      <div className="relative">
-                        <button
-                          type="button"
-                          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                          className="w-full p-3.5 rounded-2xl bg-white border-2 border-[#E8E2D8] hover:border-[#B85233] text-start flex items-center justify-between gap-3 transition-all shadow-xs"
-                        >
-                          <div className="flex items-center gap-3.5 min-w-0">
-                            {/* Selected Logo */}
-                            <div className="w-12 h-9 rounded-lg bg-white border border-[#E8E2D8] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
-                              <Image
-                                src={currentMobileOption.logo}
-                                alt={currentMobileOption.name}
-                                width={48}
-                                height={36}
-                                className="max-h-full max-w-full object-contain"
-                              />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="font-playfair text-base font-semibold text-[#1E1C1A] truncate">
-                                {currentMobileOption.name}
-                              </div>
-                              <div className="text-xs text-[#8A847A] truncate">
-                                {currentMobileOption.network}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-2 text-[#8A847A]">
-                            <span className="text-xs hidden sm:inline">Change</span>
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform duration-200 ${
-                                isDropdownOpen ? 'rotate-180' : ''
-                              }`}
-                            />
-                          </div>
-                        </button>
-
-                        {/* Dropdown Menu */}
-                        {isDropdownOpen && (
-                          <div className="absolute z-30 left-0 right-0 mt-2 p-2 rounded-2xl bg-white border border-[#E8E2D8] shadow-xl space-y-1 animate-in fade-in zoom-in-95 duration-150">
-                            {availableMobileOptions.map((opt) => {
-                              const isSelected = opt.id === selectedMobileService;
-                              return (
-                                <button
-                                  key={opt.id}
-                                  type="button"
-                                  onClick={() => {
-                                    setSelectedMobileService(opt.id);
-                                    setIsDropdownOpen(false);
-                                  }}
-                                  className={`w-full p-2.5 rounded-xl text-start flex items-center justify-between gap-3 transition-colors ${
-                                    isSelected
-                                      ? 'bg-[#B85233]/10 text-[#1E1C1A]'
-                                      : 'hover:bg-[#FAF8F5] text-[#1E1C1A]'
-                                  }`}
-                                >
-                                  <div className="flex items-center gap-3 min-w-0">
-                                    <div className="w-12 h-8 rounded-lg bg-white border border-[#E8E2D8] p-1 flex items-center justify-center shrink-0 overflow-hidden">
-                                      <Image
-                                        src={opt.logo}
-                                        alt={opt.name}
-                                        width={48}
-                                        height={32}
-                                        className="max-h-full max-w-full object-contain"
-                                      />
-                                    </div>
-                                    <div>
-                                      <div className="font-playfair text-sm font-semibold text-[#1E1C1A]">
-                                        {opt.name}
-                                      </div>
-                                      <div className="text-[11px] text-[#8A847A]">{opt.network}</div>
-                                    </div>
-                                  </div>
-
-                                  {isSelected && (
-                                    <span className="w-5 h-5 rounded-full bg-[#B85233] text-white flex items-center justify-center shrink-0">
-                                      <Check className="w-3 h-3 stroke-[3]" />
-                                    </span>
-                                  )}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
+                  /* PAYPAL EXPRESS CHECKOUT CONTAINER */
+                  <div className="p-6 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D8] space-y-4 animate-in fade-in duration-300">
+                    <div className="flex items-center justify-between text-xs text-[#6B655B] pb-3 border-b border-[#E8E2D8]/60">
+                      <span className="font-semibold text-[#1E1C1A]">PayPal Express Checkout</span>
+                      <span className="flex items-center gap-1 text-[#0070BA] font-medium">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                        PayPal Purchase Protection
+                      </span>
                     </div>
 
-                    {/* Dedicated Phone Input */}
-                    <div className="space-y-1.5 pt-1">
-                      <label className="text-xs font-semibold text-[#1E1C1A] uppercase tracking-wider block">
-                        Registered Mobile Number <span className="text-[#B85233]">*</span>
-                      </label>
-                      <div className="relative flex rounded-2xl overflow-hidden border border-[#E8E2D8] focus-within:ring-2 focus-within:ring-[#B85233]/20 focus-within:border-[#B85233] bg-white">
-                        <span className="px-3.5 py-3 bg-[#FAF8F5] border-e border-[#E8E2D8] text-xs font-mono font-bold text-[#1E1C1A] flex items-center">
-                          +252
-                        </span>
-                        <input
-                          type="tel"
-                          name="customerPhone"
-                          required
-                          value={formData.customerPhone}
-                          onChange={handleInputChange}
-                          placeholder={currentMobileOption.placeholder}
-                          className="flex-1 px-4 py-3 bg-white text-sm text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none"
-                        />
+                    <div className="p-4 rounded-xl bg-white border border-[#E8E2D8] space-y-2 text-xs text-[#524E48]">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full bg-[#0070BA]/10 flex items-center justify-center text-[#0070BA]">
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </div>
+                        <p className="font-semibold text-[#1E1C1A]">Seamless One-Click Authorization</p>
                       </div>
+                      <p className="leading-relaxed ps-8">
+                        When you click <strong>Complete Order</strong>, you will be redirected securely to PayPal to approve your payment with your balance, linked bank, or card. Once approved, your order is instantly secured and confirmed.
+                      </p>
                     </div>
 
-                    {/* Instant USSD Prompt Guidance Card */}
-                    <div className="p-3.5 rounded-xl bg-white border border-[#E8E2D8] text-xs text-[#6B655B] flex items-start gap-2.5">
-                      <Smartphone className="w-4 h-4 text-[#B85233] shrink-0 mt-0.5" />
-                      <div className="space-y-0.5">
-                        <p className="font-semibold text-[#1E1C1A]">Direct Phone Authorization</p>
-                        <p className="leading-relaxed">{currentMobileOption.helpText}</p>
-                      </div>
+                    <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-[#8A847A]">
+                      <span className="inline-flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> No sensitive financial details shared
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Full fraud monitoring &amp; 24/7 support
+                      </span>
                     </div>
                   </div>
                 )}

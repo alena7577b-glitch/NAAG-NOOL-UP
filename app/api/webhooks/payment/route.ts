@@ -4,7 +4,7 @@ import {
   getPaymentProvider,
   PaymentProvider,
   StripePaymentProvider,
-  SoomarPayProvider,
+  PayPalPaymentProvider,
 } from '@/services/payment';
 import { emailService } from '@/services/email';
 import { logger } from '@/lib/logger';
@@ -21,8 +21,8 @@ export async function POST(req: NextRequest) {
     });
 
     let provider: PaymentProvider;
-    if (headersList['soomarpay-signature'] || headersList['soomarpay-event']) {
-      provider = new SoomarPayProvider();
+    if (headersList['paypal-auth-algo'] || headersList['paypal-transmission-id']) {
+      provider = new PayPalPaymentProvider();
     } else if (headersList['stripe-signature']) {
       provider = new StripePaymentProvider();
     } else {

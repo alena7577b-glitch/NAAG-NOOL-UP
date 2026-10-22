@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import {
   CreditCard,
-  Smartphone,
   Check,
   AlertCircle,
   Save,
@@ -36,15 +34,12 @@ export function AdminPaymentSettingsView({ initialConfig }: AdminPaymentSettings
     setStatusMessage(null);
 
     // Guard: Ensure at least one payment method is active
-    const hasAtLeastOne =
-      config.cardEnabled ||
-      (config.mobileMoneyEnabled &&
-        (config.evcEnabled || config.zaadEnabled || config.sahalEnabled || config.edahabEnabled || config.premierEnabled));
+    const hasAtLeastOne = config.cardEnabled || config.paypalEnabled;
 
     if (!hasAtLeastOne) {
       setStatusMessage({
         type: 'error',
-        text: 'At least one payment method must remain enabled for customers to complete checkout.',
+        text: 'At least one payment method (Stripe or PayPal) must remain enabled for customers to complete checkout.',
       });
       setIsSaving(false);
       return;
@@ -170,125 +165,46 @@ export function AdminPaymentSettingsView({ initialConfig }: AdminPaymentSettings
           </div>
 
           {/* 2. SOMALI MOBILE MONEY (MASTER TOGGLE & SUB-PROVIDERS) */}
-          <div className="p-6 rounded-3xl bg-white border border-[#EBE6DC] shadow-xs space-y-5">
-            <div className="flex items-center justify-between pb-4 border-b border-[#F0EBE1]">
+          {/* 2. PAYPAL EXPRESS CHECKOUT */}
+          <div className="p-6 rounded-3xl bg-white border border-[#EBE6DC] shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#FAF8F5] border border-[#EBE6DC] flex items-center justify-center text-[#B85233]">
-                  <Smartphone className="w-5 h-5" />
+                <div className="w-10 h-10 rounded-2xl bg-[#FAF8F5] border border-[#EBE6DC] flex items-center justify-center text-[#003087]">
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.76A.948.948 0 0 1 5.88 2h7.02c3.08 0 5.348.814 6.368 2.302 1.054 1.536.87 3.792-.472 5.922-1.572 2.493-4.143 3.864-7.433 3.864H9.014l-1.042 6.582a.641.641 0 0 1-.633.544l-.263.125z" fill="#003087" />
+                    <path d="M19.268 7.37c-.32 2.336-1.575 4.394-3.737 5.768-1.532.975-3.418 1.488-5.452 1.488h-1.65a.82.82 0 0 0-.81.693l-1.162 7.362a.51.51 0 0 0 .504.59h3.702a.76.76 0 0 0 .752-.644l.808-5.112a.82.82 0 0 1 .81-.693h1.166c3.968 0 7.07-1.611 7.973-6.26.377-1.942.062-3.473-.91-4.49-.24-.251-.53-.478-.85-.68l-.556 1.978z" fill="#0079C1" />
+                  </svg>
                 </div>
                 <div>
                   <h3 className="font-playfair text-base font-semibold text-[#1E1C1A]">
-                    Somali Mobile Money
+                    PayPal Express Checkout
                   </h3>
-                  <p className="text-xs text-[#8A847A]">Master switch for all instant wallet settlements</p>
+                  <p className="text-xs text-[#8A847A]">PayPal balance, Pay in 4, &amp; international cards</p>
                 </div>
               </div>
 
-              {/* Master Toggle Switch */}
+              {/* Toggle Switch */}
               <button
                 type="button"
-                onClick={() => handleToggle('mobileMoneyEnabled')}
+                onClick={() => handleToggle('paypalEnabled')}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                  config.mobileMoneyEnabled ? 'bg-[#182821]' : 'bg-[#E5DFC0]'
+                  config.paypalEnabled ? 'bg-[#182821]' : 'bg-[#E5DFC0]'
                 }`}
-                aria-label="Toggle Mobile Money Master"
+                aria-label="Toggle PayPal"
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    config.mobileMoneyEnabled ? 'translate-x-6' : 'translate-x-1'
+                    config.paypalEnabled ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
             </div>
 
-            {/* Individual Provider Toggles */}
-            <div className="space-y-3 pt-1">
-              <p className="text-xs font-semibold uppercase tracking-wider text-[#8A847A]">
-                Supported Mobile Networks
-              </p>
-
-              {[
-                {
-                  key: 'evcEnabled' as const,
-                  name: 'EVC Plus',
-                  network: 'Hormuud Telecom',
-                  logo: '/images/payment-methods/EVC-PLUS-Logo-01-230x128.webp',
-                },
-                {
-                  key: 'zaadEnabled' as const,
-                  name: 'ZAAD Service',
-                  network: 'Telesom',
-                  logo: '/images/payment-methods/zaad.png',
-                },
-                {
-                  key: 'sahalEnabled' as const,
-                  name: 'Sahal Service',
-                  network: 'Golis Telecom',
-                  logo: '/images/payment-methods/Golis_Telecom_Logo.png',
-                },
-                {
-                  key: 'edahabEnabled' as const,
-                  name: 'eDahab',
-                  network: 'Dahabshiil',
-                  logo: '/images/payment-methods/edahab.jpg',
-                },
-                {
-                  key: 'premierEnabled' as const,
-                  name: 'Premier Wallet',
-                  network: 'Premier Bank',
-                  logo: '/images/payment-methods/premier wallet.png',
-                },
-              ].map((provider) => {
-                const isEnabled = config[provider.key] && config.mobileMoneyEnabled;
-
-                return (
-                  <div
-                    key={provider.key}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
-                      isEnabled
-                        ? 'bg-[#FAF8F5] border-[#EBE6DC]'
-                        : 'bg-stone-50 border-stone-200 opacity-60'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-8 rounded-lg bg-white border border-[#EBE6DC] p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
-                        <Image
-                          src={provider.logo}
-                          alt={provider.name}
-                          width={48}
-                          height={32}
-                          className="max-h-full max-w-full object-contain"
-                        />
-                      </div>
-                      <div>
-                        <div className="font-playfair text-xs sm:text-sm font-semibold text-[#1E1C1A]">
-                          {provider.name}
-                        </div>
-                        <div className="text-[10px] text-[#8A847A]">{provider.network}</div>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      disabled={!config.mobileMoneyEnabled}
-                      onClick={() => handleToggle(provider.key)}
-                      className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none ${
-                        config[provider.key] && config.mobileMoneyEnabled
-                          ? 'bg-[#2D5A43]'
-                          : 'bg-stone-300'
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
-                          config[provider.key] && config.mobileMoneyEnabled
-                            ? 'translate-x-4'
-                            : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
-                  </div>
-                );
-              })}
+            <div className="pt-2 border-t border-[#F5F2EB] flex items-center justify-between text-xs text-[#6B655B]">
+              <span>Status on checkout:</span>
+              <span className={`font-semibold ${config.paypalEnabled ? 'text-emerald-700' : 'text-stone-400'}`}>
+                {config.paypalEnabled ? '● Visible & Active' : '○ Hidden from Customers'}
+              </span>
             </div>
           </div>
         </div>
@@ -312,7 +228,7 @@ export function AdminPaymentSettingsView({ initialConfig }: AdminPaymentSettings
                 <div className="p-3.5 rounded-2xl bg-white border-2 border-[#B85233] flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2.5">
                     <CreditCard className="w-4 h-4 text-[#B85233]" />
-                    <span className="font-semibold text-[#1E1C1A]">Credit or Debit Card</span>
+                    <span className="font-semibold text-[#1E1C1A]">Credit or Debit Card (Stripe)</span>
                   </div>
                   <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
                     Active
@@ -320,53 +236,26 @@ export function AdminPaymentSettingsView({ initialConfig }: AdminPaymentSettings
                 </div>
               ) : (
                 <div className="p-3 rounded-2xl bg-stone-100 border border-dashed border-stone-300 text-xs text-stone-400 italic">
-                  Card payment option is hidden
+                  Stripe Card payment is hidden
                 </div>
               )}
 
-              {config.mobileMoneyEnabled ? (
-                <div className="p-3.5 rounded-2xl bg-white border border-[#EBE6DC] space-y-2 text-xs">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <Smartphone className="w-4 h-4 text-[#B85233]" />
-                      <span className="font-semibold text-[#1E1C1A]">Mobile Money Dropdown</span>
-                    </div>
-                    <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
-                      Active
-                    </span>
+              {config.paypalEnabled ? (
+                <div className="p-3.5 rounded-2xl bg-white border-2 border-[#0070BA] flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <svg className="w-4 h-4 fill-current text-[#003087]" viewBox="0 0 24 24">
+                      <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.76A.948.948 0 0 1 5.88 2h7.02c3.08 0 5.348.814 6.368 2.302 1.054 1.536.87 3.792-.472 5.922-1.572 2.493-4.143 3.864-7.433 3.864H9.014l-1.042 6.582a.641.641 0 0 1-.633.544l-.263.125z" fill="#003087" />
+                      <path d="M19.268 7.37c-.32 2.336-1.575 4.394-3.737 5.768-1.532.975-3.418 1.488-5.452 1.488h-1.65a.82.82 0 0 0-.81.693l-1.162 7.362a.51.51 0 0 0 .504.59h3.702a.76.76 0 0 0 .752-.644l.808-5.112a.82.82 0 0 1 .81-.693h1.166c3.968 0 7.07-1.611 7.973-6.26.377-1.942.062-3.473-.91-4.49-.24-.251-.53-.478-.85-.68l-.556 1.978z" fill="#0079C1" />
+                    </svg>
+                    <span className="font-semibold text-[#1E1C1A]">PayPal Express Checkout</span>
                   </div>
-
-                  <div className="pt-2 border-t border-[#F5F2EB] flex flex-wrap gap-1.5">
-                    {config.evcEnabled && (
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#EBE6DC] text-[10px] font-medium">
-                        EVC Plus
-                      </span>
-                    )}
-                    {config.zaadEnabled && (
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#EBE6DC] text-[10px] font-medium">
-                        ZAAD
-                      </span>
-                    )}
-                    {config.sahalEnabled && (
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#EBE6DC] text-[10px] font-medium">
-                        Sahal
-                      </span>
-                    )}
-                    {config.edahabEnabled && (
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#EBE6DC] text-[10px] font-medium">
-                        eDahab
-                      </span>
-                    )}
-                    {config.premierEnabled && (
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F5] border border-[#EBE6DC] text-[10px] font-medium">
-                        Premier Wallet
-                      </span>
-                    )}
-                  </div>
+                  <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                    Active
+                  </span>
                 </div>
               ) : (
                 <div className="p-3 rounded-2xl bg-stone-100 border border-dashed border-stone-300 text-xs text-stone-400 italic">
-                  Mobile Money option is hidden
+                  PayPal option is hidden
                 </div>
               )}
             </div>

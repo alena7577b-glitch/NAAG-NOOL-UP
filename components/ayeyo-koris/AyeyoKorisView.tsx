@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
+  ArrowLeft,
   Heart,
   Users,
   BookOpen,
@@ -13,6 +14,8 @@ import {
   CheckCircle2,
   Sparkles,
   GraduationCap,
+  CreditCard,
+  ShieldCheck,
 } from 'lucide-react';
 import { AyeeyoTypographyTransition } from './AyeeyoTypographyTransition';
 
@@ -23,6 +26,7 @@ export function AyeyoKorisView() {
   const [customAmount, setCustomAmount] = useState<string>('');
   const [donorEmail, setDonorEmail] = useState<string>('');
   const [donorName, setDonorName] = useState<string>('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'CARD' | 'PAYPAL'>('CARD');
   const [isPledged, setIsPledged] = useState<boolean>(false);
 
   const handlePledgeSubmit = (e: React.FormEvent) => {
@@ -59,32 +63,32 @@ export function AyeyoKorisView() {
               />
             </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-7 lg:gap-9">
-              <Link
-                href="/"
-                className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
-              >
-                Home
-              </Link>
-              <Link
-                href="/about"
+            {/* Desktop Navigation Links: Scoped to Ayeeyo Koris Impact Story */}
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+              <a
+                href="#about-ayeeyo"
                 className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
               >
                 About
-              </Link>
-              <Link
-                href="/ayeyo-koris"
-                className="font-sans text-xs sm:text-[13px] font-semibold text-[#0A3929] border-b-2 border-[#D3A03A] pb-1 transition-colors"
-              >
-                Ayeeyo Koris
-              </Link>
-              <Link
-                href="/community"
+              </a>
+              <a
+                href="#what-it-means"
                 className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
               >
-                Community
-              </Link>
+                Our Pillars
+              </a>
+              <a
+                href="#the-power"
+                className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
+              >
+                Power of Care
+              </a>
+              <a
+                href="#education"
+                className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
+              >
+                Education
+              </a>
               <a
                 href="#get-involved"
                 className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
@@ -93,8 +97,17 @@ export function AyeyoKorisView() {
               </a>
             </nav>
 
-            {/* Support Us CTA */}
-            <div className="hidden sm:flex items-center gap-3">
+            {/* Right Side: Discrete Return Link + Support Us CTA */}
+            <div className="hidden sm:flex items-center gap-4">
+              <Link
+                href="/"
+                className="group inline-flex items-center gap-1.5 text-xs text-[#6B726B] hover:text-[#0A3929] font-medium transition-colors"
+                title="Return to Naag Nool UP Boutique & Home"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                <span>Naag Nool UP</span>
+              </Link>
+
               <button
                 type="button"
                 onClick={() => openSupportModal(50)}
@@ -130,41 +143,52 @@ export function AyeyoKorisView() {
         {mobileMenuOpen && (
           <div className="md:hidden bg-[#FFFFFF] border-b border-[#E5DFC0] px-6 py-5 space-y-4 shadow-lg animate-in slide-in-from-top-2 duration-200">
             <nav className="flex flex-col space-y-3 font-sans text-sm">
-              <Link
-                href="/"
+              <a
+                href="#about-ayeeyo"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[#4A544E] hover:text-[#0A3929] py-1"
-              >
-                Home
-              </Link>
-              <Link
-                href="/about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-[#4A544E] hover:text-[#0A3929] py-1"
+                className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
               >
                 About
-              </Link>
-              <Link
-                href="/ayeyo-koris"
+              </a>
+              <a
+                href="#what-it-means"
                 onClick={() => setMobileMenuOpen(false)}
-                className="font-semibold text-[#0A3929] border-s-2 border-[#D3A03A] ps-2 py-1"
+                className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
               >
-                Ayeeyo Koris
-              </Link>
-              <Link
-                href="/community"
+                Our Pillars
+              </a>
+              <a
+                href="#the-power"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[#4A544E] hover:text-[#0A3929] py-1"
+                className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
               >
-                Community
-              </Link>
+                Power of Care
+              </a>
+              <a
+                href="#education"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
+              >
+                Education
+              </a>
               <a
                 href="#get-involved"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-[#4A544E] hover:text-[#0A3929] py-1"
+                className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
               >
                 Get Involved
               </a>
+
+              <div className="pt-2 border-t border-[#E5DFC0]/60">
+                <Link
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center gap-1.5 text-xs text-[#6B726B] hover:text-[#0A3929] py-1"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Return to Naag Nool UP Boutique</span>
+                </Link>
+              </div>
             </nav>
             <div className="pt-2 border-t border-[#E5DFC0]/60">
               <button
@@ -285,7 +309,7 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           4. SECTION: WHAT AYEEYO KORIS MEANS (4 Core Pillars in Deep Forest Green)
       ========================================================================= */}
-      <section className="py-20 sm:py-24 lg:py-28 bg-[#0A3929] text-white relative overflow-hidden">
+      <section id="what-it-means" className="py-20 sm:py-24 lg:py-28 bg-[#0A3929] text-white relative overflow-hidden">
         {/* Subtle geometric background motif */}
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -361,7 +385,7 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           5. SECTION: THE POWER OF GRANDMOTHERS (Their Care Builds Strong Futures)
       ========================================================================= */}
-      <section className="relative py-20 sm:py-28 lg:py-32 bg-[#FAF8F5] border-b border-[#E5DFC0]/60 overflow-hidden">
+      <section id="the-power" className="relative py-20 sm:py-28 lg:py-32 bg-[#FAF8F5] border-b border-[#E5DFC0]/60 overflow-hidden">
         {/* Ambient Warm Gradients */}
         <div className="absolute top-0 right-1/4 w-[420px] h-[420px] bg-[#D3A03A]/8 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 left-10 w-[360px] h-[360px] bg-[#0A3929]/5 rounded-full blur-3xl pointer-events-none" />
@@ -483,7 +507,7 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           6. SECTION: EDUCATION & OPPORTUNITY (Learning Creates New Possibilities)
       ========================================================================= */}
-      <section className="py-16 sm:py-24 lg:py-28 bg-[#FCFBF9] border-b border-[#E5DFC0]/50">
+      <section id="education" className="py-16 sm:py-24 lg:py-28 bg-[#FCFBF9] border-b border-[#E5DFC0]/50">
         <div className="max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             {/* Left Content */}
@@ -621,26 +645,26 @@ export function AyeyoKorisView() {
             <div className="md:col-span-5 grid grid-cols-2 gap-6 sm:gap-8 font-sans text-xs sm:text-[13px]">
               <div className="space-y-2.5">
                 <div>
-                  <Link href="/" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
-                    Home
-                  </Link>
+                  <a href="#about-ayeeyo" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
+                    About Ayeeyo Koris
+                  </a>
                 </div>
                 <div>
-                  <Link href="/about" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
-                    About
-                  </Link>
+                  <a href="#what-it-means" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
+                    Our Core Pillars
+                  </a>
                 </div>
                 <div>
-                  <Link href="/ayeyo-koris" className="text-[#0A3929] font-semibold transition-colors">
-                    Ayeeyo Koris
-                  </Link>
+                  <a href="#the-power" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
+                    Power of Care
+                  </a>
                 </div>
               </div>
               <div className="space-y-2.5">
                 <div>
-                  <Link href="/community" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
-                    Community
-                  </Link>
+                  <a href="#education" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
+                    Education &amp; Opportunity
+                  </a>
                 </div>
                 <div>
                   <a href="#get-involved" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
@@ -648,8 +672,8 @@ export function AyeyoKorisView() {
                   </a>
                 </div>
                 <div>
-                  <Link href="/contact" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
-                    Contact
+                  <Link href="/" className="inline-flex items-center gap-1 text-[#A8741A] hover:text-[#0A3929] font-medium transition-colors">
+                    <span>← Naag Nool UP</span>
                   </Link>
                 </div>
               </div>
@@ -820,16 +844,67 @@ export function AyeyoKorisView() {
                   </div>
                 </div>
 
+                {/* Payment Method Selector */}
+                <div className="space-y-2 pt-1">
+                  <label className="block font-sans text-xs font-medium text-[#4A544E]">
+                    Payment Channel
+                  </label>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPaymentMethod('CARD')}
+                      className={`p-3 rounded-xl border text-start flex items-center justify-between transition-all ${
+                        selectedPaymentMethod === 'CARD'
+                          ? 'border-[#0A3929] bg-[#0A3929]/5 ring-2 ring-[#0A3929]/20 font-semibold'
+                          : 'border-[#D5C9B3] bg-white hover:border-[#0A3929]/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="w-4 h-4 text-[#0A3929]" />
+                        <span className="text-xs text-[#1E1C1A]">Card (Stripe)</span>
+                      </div>
+                      {selectedPaymentMethod === 'CARD' && (
+                        <div className="w-2 h-2 rounded-full bg-[#0A3929]" />
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPaymentMethod('PAYPAL')}
+                      className={`p-3 rounded-xl border text-start flex items-center justify-between transition-all ${
+                        selectedPaymentMethod === 'PAYPAL'
+                          ? 'border-[#0070BA] bg-[#0070BA]/5 ring-2 ring-[#0070BA]/20 font-semibold'
+                          : 'border-[#D5C9B3] bg-white hover:border-[#0070BA]/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <svg className="w-4 h-4 fill-current text-[#003087]" viewBox="0 0 24 24">
+                          <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.76A.948.948 0 0 1 5.88 2h7.02c3.08 0 5.348.814 6.368 2.302 1.054 1.536.87 3.792-.472 5.922-1.572 2.493-4.143 3.864-7.433 3.864H9.014l-1.042 6.582a.641.641 0 0 1-.633.544l-.263.125z" fill="#003087" />
+                          <path d="M19.268 7.37c-.32 2.336-1.575 4.394-3.737 5.768-1.532.975-3.418 1.488-5.452 1.488h-1.65a.82.82 0 0 0-.81.693l-1.162 7.362a.51.51 0 0 0 .504.59h3.702a.76.76 0 0 0 .752-.644l.808-5.112a.82.82 0 0 1 .81-.693h1.166c3.968 0 7.07-1.611 7.973-6.26.377-1.942.062-3.473-.91-4.49-.24-.251-.53-.478-.85-.68l-.556 1.978z" fill="#0079C1" />
+                        </svg>
+                        <span className="text-xs text-[#1E1C1A]">PayPal</span>
+                      </div>
+                      {selectedPaymentMethod === 'PAYPAL' && (
+                        <div className="w-2 h-2 rounded-full bg-[#0070BA]" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
                 {/* Submit Action */}
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] font-semibold text-xs sm:text-sm py-3.5 rounded-full transition-all shadow-md hover:shadow-lg"
+                    className="w-full bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] font-semibold text-xs sm:text-sm py-3.5 rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                   >
-                    Confirm Pledge of ${customAmount || selectedTier}
+                    <span>
+                      Proceed with {selectedPaymentMethod === 'CARD' ? 'Card' : 'PayPal'} • ${customAmount || selectedTier}
+                    </span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
-                  <p className="font-sans text-[11px] text-center text-[#7A756D] mt-2">
-                    Ayeeyo Koris is a registered non-profit initiative. Secure pledge processing.
+                  <p className="font-sans text-[11px] text-center text-[#7A756D] mt-2 flex items-center justify-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#0A3929]" />
+                    <span>Securely processed via {selectedPaymentMethod === 'CARD' ? 'Stripe' : 'PayPal'}. Tax-deductible pledge.</span>
                   </p>
                 </div>
               </form>
