@@ -16,6 +16,9 @@ import {
   GraduationCap,
   CreditCard,
   ShieldCheck,
+  User,
+  Mail,
+  Check,
 } from 'lucide-react';
 import { AyeeyoTypographyTransition } from './AyeeyoTypographyTransition';
 
@@ -740,190 +743,367 @@ export function AyeyoKorisView() {
       </footer>
 
       {/* =========================================================================
-          INTERACTIVE SUPPORT & DONATION MODAL
+          INTERACTIVE SUPPORT & DONATION MODAL (AYEEYO KORIS LUXURY SUITE)
       ========================================================================= */}
       {supportModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-lg bg-[#FAF8F5] rounded-2xl shadow-2xl border border-[#E5DFC0] p-6 sm:p-8 text-[#1E1C1A] overflow-hidden">
-            <button
-              type="button"
-              onClick={() => setSupportModalOpen(false)}
-              className="absolute top-4 right-4 p-2 text-[#4A544E] hover:text-[#0A3929] rounded-full hover:bg-[#EAE5DC]"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 sm:p-6 animate-in fade-in duration-200">
+          <div className="relative w-full max-w-xl bg-[#FAF8F5] rounded-[28px] sm:rounded-[32px] shadow-2xl border border-[#E5DFC0] p-6 sm:p-8 text-[#1E1C1A] overflow-hidden max-h-[92vh] overflow-y-auto">
+            {/* Ambient Warm Golden Glow in Top Right Corner */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#D3A03A]/10 rounded-full blur-3xl pointer-events-none" />
+
+            {/* Header: Official Ayeeyo Koris Logo & Close Button */}
+            <div className="relative z-10 flex items-center justify-between pb-5 border-b border-[#E5DFC0]/80">
+              <div className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/ayeeyo-koris-logo.png"
+                  alt="Ayeeyo Koris"
+                  className="h-11 sm:h-12 w-auto object-contain"
+                />
+                <div className="h-7 w-px bg-[#D5C9B3]" />
+                <div>
+                  <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-[#A8741A] block">
+                    Non-Profit Initiative
+                  </span>
+                  <span className="text-xs text-[#5C665F] font-medium">
+                    Sponsorship Concierge
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSupportModalOpen(false)}
+                className="p-2.5 text-[#5C665F] hover:text-[#0A3929] rounded-full hover:bg-[#EAE5DC] transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
 
             {!isPledged ? (
-              <form onSubmit={handlePledgeSubmit} className="space-y-5">
-                <div className="space-y-1">
-                  <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.2em] text-[#A8741A]">
-                    SUPPORT AYEEYO KORIS
-                  </p>
-                  <h3 className="font-playfair text-2xl sm:text-3xl font-normal text-[#0A3929]">
-                    Sponsor a Future
+              <form onSubmit={handlePledgeSubmit} className="relative z-10 space-y-6 pt-5">
+                <div className="space-y-1.5">
+                  <h3 className="font-playfair text-2xl sm:text-3xl text-[#0A3929]">
+                    Sponsor a Child&apos;s Future
                   </h3>
-                  <p className="font-sans text-xs sm:text-sm text-[#4A544E] leading-relaxed">
-                    Choose how you would like to support children raised by grandmothers.
+                  <p className="font-sans text-xs sm:text-[13px] text-[#5C665F] leading-relaxed">
+                    Choose how you would like to support boys and girls raised by their loving grandmothers. Every contribution directly funds education, daily nutrition, and family care.
                   </p>
                 </div>
 
-                {/* Preset Tiers */}
-                <div className="grid grid-cols-3 gap-2.5 pt-1">
-                  {[25, 50, 100].map((amount) => (
-                    <button
-                      key={amount}
-                      type="button"
-                      onClick={() => {
-                        setSelectedTier(amount);
-                        setCustomAmount('');
+                {/* Rich Interactive Sponsorship Tiers */}
+                <div className="space-y-2">
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4A544E] block">
+                    Select Sponsorship Tier
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {[
+                      {
+                        amount: 25,
+                        title: 'Books & Literacy',
+                        desc: 'Textbooks, stationery & school supplies',
+                        badge: 'Essential',
+                        icon: BookOpen,
+                      },
+                      {
+                        amount: 50,
+                        title: 'Family Care Kit',
+                        desc: 'Nutrition, clothing & grandmother care',
+                        badge: 'Most Popular',
+                        icon: Heart,
+                      },
+                      {
+                        amount: 100,
+                        title: 'Full Schooling',
+                        desc: 'Covers full tuition, uniform & transport',
+                        badge: 'High Impact',
+                        icon: GraduationCap,
+                      },
+                    ].map((tier) => {
+                      const isSelected = selectedTier === tier.amount && !customAmount;
+                      const IconComponent = tier.icon;
+                      return (
+                        <button
+                          key={tier.amount}
+                          type="button"
+                          onClick={() => {
+                            setSelectedTier(tier.amount);
+                            setCustomAmount('');
+                          }}
+                          className={`relative p-4 rounded-2xl border text-start transition-all flex flex-col justify-between gap-3 ${
+                            isSelected
+                              ? 'border-[#0A3929] bg-[#0A3929] text-white shadow-lg ring-2 ring-[#D3A03A]/60 scale-[1.02]'
+                              : 'border-[#E5DFC0] bg-white hover:border-[#D3A03A]/60 hover:bg-[#FAF8F4] text-[#1E1C1A]'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between w-full">
+                            <span
+                              className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                                isSelected
+                                  ? 'bg-[#D3A03A] text-[#1E1C1A]'
+                                  : 'bg-[#0A3929]/10 text-[#0A3929]'
+                              }`}
+                            >
+                              {tier.badge}
+                            </span>
+                            <div
+                              className={`w-7 h-7 rounded-full flex items-center justify-center ${
+                                isSelected
+                                  ? 'bg-white/15 text-[#D3A03A]'
+                                  : 'bg-[#FAF8F4] text-[#0A3929]'
+                              }`}
+                            >
+                              <IconComponent className="w-3.5 h-3.5" />
+                            </div>
+                          </div>
+
+                          <div className="space-y-0.5">
+                            <div className="font-playfair text-2xl font-bold">
+                              ${tier.amount}
+                            </div>
+                            <div
+                              className={`font-sans text-xs font-semibold ${
+                                isSelected ? 'text-white' : 'text-[#0A3929]'
+                              }`}
+                            >
+                              {tier.title}
+                            </div>
+                            <p
+                              className={`text-[11px] leading-tight ${
+                                isSelected ? 'text-[#CBE1D6]' : 'text-[#7A756D]'
+                              }`}
+                            >
+                              {tier.desc}
+                            </p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Custom Amount Field */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="custom-amount"
+                    className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4A544E] block"
+                  >
+                    Or Enter Custom Pledge ($ USD)
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-3 text-sm font-bold text-[#0A3929] font-mono">
+                      $
+                    </span>
+                    <input
+                      id="custom-amount"
+                      type="number"
+                      min="5"
+                      step="5"
+                      placeholder="e.g. 150"
+                      value={customAmount}
+                      onChange={(e) => {
+                        setCustomAmount(e.target.value);
+                        setSelectedTier(0);
                       }}
-                      className={`py-3 px-2 rounded-xl border text-center font-sans transition-all ${
-                        selectedTier === amount && !customAmount
-                          ? 'border-[#0A3929] bg-[#0A3929] text-white shadow-sm font-semibold'
-                          : 'border-[#D5C9B3] bg-white text-[#1E1C1A] hover:border-[#0A3929]'
-                      }`}
+                      className="w-full ps-8 pe-4 py-3 rounded-2xl border border-[#E5DFC0] bg-white font-sans text-sm text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:ring-2 focus:ring-[#D3A03A]/30 focus:border-[#0A3929] transition-all"
+                    />
+                    {customAmount && (
+                      <span className="absolute right-4 top-3 text-xs font-semibold text-[#A8741A]">
+                        Custom Tier
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Donor Details Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="donor-name"
+                      className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4A544E] block"
                     >
-                      <div className="text-base font-bold">${amount}</div>
-                      <div className="text-[10px] opacity-80 mt-0.5">
-                        {amount === 25 ? 'Books' : amount === 50 ? 'Care Kit' : 'Tuition'}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Custom Amount */}
-                <div>
-                  <label htmlFor="custom-amount" className="block font-sans text-xs font-medium text-[#4A544E] mb-1">
-                    Or Enter Custom Amount ($ USD)
-                  </label>
-                  <input
-                    id="custom-amount"
-                    type="number"
-                    min="5"
-                    step="5"
-                    placeholder="e.g. 150"
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setSelectedTier(0);
-                    }}
-                    className="w-full px-4 py-2.5 rounded-lg border border-[#D5C9B3] bg-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#0A3929]"
-                  />
-                </div>
-
-                {/* Donor Details */}
-                <div className="space-y-3 pt-1">
-                  <div>
-                    <label htmlFor="donor-name" className="block font-sans text-xs font-medium text-[#4A544E] mb-1">
-                      Your Full Name
+                      Your Full Name <span className="text-[#A8741A]">*</span>
                     </label>
-                    <input
-                      id="donor-name"
-                      type="text"
-                      required
-                      placeholder="e.g. Sarah Warsame"
-                      value={donorName}
-                      onChange={(e) => setDonorName(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg border border-[#D5C9B3] bg-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#0A3929]"
-                    />
+                    <div className="relative">
+                      <input
+                        id="donor-name"
+                        type="text"
+                        required
+                        placeholder="Marian Warsame"
+                        value={donorName}
+                        onChange={(e) => setDonorName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-2xl border border-[#E5DFC0] bg-white font-sans text-sm text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:ring-2 focus:ring-[#D3A03A]/30 focus:border-[#0A3929] transition-all"
+                      />
+                      <User className="w-4 h-4 text-[#8A847A] absolute right-3.5 top-3.5 pointer-events-none" />
+                    </div>
                   </div>
-                  <div>
-                    <label htmlFor="donor-email" className="block font-sans text-xs font-medium text-[#4A544E] mb-1">
-                      Email Address
+
+                  <div className="space-y-1.5">
+                    <label
+                      htmlFor="donor-email"
+                      className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4A544E] block"
+                    >
+                      Email Address <span className="text-[#A8741A]">*</span>
                     </label>
-                    <input
-                      id="donor-email"
-                      type="email"
-                      required
-                      placeholder="you@example.com"
-                      value={donorEmail}
-                      onChange={(e) => setDonorEmail(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg border border-[#D5C9B3] bg-white font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#0A3929]"
-                    />
+                    <div className="relative">
+                      <input
+                        id="donor-email"
+                        type="email"
+                        required
+                        placeholder="marian@example.com"
+                        value={donorEmail}
+                        onChange={(e) => setDonorEmail(e.target.value)}
+                        className="w-full px-4 py-3 rounded-2xl border border-[#E5DFC0] bg-white font-sans text-sm text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:ring-2 focus:ring-[#D3A03A]/30 focus:border-[#0A3929] transition-all"
+                      />
+                      <Mail className="w-4 h-4 text-[#8A847A] absolute right-3.5 top-3.5 pointer-events-none" />
+                    </div>
                   </div>
                 </div>
 
-                {/* Payment Method Selector */}
-                <div className="space-y-2 pt-1">
-                  <label className="block font-sans text-xs font-medium text-[#4A544E]">
-                    Payment Channel
+                {/* Payment Channel: Stripe vs PayPal */}
+                <div className="space-y-2">
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4A544E] block">
+                    Choose Payment Channel
                   </label>
-                  <div className="grid grid-cols-2 gap-2.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
                       type="button"
                       onClick={() => setSelectedPaymentMethod('CARD')}
-                      className={`p-3 rounded-xl border text-start flex items-center justify-between transition-all ${
+                      className={`p-3.5 rounded-2xl border text-start transition-all flex items-center justify-between ${
                         selectedPaymentMethod === 'CARD'
-                          ? 'border-[#0A3929] bg-[#0A3929]/5 ring-2 ring-[#0A3929]/20 font-semibold'
-                          : 'border-[#D5C9B3] bg-white hover:border-[#0A3929]/40'
+                          ? 'border-[#0A3929] bg-[#0A3929]/5 ring-2 ring-[#0A3929]/20 shadow-xs'
+                          : 'border-[#E5DFC0] bg-white hover:border-[#D3A03A]/50'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <CreditCard className="w-4 h-4 text-[#0A3929]" />
-                        <span className="text-xs text-[#1E1C1A]">Card (Stripe)</span>
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-white border border-[#E5DFC0] flex items-center justify-center text-[#0A3929]">
+                          <CreditCard className="w-4 h-4 text-[#0A3929]" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-semibold text-[#1E1C1A]">
+                            Credit or Debit Card
+                          </div>
+                          <div className="text-[10px] text-[#7A756D]">
+                            Stripe 256-Bit TLS
+                          </div>
+                        </div>
                       </div>
-                      {selectedPaymentMethod === 'CARD' && (
-                        <div className="w-2 h-2 rounded-full bg-[#0A3929]" />
-                      )}
+                      <span
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                          selectedPaymentMethod === 'CARD'
+                            ? 'border-[#0A3929] bg-[#0A3929] text-white'
+                            : 'border-[#C4BCB0]'
+                        }`}
+                      >
+                        {selectedPaymentMethod === 'CARD' && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setSelectedPaymentMethod('PAYPAL')}
-                      className={`p-3 rounded-xl border text-start flex items-center justify-between transition-all ${
+                      className={`p-3.5 rounded-2xl border text-start transition-all flex items-center justify-between ${
                         selectedPaymentMethod === 'PAYPAL'
-                          ? 'border-[#0070BA] bg-[#0070BA]/5 ring-2 ring-[#0070BA]/20 font-semibold'
-                          : 'border-[#D5C9B3] bg-white hover:border-[#0070BA]/40'
+                          ? 'border-[#0070BA] bg-[#0070BA]/5 ring-2 ring-[#0070BA]/20 shadow-xs'
+                          : 'border-[#E5DFC0] bg-white hover:border-[#0070BA]/40'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <svg className="w-4 h-4 fill-current text-[#003087]" viewBox="0 0 24 24">
-                          <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.76A.948.948 0 0 1 5.88 2h7.02c3.08 0 5.348.814 6.368 2.302 1.054 1.536.87 3.792-.472 5.922-1.572 2.493-4.143 3.864-7.433 3.864H9.014l-1.042 6.582a.641.641 0 0 1-.633.544l-.263.125z" fill="#003087" />
-                          <path d="M19.268 7.37c-.32 2.336-1.575 4.394-3.737 5.768-1.532.975-3.418 1.488-5.452 1.488h-1.65a.82.82 0 0 0-.81.693l-1.162 7.362a.51.51 0 0 0 .504.59h3.702a.76.76 0 0 0 .752-.644l.808-5.112a.82.82 0 0 1 .81-.693h1.166c3.968 0 7.07-1.611 7.973-6.26.377-1.942.062-3.473-.91-4.49-.24-.251-.53-.478-.85-.68l-.556 1.978z" fill="#0079C1" />
-                        </svg>
-                        <span className="text-xs text-[#1E1C1A]">PayPal</span>
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-white border border-[#E5DFC0] flex items-center justify-center text-[#003087]">
+                          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.76A.948.948 0 0 1 5.88 2h7.02c3.08 0 5.348.814 6.368 2.302 1.054 1.536.87 3.792-.472 5.922-1.572 2.493-4.143 3.864-7.433 3.864H9.014l-1.042 6.582a.641.641 0 0 1-.633.544l-.263.125z" fill="#003087" />
+                            <path d="M19.268 7.37c-.32 2.336-1.575 4.394-3.737 5.768-1.532.975-3.418 1.488-5.452 1.488h-1.65a.82.82 0 0 0-.81.693l-1.162 7.362a.51.51 0 0 0 .504.59h3.702a.76.76 0 0 0 .752-.644l.808-5.112a.82.82 0 0 1 .81-.693h1.166c3.968 0 7.07-1.611 7.973-6.26.377-1.942.062-3.473-.91-4.49-.24-.251-.53-.478-.85-.68l-.556 1.978z" fill="#0079C1" />
+                          </svg>
+                        </div>
+                        <div>
+                          <div className="text-xs font-semibold text-[#1E1C1A]">
+                            PayPal Checkout
+                          </div>
+                          <div className="text-[10px] text-[#7A756D]">
+                            Buyer Protection
+                          </div>
+                        </div>
                       </div>
-                      {selectedPaymentMethod === 'PAYPAL' && (
-                        <div className="w-2 h-2 rounded-full bg-[#0070BA]" />
-                      )}
+                      <span
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                          selectedPaymentMethod === 'PAYPAL'
+                            ? 'border-[#0070BA] bg-[#0070BA] text-white'
+                            : 'border-[#C4BCB0]'
+                        }`}
+                      >
+                        {selectedPaymentMethod === 'PAYPAL' && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                      </span>
                     </button>
                   </div>
                 </div>
 
-                {/* Submit Action */}
+                {/* Submit Action CTA */}
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] font-semibold text-xs sm:text-sm py-3.5 rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                    className="w-full bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] font-semibold text-xs sm:text-sm py-4 rounded-full transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2.5 active:scale-[0.98]"
                   >
                     <span>
-                      Proceed with {selectedPaymentMethod === 'CARD' ? 'Card' : 'PayPal'} • ${customAmount || selectedTier}
+                      Proceed with {selectedPaymentMethod === 'CARD' ? 'Card (Stripe)' : 'PayPal'} • ${customAmount || selectedTier}
                     </span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                  <p className="font-sans text-[11px] text-center text-[#7A756D] mt-2 flex items-center justify-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#0A3929]" />
-                    <span>Securely processed via {selectedPaymentMethod === 'CARD' ? 'Stripe' : 'PayPal'}. Tax-deductible pledge.</span>
+
+                  <p className="font-sans text-[11px] text-center text-[#7A756D] mt-3 flex items-center justify-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-[#0A3929]" />
+                    <span>Official registered initiative • Tax-deductible pledge confirmation</span>
                   </p>
                 </div>
               </form>
             ) : (
-              <div className="text-center py-6 space-y-4">
-                <div className="w-16 h-16 bg-[#0A3929] text-[#D3A03A] rounded-full mx-auto flex items-center justify-center">
-                  <CheckCircle2 className="w-8 h-8" />
+              /* Success Celebration State */
+              <div className="relative z-10 text-center py-6 sm:py-8 space-y-5 animate-in fade-in duration-300">
+                <div className="relative inline-block">
+                  <div className="w-20 h-20 bg-[#0A3929] text-[#D3A03A] rounded-full mx-auto flex items-center justify-center shadow-xl border border-[#D3A03A]/40">
+                    <CheckCircle2 className="w-10 h-10 stroke-[2]" />
+                  </div>
                 </div>
-                <h3 className="font-playfair text-2xl font-normal text-[#0A3929]">
-                  Mahadsanid, {donorName || 'Friend'}!
-                </h3>
-                <p className="font-sans text-xs sm:text-sm text-[#4A544E] leading-relaxed max-w-sm mx-auto">
-                  Thank you for your generous pledge of <span className="font-bold text-[#0A3929]">${customAmount || selectedTier}</span>. You will receive an email confirmation at <span className="font-medium text-[#1E1C1A]">{donorEmail}</span> with details on how your contribution empowers grandmothers and children.
-                </p>
-                <div className="pt-3">
+
+                <div className="space-y-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ayeeyo-koris-logo.png"
+                    alt="Ayeeyo Koris"
+                    className="h-10 w-auto mx-auto object-contain mb-3"
+                  />
+                  <h3 className="font-playfair text-2xl sm:text-3xl text-[#0A3929]">
+                    Mahadsanid, {donorName || 'Generous Friend'}!
+                  </h3>
+                  <p className="font-sans text-xs sm:text-sm text-[#5C665F] leading-relaxed max-w-sm mx-auto">
+                    Your sponsorship pledge of <span className="font-bold text-[#0A3929]">${customAmount || selectedTier}</span> brings immediate hope, stability, and education to Somali grandmothers and their children.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white border border-[#E5DFC0] max-w-sm mx-auto text-xs text-start space-y-2">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#E5DFC0]">
+                    <span className="text-[#7A756D]">Donor Email</span>
+                    <span className="font-mono font-medium text-[#1E1C1A]">{donorEmail}</span>
+                  </div>
+                  <div className="flex items-center justify-between pb-2 border-b border-[#E5DFC0]">
+                    <span className="text-[#7A756D]">Payment Channel</span>
+                    <span className="font-medium text-[#0A3929]">
+                      {selectedPaymentMethod === 'CARD' ? 'Stripe Card' : 'PayPal'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#7A756D]">Pledge Status</span>
+                    <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full text-[10px]">
+                      Confirmed &amp; Dispatched
+                    </span>
+                  </div>
+                </div>
+
+                <div className="pt-2">
                   <button
                     type="button"
                     onClick={() => setSupportModalOpen(false)}
-                    className="bg-[#0A3929] text-white text-xs sm:text-sm font-medium px-6 py-2.5 rounded-full hover:bg-[#07261B] transition-colors"
+                    className="bg-[#0A3929] hover:bg-[#06251B] text-white text-xs sm:text-sm font-semibold px-8 py-3 rounded-full transition-all shadow-md active:scale-95"
                   >
                     Done
                   </button>
