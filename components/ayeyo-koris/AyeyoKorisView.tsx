@@ -534,7 +534,7 @@ export function AyeyoKorisView() {
                 </div>
 
                 {/* Overlapping Secondary Card: Joyful Student on the School Bus */}
-                <div className="hidden sm:block absolute -bottom-6 -left-6 sm:-left-8 w-44 sm:w-52 aspect-[4/3] rounded-xl overflow-hidden shadow-2xl border-4 border-white bg-white z-10 transition-transform duration-500 hover:scale-105">
+                <div className="hidden sm:block absolute -bottom-6 -left-6 sm:-left-8 w-48 sm:w-56 aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-white z-10 transition-transform duration-500 hover:scale-105">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/ayeeyo-education-bus-girl.jpg"
