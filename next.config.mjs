@@ -13,6 +13,40 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/donate',
+        destination: '/ayeyo-koris',
+        permanent: true,
+      },
+      {
+        source: '/ayeeyo-koris',
+        destination: '/ayeyo-koris',
+        permanent: true,
+      },
+      {
+        source: '/story',
+        destination: '/about',
+        permanent: true,
+      },
+      {
+        source: '/products',
+        destination: '/shop',
+        permanent: true,
+      },
+      {
+        source: '/sponsor',
+        destination: '/ayeyo-koris',
+        permanent: true,
+      },
+      {
+        source: '/sponsorship',
+        destination: '/ayeyo-koris',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

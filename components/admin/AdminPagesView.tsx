@@ -31,11 +31,20 @@ const STATIC_STOREFRONT_PAGES: PageItem[] = [
   },
   {
     id: 'page-story',
-    slug: 'story',
+    slug: 'about',
     title: 'Our Story — Mission & Vision',
     locale: 'en',
-    route: '/story',
+    route: '/about',
     purpose: 'Narrative of empowering Somali women and mindful reflection',
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'page-ayeeyo',
+    slug: 'ayeyo-koris',
+    title: 'Ayeeyo Koris — Non-Profit Initiative',
+    locale: 'en',
+    route: '/ayeyo-koris',
+    purpose: 'Grandmothers Raise Tomorrow sponsorship and empowerment',
     updatedAt: new Date().toISOString(),
   },
   {

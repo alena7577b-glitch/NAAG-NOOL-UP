@@ -51,20 +51,20 @@ export function AyeyoKorisSection() {
             </p>
 
             {/* Dual Action Buttons matching Figma Design */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-1 sm:pt-2">
-              <Link
-                href="/ayeyo-koris"
-                className="inline-flex items-center justify-center bg-[#FAF6F0] hover:bg-[#EDE3D4] text-[#1E1C1A] text-xs sm:text-[13px] font-semibold tracking-[0.04em] px-6 py-2.5 sm:py-3 rounded-[5px] transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98]"
-              >
-                Learn More
-              </Link>
-              <Link
-                href="/donate"
-                className="inline-flex items-center justify-center border border-[#FAF7F2]/60 hover:border-[#FAF7F2] hover:bg-[#FAF7F2]/10 text-[#FAF7F2] text-xs sm:text-[13px] font-semibold tracking-[0.04em] px-6 py-2.5 sm:py-3 rounded-[5px] transition-all duration-200 active:scale-[0.98]"
-              >
-                Donate
-              </Link>
-            </div>
+              <div className="flex flex-wrap items-center gap-3.5 pt-1 sm:pt-2">
+                <Link
+                  href="/ayeyo-koris"
+                  className="inline-flex items-center justify-center bg-[#FAF6F0] hover:bg-[#EDE3D4] text-[#1E1C1A] text-xs sm:text-[13px] font-semibold tracking-[0.04em] px-6 py-2.5 sm:py-3 rounded-[5px] transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98]"
+                >
+                  Learn More
+                </Link>
+                <Link
+                  href="/ayeyo-koris#get-involved"
+                  className="inline-flex items-center justify-center border border-[#FAF7F2]/60 hover:border-[#FAF7F2] hover:bg-[#FAF7F2]/10 text-[#FAF7F2] text-xs sm:text-[13px] font-semibold tracking-[0.04em] px-6 py-2.5 sm:py-3 rounded-[5px] transition-all duration-200 active:scale-[0.98]"
+                >
+                  Sponsor a Family
+                </Link>
+              </div>
 
           </div>
         </div>
