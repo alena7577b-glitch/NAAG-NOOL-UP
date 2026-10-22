@@ -356,13 +356,13 @@ export function AyeyoKorisView() {
       <section className="py-16 sm:py-24 lg:py-28 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
         <div className="max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            {/* Left Photo: Grandmother in Black Hijab with Girl */}
+            {/* Left Photo: Grandmother with Engineer & Doctor Grandchildren */}
             <div className="lg:col-span-6 flex justify-center lg:justify-start order-2 lg:order-1">
-              <div className="relative w-full max-w-lg aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
+              <div className="relative w-full max-w-xl aspect-[16/9] sm:aspect-[2/1] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/ayeeyo-power-grandmother.jpg"
-                  alt="Somali grandmother and young girl gazing toward the future"
+                  src="/images/ayeeyo-power-futures.jpg"
+                  alt="Somali grandmother proudly seated between her grandson, an engineer in a hard hat, and granddaughter, a doctor with a stethoscope"
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
