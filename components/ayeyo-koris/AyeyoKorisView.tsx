@@ -11,7 +11,10 @@ import {
   Menu,
   X,
   CheckCircle2,
+  Sparkles,
+  GraduationCap,
 } from 'lucide-react';
+import { AyeeyoTypographyTransition } from './AyeeyoTypographyTransition';
 
 export function AyeyoKorisView() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -231,6 +234,11 @@ export function AyeyoKorisView() {
       </section>
 
       {/* =========================================================================
+          HERO TEXT ANIMATION (Ayeeyo Koris Brand Affirmations Marquee)
+      ========================================================================= */}
+      <AyeeyoTypographyTransition />
+
+      {/* =========================================================================
           3. SECTION: ABOUT AYEEYO KORIS (Care Today. Opportunity Tomorrow.)
       ========================================================================= */}
       <section id="about-ayeeyo" className="py-16 sm:py-24 lg:py-28 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
@@ -353,45 +361,119 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           5. SECTION: THE POWER OF GRANDMOTHERS (Their Care Builds Strong Futures)
       ========================================================================= */}
-      <section className="py-16 sm:py-24 lg:py-28 bg-[#FAF8F5] border-b border-[#E5DFC0]/50">
-        <div className="max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+      <section className="relative py-20 sm:py-28 lg:py-32 bg-[#FAF8F5] border-b border-[#E5DFC0]/60 overflow-hidden">
+        {/* Ambient Warm Gradients */}
+        <div className="absolute top-0 right-1/4 w-[420px] h-[420px] bg-[#D3A03A]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 left-10 w-[360px] h-[360px] bg-[#0A3929]/5 rounded-full blur-3xl pointer-events-none" />
+        {/* Subtle Botanical Watermark */}
+        <div className="absolute top-10 right-8 w-40 h-56 opacity-5 pointer-events-none">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/botanical-branch.svg" alt="" className="w-full h-full object-contain" />
+        </div>
+
+        <div className="relative z-10 max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Photo: Grandmother with Engineer & Doctor Grandchildren */}
             <div className="lg:col-span-6 flex justify-center lg:justify-start order-2 lg:order-1">
-              <div className="relative w-full max-w-xl aspect-[16/9] sm:aspect-[2/1] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70 bg-[#FAF8F5] group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/ayeeyo-power-futures.jpg"
-                  alt="Somali grandmother proudly seated between her grandson, an engineer in a hard hat, and granddaughter, a doctor with a stethoscope"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+              <div className="relative w-full max-w-xl group">
+                {/* Offset Decorative Gold Frame & Ambient Shadow */}
+                <div className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 w-full h-full rounded-2xl border-2 border-[#D3A03A]/30 bg-[#FAF3E0]/40 -z-10 transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1" />
+
+                {/* Main Image Frame */}
+                <div className="relative aspect-[16/9] sm:aspect-[2/1] rounded-2xl overflow-hidden shadow-2xl shadow-[#0A3929]/12 border border-[#E5DFC0] bg-[#FAF8F5]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ayeeyo-power-futures.jpg"
+                    alt="Somali grandmother proudly seated between her grandson, an engineer in a hard hat, and granddaughter, a doctor with a stethoscope"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A3929]/30 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                {/* Floating Glassmorphic Story Badge */}
+                <div className="absolute -bottom-5 left-4 sm:left-6 z-20 bg-white/95 backdrop-blur-md rounded-xl p-3 sm:p-3.5 shadow-xl border border-[#E5DFC0] flex items-center gap-3 max-w-[280px] sm:max-w-[320px]">
+                  <div className="w-10 h-10 rounded-full bg-[#0A3929] text-[#D3A03A] flex items-center justify-center shrink-0 shadow-inner">
+                    <Sparkles className="w-5 h-5 stroke-[2]" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#A8741A]">
+                      Generational Success
+                    </p>
+                    <p className="text-xs text-[#1E1C1A] font-medium leading-snug">
+                      Raised with love • Thriving in engineering, medicine &amp; beyond
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Right Content */}
-            <div className="lg:col-span-6 space-y-6 order-1 lg:order-2">
-              <p className="font-sans text-xs sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-[#A8741A]">
-                THE POWER OF GRANDMOTHERS
-              </p>
+            <div className="lg:col-span-6 space-y-6 sm:space-y-7 order-1 lg:order-2">
+              {/* Eyebrow with gold dash */}
+              <div className="flex items-center gap-3">
+                <span className="w-6 h-[2px] bg-[#D3A03A]" />
+                <p className="font-sans text-xs sm:text-[12px] font-bold uppercase tracking-[0.25em] text-[#A8741A]">
+                  THE POWER OF GRANDMOTHERS
+                </p>
+              </div>
 
-              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.75rem] font-normal text-[#0A3929] leading-[1.15] tracking-tight">
+              {/* Headline with Cormorant serif italic accent */}
+              <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.85rem] font-normal text-[#0A3929] leading-[1.12] tracking-tight">
                 Their Care Builds <br />
-                Strong Futures
+                <span className="font-cormorant italic text-[#A8741A] font-medium">Strong Futures.</span>
               </h2>
 
-              <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#4A544E] leading-[1.8] font-normal">
-                Grandmothers are more than caregivers — they are teachers, protectors, and the heart of their families. They give children stability when life is uncertain, and they create the space dreams to grow.
+              {/* Narrative Story */}
+              <p className="font-sans text-xs sm:text-sm lg:text-[15px] text-[#4A544E] leading-[1.8] font-normal">
+                Grandmothers are more than caregivers — they are teachers, protectors, and the unwavering heart of their families. They give children stability when life is uncertain, creating the fertile soil where dreams take root and flourish.
               </p>
 
-              {/* Action Button: Our Vision */}
-              <div className="pt-2">
+              {/* 2 Feature Highlight Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                {/* Card 1 */}
+                <div className="p-4 rounded-xl bg-white/90 border border-[#E5DFC0]/80 shadow-sm space-y-1.5 transition-all duration-300 hover:border-[#D3A03A]/60 hover:shadow-md">
+                  <div className="flex items-center gap-2 text-[#0A3929]">
+                    <Heart className="w-4 h-4 text-[#D3A03A]" />
+                    <h4 className="font-playfair text-sm sm:text-base font-semibold text-[#0A3929]">
+                      Unwavering Stability
+                    </h4>
+                  </div>
+                  <p className="font-sans text-xs text-[#5C6760] leading-relaxed">
+                    Providing safe shelter, daily nutrition, and steady moral and cultural guidance.
+                  </p>
+                </div>
+
+                {/* Card 2 */}
+                <div className="p-4 rounded-xl bg-white/90 border border-[#E5DFC0]/80 shadow-sm space-y-1.5 transition-all duration-300 hover:border-[#D3A03A]/60 hover:shadow-md">
+                  <div className="flex items-center gap-2 text-[#0A3929]">
+                    <GraduationCap className="w-4 h-4 text-[#D3A03A]" />
+                    <h4 className="font-playfair text-sm sm:text-base font-semibold text-[#0A3929]">
+                      Limitless Potential
+                    </h4>
+                  </div>
+                  <p className="font-sans text-xs text-[#5C6760] leading-relaxed">
+                    Empowering boys and girls to graduate as confident doctors, engineers, and community leaders.
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons Row */}
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <a
                   href="#get-involved"
-                  className="inline-flex items-center gap-2 border border-[#D3A03A] text-[#8B651B] hover:text-[#0A3929] hover:bg-[#D3A03A]/10 text-xs sm:text-[13px] font-semibold px-6 py-2.5 rounded-full transition-all duration-200"
+                  className="inline-flex items-center gap-2 bg-[#0A3929] hover:bg-[#06251B] text-[#FAF8F5] text-xs sm:text-[13px] font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98]"
                 >
-                  <span>Our Vision</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Our Vision &amp; Purpose</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[#D3A03A]" />
                 </a>
+
+                <button
+                  type="button"
+                  onClick={() => openSupportModal(50)}
+                  className="inline-flex items-center gap-2 border border-[#D3A03A] text-[#8B651B] hover:text-[#0A3929] hover:bg-[#D3A03A]/10 text-xs sm:text-[13px] font-semibold px-6 py-3 rounded-full transition-all duration-200"
+                >
+                  <span>Support a Family</span>
+                </button>
               </div>
             </div>
           </div>
