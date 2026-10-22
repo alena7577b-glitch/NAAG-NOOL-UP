@@ -593,15 +593,16 @@ export function ShopCatalogView({
               </div>
             </div>
 
-            {/* Right Lifestyle Flatlay Image Column */}
+            {/* Right Ayeeyo Koris Family Photography Column */}
             <div className="lg:col-span-6 flex justify-end">
-              <div className="relative w-full max-w-[520px] aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
+              <div className="relative w-full max-w-[540px] aspect-[16/10] sm:aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border border-white/15 group">
                 <Image
-                  src="/images/shop-impact-books.png"
-                  alt="Naag Nool UP journals and merchandise collection"
+                  src="/images/shop-impact-ayeeyo.jpg"
+                  alt="Ayeeyo Koris — Somali grandmother embracing her grandchildren"
                   fill
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  sizes="(max-width: 1024px) 100vw, 520px"
+                  sizes="(max-width: 1024px) 100vw, 540px"
+                  priority
                 />
               </div>
             </div>
