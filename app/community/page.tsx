@@ -161,9 +161,9 @@ export default function CommunityPage() {
           <div className="lg:col-span-6 relative min-h-[420px] lg:min-h-full bg-[#3D4736]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/community-sisterhood-sunset.jpg"
-              alt="Group of Somali women in modest abayas standing together at sunset by the coast"
-              className="w-full h-full object-cover object-top"
+              src="/images/community-sisterhood-gathering.jpg"
+              alt="Diverse sisterhood community gathered together laughing and conversing outdoors at sunset"
+              className="w-full h-full object-cover object-center"
             />
           </div>
 
