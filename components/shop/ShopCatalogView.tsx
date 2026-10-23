@@ -124,6 +124,7 @@ export function ShopCatalogView({
   const handleAddToCart = (product: ShopProduct) => {
     optionalCart?.addItem({
       id: product.id,
+      productId: product.id,
       title: product.title,
       slug: product.slug,
       price: product.priceNumber,

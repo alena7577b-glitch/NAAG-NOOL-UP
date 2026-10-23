@@ -225,6 +225,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
     optionalCart?.addItem(
       {
         id: cartItemId,
+        productId: product.id,
         title: cartTitle,
         slug: product.slug,
         price: numericPrice,

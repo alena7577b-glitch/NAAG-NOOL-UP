@@ -5,8 +5,58 @@ import { getCurrentUser } from '@/lib/auth/server';
 import { getPaymentProvider } from '@/services/payment';
 import { logger } from '@/lib/logger';
 import { checkoutSchema, CheckoutFormInput, CheckoutResult } from '@/lib/validation/checkout';
+import { CANONICAL_JOURNALS } from '@/lib/products';
 
 export type { CheckoutFormInput, CheckoutResult };
+
+/**
+ * Resolves candidate product IDs/slugs for a cart item, safely stripping
+ * edition and color suffixes (e.g. "prod-grateful-english" -> "prod-grateful", "grateful-journal").
+ */
+function resolveBaseCandidateKeys(rawId: string): string[] {
+  const candidates = new Set<string>();
+  if (!rawId) return [];
+
+  const raw = rawId.trim();
+  candidates.add(raw);
+  const normalized = raw.toLowerCase();
+  candidates.add(normalized);
+
+  // Strip known variant suffixes (editions, colors)
+  const stripped = normalized
+    .replace(
+      /-(english|somali|black|white|natural|forest-green|royal-navy|burgundy-wine|sage-green|blush-pink|camel-tan|warm-taupe|charcoal|ivory)$/i,
+      ''
+    )
+    .trim();
+  candidates.add(stripped);
+
+  if (stripped.startsWith('prod-')) {
+    const withoutProd = stripped.replace('prod-', '');
+    candidates.add(`the-${withoutProd}`);
+    candidates.add(`${withoutProd}-journal`);
+    candidates.add(withoutProd);
+  }
+
+  // Find matching canonical journal to include its canonical id and slug
+  const canonical = CANONICAL_JOURNALS.find(
+    (c) =>
+      c.id === raw ||
+      c.id === stripped ||
+      c.slug === normalized ||
+      c.slug === stripped ||
+      c.slug === `${stripped}-journal` ||
+      (Array.isArray(c.metadata?.aliases) &&
+        (c.metadata?.aliases.includes(normalized) || c.metadata?.aliases.includes(stripped)))
+  );
+
+  if (canonical) {
+    candidates.add(canonical.id);
+    candidates.add(canonical.slug);
+  }
+
+  return Array.from(candidates);
+}
 
 export async function createOrderAction(formData: CheckoutFormInput): Promise<CheckoutResult> {
   try {
@@ -35,17 +85,86 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
     const authenticatedUser = await getCurrentUser();
     const userId = authenticatedUser?.id || null;
 
-    // 3. Query Authoritative Products from Database
-    const productIds = items.map((i) => i.productId);
-    const dbProducts = await db.product.findMany({
-      where: {
-        OR: [
-          { id: { in: productIds } },
-          { slug: { in: productIds } },
-          { slug: { in: productIds.map((id) => (id.startsWith('prod-') ? `the-${id.replace('prod-', '')}` : id)) } },
-        ],
-      },
-    });
+    // 3. Query Authoritative Products from Database with Variant Normalization
+    const candidateKeysByItem = items.map((item) => ({
+      item,
+      candidates: resolveBaseCandidateKeys(item.productId),
+    }));
+
+    const allCandidateKeys = Array.from(
+      new Set(candidateKeysByItem.flatMap((c) => c.candidates))
+    );
+
+    let dbProducts: any[] = [];
+    try {
+      dbProducts = await db.product.findMany({
+        where: {
+          OR: [
+            { id: { in: allCandidateKeys } },
+            { slug: { in: allCandidateKeys } },
+          ],
+        },
+      });
+    } catch (dbErr) {
+      logger.error('Error querying products during checkout:', {
+        error: dbErr instanceof Error ? dbErr.message : String(dbErr),
+      });
+    }
+
+    // Auto-seed canonical products if missing from database
+    for (const { candidates } of candidateKeysByItem) {
+      const existsInDb = dbProducts.some(
+        (p) => candidates.includes(p.id) || candidates.includes(p.slug)
+      );
+      if (!existsInDb) {
+        const canonical = CANONICAL_JOURNALS.find(
+          (c) => candidates.includes(c.id) || candidates.includes(c.slug)
+        );
+        if (canonical) {
+          try {
+            const autoCreated = await db.product.upsert({
+              where: { id: canonical.id },
+              update: {},
+              create: {
+                id: canonical.id,
+                title: canonical.title,
+                slug: canonical.slug,
+                description: canonical.description,
+                price: canonical.price,
+                category: canonical.category || 'Journals',
+                stockQuantity: canonical.stockQuantity,
+                isAvailable: canonical.isAvailable,
+                metadata: (canonical.metadata as any) || undefined,
+                images: {
+                  create: canonical.images.map((img) => ({
+                    id: img.id,
+                    url: img.url,
+                    altText: img.altText,
+                    sortOrder: img.sortOrder,
+                  })),
+                },
+              },
+            });
+            dbProducts.push(autoCreated);
+            logger.info(`Auto-seeded canonical product during checkout: ${canonical.title} (${canonical.id})`);
+          } catch (upsertErr) {
+            logger.warn('Failed auto-seeding canonical product during checkout, fallback to in-memory definition:', {
+              error: upsertErr instanceof Error ? upsertErr.message : String(upsertErr),
+            });
+            dbProducts.push({
+              id: canonical.id,
+              title: canonical.title,
+              slug: canonical.slug,
+              description: canonical.description,
+              price: canonical.price,
+              category: canonical.category,
+              stockQuantity: canonical.stockQuantity,
+              isAvailable: canonical.isAvailable,
+            });
+          }
+        }
+      }
+    }
 
     const productMap = new Map<string, typeof dbProducts[0]>();
     for (const p of dbProducts) {
@@ -53,12 +172,27 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       productMap.set(p.slug, p);
       if (p.id.startsWith('prod-')) {
         productMap.set(`the-${p.id.replace('prod-', '')}`, p);
+        productMap.set(p.id.replace('prod-', ''), p);
       }
     }
 
+    const resolvedItems: Array<{
+      item: (typeof items)[0];
+      product: (typeof dbProducts)[0];
+    }> = [];
+
     // Verify all items exist and are active
-    for (const item of items) {
-      const product = productMap.get(item.productId);
+    for (const { item, candidates } of candidateKeysByItem) {
+      let product = productMap.get(item.productId);
+      if (!product) {
+        for (const candidate of candidates) {
+          if (productMap.has(candidate)) {
+            product = productMap.get(candidate);
+            break;
+          }
+        }
+      }
+
       if (!product) {
         return {
           success: false,
@@ -79,18 +213,20 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
           error: `"${product.title}" has only ${product.stockQuantity} copies remaining in stock.`,
         };
       }
+
+      resolvedItems.push({ item, product });
     }
 
     // 4. Authoritative Server-Side Calculation (Pricing, Shipping, Totals)
     let subtotal = 0;
-    for (const item of items) {
-      const product = productMap.get(item.productId)!;
+    for (const { item, product } of resolvedItems) {
       subtotal += Number(product.price) * item.quantity;
     }
 
+    const pledge = parsed.data.sponsorshipPledge || 0;
     // Standard business rule: Free shipping over $50 threshold, otherwise $5.00 flat rate
     const shippingFee = subtotal >= 50.0 ? 0.0 : 5.0;
-    const totalAmount = Number((subtotal + shippingFee).toFixed(2));
+    const totalAmount = Number((subtotal + shippingFee + pledge).toFixed(2));
 
     // 5. Generate Human-Readable Unique Order Number
     const randomSuffix = Math.floor(1000 + Math.random() * 9000);
@@ -104,8 +240,7 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       order = await db.$transaction(async (tx) => {
         // Concurrency-safe atomic check and decrement:
         // Ensures stockQuantity >= item.quantity at the exact moment of execution
-        for (const item of items) {
-          const product = productMap.get(item.productId)!;
+        for (const { item, product } of resolvedItems) {
           const updateResult = await tx.product.updateMany({
             where: {
               id: product.id,
@@ -142,14 +277,11 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
               deliveryNotes: deliveryNotes || '',
             },
             items: {
-              create: items.map((item) => {
-                const product = productMap.get(item.productId)!;
-                return {
-                  productId: product.id,
-                  quantity: item.quantity,
-                  unitPrice: product.price,
-                };
-              }),
+              create: resolvedItems.map(({ item, product }) => ({
+                productId: product.id,
+                quantity: item.quantity,
+                unitPrice: product.price,
+              })),
             },
           },
         });
@@ -199,8 +331,7 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
 
       // Revert stock reservation immediately in transactional cleanup
       await db.$transaction(async (tx) => {
-        for (const item of items) {
-          const product = productMap.get(item.productId)!;
+        for (const { item, product } of resolvedItems) {
           await tx.product.update({
             where: { id: product.id },
             data: {

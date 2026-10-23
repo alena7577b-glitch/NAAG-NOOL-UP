@@ -29,6 +29,28 @@ describe('Commerce & Order Creation Pipeline', () => {
       expect(result.success).toBe(true);
     });
 
+    test('accepts valid payload with edition and variant composite IDs and pledge', () => {
+      const variantPayload = {
+        customerName: 'Aman',
+        customerEmail: 'amana@gmail.com',
+        customerPhone: '+252616025750',
+        addressLine1: 'Waabari',
+        city: 'Mogadishu',
+        country: 'Somalia',
+        sponsorshipPledge: 10,
+        items: [
+          { productId: 'prod-grateful-english', quantity: 1 },
+          { productId: 'prod-mug-naagnool-black', quantity: 1 },
+        ],
+      };
+
+      const result = checkoutSchema.safeParse(variantPayload);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.sponsorshipPledge).toBe(10);
+      }
+    });
+
     test('rejects empty customer name', () => {
       const invalidPayload = {
         customerName: '',

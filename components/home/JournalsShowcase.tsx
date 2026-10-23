@@ -70,6 +70,7 @@ export function JournalsShowcase({ products = [] }: JournalsShowcaseProps) {
     if (optionalCart) {
       optionalCart.addItem({
         id: product.id,
+        productId: product.id,
         title: product.title,
         slug: product.slug,
         price: Number(product.price),

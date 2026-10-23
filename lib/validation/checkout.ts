@@ -11,6 +11,7 @@ export const checkoutSchema = z.object({
   country: z.string().min(2, 'Country is required').default('United States'),
   deliveryNotes: z.string().max(500).optional(),
   paymentMethod: z.string().optional(),
+  sponsorshipPledge: z.number().min(0).max(1000).optional(),
   items: z
     .array(
       z.object({

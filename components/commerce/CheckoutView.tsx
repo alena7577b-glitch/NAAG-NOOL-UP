@@ -156,7 +156,11 @@ export function CheckoutView({
         ...formData,
         deliveryNotes: enhancedNotes,
         paymentMethod: primaryMethod,
-        items: items.map((i: CartItem) => ({ productId: i.id, quantity: i.quantity })),
+        sponsorshipPledge: sponsorshipTier > 0 ? sponsorshipTier : undefined,
+        items: items.map((i: CartItem) => ({
+          productId: i.productId || i.id,
+          quantity: i.quantity,
+        })),
       };
 
       const result = await createOrderAction(orderPayload);
