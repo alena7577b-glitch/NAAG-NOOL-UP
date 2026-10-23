@@ -633,11 +633,11 @@ export function CheckoutView({
                         <div>
                           <div className="flex items-center gap-2">
                             <h3 className="font-playfair text-base font-semibold text-[#1E1C1A]">
-                              Credit / Debit Card, Apple Pay, Google Pay
+                              Card, Apple Pay, Google Pay &amp; Afterpay
                             </h3>
                           </div>
                           <p className="text-xs text-[#5C665F] mt-0.5">
-                            One-tap checkout with Apple Pay, Google Pay, Visa, Mastercard &amp; Amex
+                            Instant 1-tap checkout with Apple Pay, Google Pay, Link, Afterpay, or any credit/debit card
                           </p>
                         </div>
                       </div>
@@ -645,11 +645,11 @@ export function CheckoutView({
                       {/* Official Method Badges */}
                       <div className="flex items-center gap-1.5 flex-wrap sm:justify-end shrink-0 ps-12 sm:ps-0">
                         {/* Apple Pay Badge */}
-                        <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md bg-black text-white text-[11px] font-semibold tracking-tight shadow-xs">
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-black text-white text-[11px] font-semibold tracking-tight shadow-xs">
                           Pay
                         </span>
                         {/* Google Pay Badge */}
-                        <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md bg-white border border-[#E5DFC0] text-[#444] text-[11px] font-bold shadow-xs">
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-white border border-[#E5DFC0] text-[#444] text-[11px] font-bold shadow-xs">
                           <span className="text-[#4285F4]">G</span>
                           <span className="text-[#EA4335]">o</span>
                           <span className="text-[#FBBC05]">o</span>
@@ -658,12 +658,23 @@ export function CheckoutView({
                           <span className="text-[#EA4335]">e</span>
                           <span className="ms-0.5 text-[#5f6368]">Pay</span>
                         </span>
+                        {/* Afterpay / Clearpay Badge */}
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-[#B2FCE4] text-[#1E1C1A] text-[10px] font-bold shadow-xs">
+                          afterpay
+                        </span>
+                        {/* Link Badge */}
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md bg-[#00D66F] text-[#0A2540] text-[10px] font-bold shadow-xs">
+                          link
+                        </span>
                         {/* Card Brand Badges */}
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E5DFC0] font-bold text-[#1a1f36]">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E5DFC0] font-bold text-[#1a1f36]">
                           VISA
                         </span>
-                        <span className="text-[10px] px-2 py-0.5 rounded bg-white border border-[#E5DFC0] font-bold text-[#eb001b]">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E5DFC0] font-bold text-[#eb001b]">
                           MC
+                        </span>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-[#E5DFC0] font-bold text-[#006fcf]">
+                          AMEX
                         </span>
                       </div>
                     </button>
