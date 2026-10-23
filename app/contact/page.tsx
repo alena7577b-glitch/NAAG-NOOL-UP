@@ -33,13 +33,13 @@ export default function ContactPage() {
             </div>
 
             {/* Right Hero Image */}
-            <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] sm:aspect-[4/3] lg:aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-md">
+            <div className="lg:col-span-6 flex justify-center lg:justify-end">
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] lg:aspect-[4/5] w-full max-w-[460px] rounded-2xl overflow-hidden shadow-lg border border-[#E5DFC0]/70">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/movement-sisterhood.jpg"
-                  alt="Naag Nool UP sisters on lounge bench"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/contact-sisterhood.jpg"
+                  alt="Naag Nool UP sisters seated on lounge bench with guided journals"
+                  className="w-full h-full object-cover object-[center_65%]"
                 />
               </div>
             </div>
