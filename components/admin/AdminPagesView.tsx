@@ -41,7 +41,7 @@ const STATIC_STOREFRONT_PAGES: PageItem[] = [
   {
     id: 'page-ayeeyo',
     slug: 'ayeyo-koris',
-    title: 'Ayeeyo Koris — Non-Profit Initiative',
+    title: 'Ayeeyo Koris Children — Educational Scholarship',
     locale: 'en',
     route: '/ayeyo-koris',
     purpose: 'Grandmothers Raise Tomorrow sponsorship and empowerment',

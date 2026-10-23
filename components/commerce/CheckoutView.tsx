@@ -554,7 +554,7 @@ export function CheckoutView({
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#D49B4B]">
-                        Ayeeyo Koris Pledge
+                        Ayeeyo Koris Children Pledge
                       </span>
                       <button
                         type="button"
@@ -833,7 +833,7 @@ export function CheckoutView({
                   <div className="flex items-center justify-between text-[#B85233] font-medium text-xs">
                     <span className="flex items-center gap-1.5">
                       <Heart className="w-3.5 h-3.5 fill-current text-[#B85233]" />
-                      Ayeeyo Koris Pledge
+                      Ayeeyo Koris Children Pledge
                     </span>
                     <span className="font-mono font-semibold">+${sponsorshipTier}.00</span>
                   </div>
@@ -932,7 +932,7 @@ export function CheckoutView({
               </div>
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B85233]">
-                  AYEEYO KORIS INITIATIVE
+                  AYEEYO KORIS CHILDREN SCHOLARSHIP
                 </span>
                 <h3 className="font-playfair text-xl font-bold text-[#1E1C1A]">
                   Grandmother-Led Family Support
@@ -941,7 +941,7 @@ export function CheckoutView({
             </div>
 
             <p className="text-xs sm:text-sm text-[#5C665F] leading-relaxed">
-              In Somali tradition, grandmothers (&ldquo;Ayeeyooyin&rdquo;) are the heart and pillars of familial resilience. Ayeeyo Koris provides direct educational scholarships, textbooks, and nutrition for orphaned and vulnerable children raised by their grandmothers.
+              In Somali tradition, grandmothers (&ldquo;Ayeeyooyin&rdquo;) are the heart and pillars of familial resilience. Ayeeyo Koris Children provides direct educational scholarships, textbooks, and nutrition for orphaned and vulnerable children raised by their grandmothers.
             </p>
 
             <div className="p-4 rounded-2xl bg-white border border-[#E5DFC0] space-y-2 text-xs text-[#1E1C1A]">

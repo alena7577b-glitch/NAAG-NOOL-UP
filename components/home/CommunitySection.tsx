@@ -126,11 +126,11 @@ export function CommunitySection() {
                     03 / IMPACT & SCHOLARSHIP
                   </span>
                   <h3 className="font-playfair text-xl sm:text-2xl font-normal text-[#1E1C1A] leading-snug">
-                    The Ayeeyo Koris Scholarship
+                    The Ayeeyo Koris Children Scholarship
                   </h3>
                 </div>
                 <p className="font-sans text-xs sm:text-[13px] text-[#6B655B] leading-relaxed">
-                  Learn how your journal purchases directly fund the Ayeeyo Koris Scholarship &mdash; investing in education, books, and brighter futures for girls.
+                  Learn how your journal purchases directly fund the Ayeeyo Koris Children Scholarship &mdash; investing in education, books, and brighter futures for girls.
                 </p>
               </div>
               <div className="pt-6">

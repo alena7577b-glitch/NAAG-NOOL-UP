@@ -56,7 +56,7 @@ export function AyeyoKorisView() {
             <Link
               href="/ayeyo-koris"
               className="flex items-center gap-2 group focus-visible:outline-none"
-              aria-label="Ayeeyo Koris Non-Profit Home"
+              aria-label="Ayeeyo Koris Children Educational Scholarship Home"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -202,7 +202,7 @@ export function AyeyoKorisView() {
                 }}
                 className="w-full justify-center inline-flex items-center gap-2 bg-[#D3A03A] text-[#1E1C1A] text-xs font-semibold px-5 py-3 rounded-full"
               >
-                <span>Support Ayeeyo Koris</span>
+                <span>Support Ayeeyo Koris Children</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -232,18 +232,18 @@ export function AyeyoKorisView() {
           <div className="max-w-md lg:max-w-[460px] xl:max-w-[500px] space-y-5 sm:space-y-6 text-start">
             {/* Tag / Eyebrow */}
             <p className="font-sans text-xs sm:text-[13px] font-semibold uppercase tracking-[0.25em] text-[#D3A03A]">
-              AYEEYO KORIS
+              EDUCATIONAL SCHOLARSHIP
             </p>
 
             {/* Headline */}
             <h1 className="font-playfair text-3xl sm:text-4xl lg:text-[3.25rem] font-normal text-white leading-[1.12] tracking-tight">
-              Grandmothers <br />
-              Raise Tomorrow
+              Ayeeyo Koris Children <br />
+              <span className="text-2xl sm:text-3xl lg:text-[2.6rem] font-light text-[#FAF6F0]">Grandmothers Raise Tomorrow</span>
             </h1>
 
             {/* Narrative Paragraph */}
             <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#E0D8C9] leading-[1.8] font-normal">
-              Ayeeyo Koris is about the boys and girls who are raised by their grandmothers when their parents are absent, have passed away, or are unable to provide care. It&apos;s a story of love, responsibility, resilience and hope.
+              Ayeeyo Koris Children is about the boys and girls who are raised by their grandmothers when their parents are absent, have passed away, or are unable to provide care. It&apos;s a story of love, responsibility, resilience and hope.
             </p>
 
             {/* CTA Buttons: Direct Sponsor Action + Story Anchor */}
@@ -281,7 +281,7 @@ export function AyeyoKorisView() {
             {/* Left Content */}
             <div className="lg:col-span-6 space-y-6">
               <p className="font-sans text-xs sm:text-[12px] font-semibold uppercase tracking-[0.22em] text-[#A8741A]">
-                ABOUT AYEEYO KORIS
+                ABOUT AYEEYO KORIS CHILDREN
               </p>
 
               <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.75rem] font-normal text-[#0A3929] leading-[1.15] tracking-tight">
@@ -290,7 +290,7 @@ export function AyeyoKorisView() {
               </h2>
 
               <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#4A544E] leading-[1.8] font-normal">
-                Ayeeyo Koris supports children who are raised by their grandmothers, honoring the strength of Somali families and the vital role of grandmothers in shaping confident, capable, and hopeful futures.
+                Ayeeyo Koris Children supports young boys and girls who are raised by their grandmothers, honoring the strength of Somali families and the vital role of grandmothers in shaping confident, capable, and hopeful futures.
               </p>
 
               {/* Dividing Accent Line */}
@@ -331,7 +331,7 @@ export function AyeyoKorisView() {
           {/* Eyebrow Header */}
           <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-18">
             <p className="font-sans text-xs sm:text-[13px] font-semibold uppercase tracking-[0.25em] text-[#D3A03A]">
-              WHAT AYEEYO KORIS MEANS
+              WHAT AYEEYO KORIS CHILDREN MEANS
             </p>
           </div>
 
@@ -617,7 +617,7 @@ export function AyeyoKorisView() {
               onClick={() => openSupportModal(50)}
               className="inline-flex items-center gap-2 bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] text-xs sm:text-sm font-semibold px-8 py-3.5 rounded-full transition-all duration-200 shadow-xl hover:shadow-2xl active:scale-[0.98]"
             >
-              <span>Support Ayeeyo Koris</span>
+              <span>Support Ayeeyo Koris Children</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -656,7 +656,7 @@ export function AyeyoKorisView() {
               <div className="space-y-2.5">
                 <div>
                   <a href="#about-ayeeyo" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
-                    About Ayeeyo Koris
+                    About Ayeeyo Koris Children
                   </a>
                 </div>
                 <div>
@@ -769,7 +769,7 @@ export function AyeyoKorisView() {
                 />
                 <div className="h-5 w-px bg-[#D5C9B3]" />
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#A8741A]">
-                  Non-Profit Initiative
+                  Educational Scholarship
                 </span>
               </div>
 

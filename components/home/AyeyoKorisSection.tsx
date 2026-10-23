@@ -47,7 +47,7 @@ export function AyeyoKorisSection() {
 
             {/* Narrative Description */}
             <p className="font-sans text-xs sm:text-sm lg:text-[14.5px] text-[#E0D8C9] leading-[1.8] font-normal max-w-md">
-              Grandmothers Raise Tomorrow. Ayeeyo Koris is a purpose-driven initiative dedicated to children raised by their grandmothers, investing in love, education, and brighter futures across our communities.
+              Grandmothers Raise Tomorrow. Ayeeyo Koris Children is an educational scholarship initiative dedicated to children raised by their grandmothers, investing in love, education, and brighter futures across our communities.
             </p>
 
             {/* Dual Action Buttons matching Figma Design */}
