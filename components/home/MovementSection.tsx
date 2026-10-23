@@ -52,11 +52,11 @@ export function MovementSection() {
           ========================================================================= */}
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-8 sm:gap-10 lg:gap-12 shrink-0">
             
-            {/* Fine-Art Collage Canvas (Proportioned to cropped 4:5 editorial photo) */}
-            <div className="relative w-[320px] sm:w-[380px] lg:w-[420px] aspect-[4/5] shrink-0">
+            {/* Fine-Art Editorial Canvas (Proportioned to showcase the sisterhood portrait) */}
+            <div className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[470px] aspect-[4/3] shrink-0">
               
               {/* Rich Hand-Drawn Botanical Leaf SVG Backdrop */}
-              <div className="absolute -top-8 right-6 sm:right-10 w-48 sm:w-56 h-64 sm:h-76 pointer-events-none text-[#C4B7A4] opacity-55 z-0">
+              <div className="absolute -top-7 -right-4 sm:-right-6 w-48 sm:w-56 h-60 sm:h-72 pointer-events-none text-[#C4B7A4] opacity-50 z-0">
                 <svg
                   viewBox="0 0 240 320"
                   fill="none"
@@ -91,16 +91,16 @@ export function MovementSection() {
                 </svg>
               </div>
 
-              {/* Primary Sisterhood Editorial Portrait (Full Clarity, No Obstruction) */}
+              {/* Primary Sisterhood Editorial Portrait */}
               <div
                 data-slot="primary-portrait"
-                className="group relative w-full h-full bg-[#E8E1D2] border border-[#D5C9B3] rounded-xl overflow-hidden shadow-lg z-10 transition-transform duration-500 hover:scale-[1.01]"
+                className="group relative w-full h-full bg-[#E8E1D2] border border-[#D5C9B3] rounded-2xl overflow-hidden shadow-lg z-10 transition-transform duration-500 hover:scale-[1.01]"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/movement-sisterhood.jpg"
-                  alt="Two empowered Somali sisters with the Naag Nool UP guided journals"
-                  className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  alt="Two empowered Somali women standing together in solidarity — Naag Nool UP movement"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
 
