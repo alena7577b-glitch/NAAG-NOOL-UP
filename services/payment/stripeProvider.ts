@@ -33,24 +33,43 @@ export class StripePaymentProvider implements PaymentProvider {
         success: false,
         transactionId: '',
         errorMessage:
-          'PAYMENT_ACTIVATION_BLOCKED: Stripe merchant secret key is not configured in production environment variables (STRIPE_SECRET_KEY / PAYMENT_PROVIDER_SECRET).',
+          'PAYMENT_ACTIVATION_BLOCKED: Card payment provider is not configured in production environment variables (STRIPE_SECRET_KEY).',
       };
     }
 
     try {
-      // Amount in cents for USD
       const amountInCents = Math.round(input.amount * 100);
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
       const params = new URLSearchParams();
-      params.append('amount', amountInCents.toString());
-      params.append('currency', (input.currency || 'usd').toLowerCase());
-      params.append('description', `Order ${input.orderNumber} — Naag Nool UP`);
-      params.append('receipt_email', input.customerEmail);
+      params.append('mode', 'payment');
+      params.append('payment_method_types[0]', 'card');
+      params.append('customer_email', input.customerEmail);
+      params.append('client_reference_id', input.orderId);
       params.append('metadata[orderId]', input.orderId);
       params.append('metadata[orderNumber]', input.orderNumber);
-      params.append('automatic_payment_methods[enabled]', 'true');
+      params.append(
+        'success_url',
+        `${siteUrl}/checkout?session_id={CHECKOUT_SESSION_ID}&orderNumber=${encodeURIComponent(input.orderNumber)}&success=true`
+      );
+      params.append(
+        'cancel_url',
+        `${siteUrl}/checkout?cancelled=true&orderNumber=${encodeURIComponent(input.orderNumber)}`
+      );
 
-      const response = await fetch('https://api.stripe.com/v1/payment_intents', {
+      params.append('line_items[0][price_data][currency]', (input.currency || 'usd').toLowerCase());
+      params.append('line_items[0][price_data][unit_amount]', amountInCents.toString());
+      params.append(
+        'line_items[0][price_data][product_data][name]',
+        `Naag Nool UP — Order ${input.orderNumber}`
+      );
+      params.append(
+        'line_items[0][price_data][product_data][description]',
+        'Intentional guided journals & sisterhood empowerment collection'
+      );
+      params.append('line_items[0][quantity]', '1');
+
+      const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${this.apiKey}`,
@@ -65,17 +84,17 @@ export class StripePaymentProvider implements PaymentProvider {
         return {
           success: false,
           transactionId: '',
-          errorMessage: data.error?.message || 'Failed to initiate Stripe payment intent',
+          errorMessage: data.error?.message || 'Failed to initiate secure checkout session',
         };
       }
 
       return {
         success: true,
         transactionId: data.id,
-        paymentUrl: data.client_secret, // Used on client by Stripe Elements
+        paymentUrl: data.url, // Official checkout session with Apple Pay, Google Pay, and Cards
       };
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Network error communicating with Stripe API';
+      const message = err instanceof Error ? err.message : 'Network error communicating with payment gateway';
       return {
         success: false,
         transactionId: '',
@@ -96,7 +115,11 @@ export class StripePaymentProvider implements PaymentProvider {
     }
 
     try {
-      const response = await fetch(`https://api.stripe.com/v1/payment_intents/${transactionId}`, {
+      const endpoint = transactionId.startsWith('cs_')
+        ? `https://api.stripe.com/v1/checkout/sessions/${transactionId}`
+        : `https://api.stripe.com/v1/payment_intents/${transactionId}`;
+
+      const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${this.apiKey}`,
@@ -116,7 +139,7 @@ export class StripePaymentProvider implements PaymentProvider {
       }
 
       let status: 'PAID' | 'FAILED' | 'PENDING' = 'PENDING';
-      if (data.status === 'succeeded') {
+      if (data.payment_status === 'paid' || data.status === 'succeeded') {
         status = 'PAID';
       } else if (data.status === 'canceled' || data.status === 'requires_payment_method') {
         status = 'FAILED';
@@ -124,7 +147,7 @@ export class StripePaymentProvider implements PaymentProvider {
 
       return {
         success: status === 'PAID',
-        orderId: data.metadata?.orderId || orderId,
+        orderId: data.metadata?.orderId || data.client_reference_id || orderId,
         transactionId: data.id,
         status,
         rawResponse: data,
@@ -191,13 +214,23 @@ export class StripePaymentProvider implements PaymentProvider {
     // Parse event payload
     try {
       const event = JSON.parse(rawBody);
-      const paymentIntent = event.data?.object;
-      const orderId = paymentIntent?.metadata?.orderId || paymentIntent?.metadata?.orderNumber;
-      const transactionId = paymentIntent?.id;
-      const amount = paymentIntent?.amount ? paymentIntent.amount / 100 : undefined;
-      const currency = paymentIntent?.currency ? paymentIntent.currency.toUpperCase() : 'USD';
+      const sessionOrIntent = event.data?.object;
+      const orderId =
+        sessionOrIntent?.metadata?.orderId ||
+        sessionOrIntent?.metadata?.orderNumber ||
+        sessionOrIntent?.client_reference_id;
+      const transactionId = sessionOrIntent?.id;
+      const amount = sessionOrIntent?.amount_total
+        ? sessionOrIntent.amount_total / 100
+        : sessionOrIntent?.amount
+        ? sessionOrIntent.amount / 100
+        : undefined;
+      const currency = sessionOrIntent?.currency ? sessionOrIntent.currency.toUpperCase() : 'USD';
 
-      if (event.type === 'payment_intent.succeeded') {
+      if (
+        event.type === 'checkout.session.completed' ||
+        event.type === 'payment_intent.succeeded'
+      ) {
         return {
           handled: true,
           orderId,
@@ -210,7 +243,10 @@ export class StripePaymentProvider implements PaymentProvider {
         };
       }
 
-      if (event.type === 'payment_intent.payment_failed') {
+      if (
+        event.type === 'checkout.session.expired' ||
+        event.type === 'payment_intent.payment_failed'
+      ) {
         return {
           handled: true,
           orderId,

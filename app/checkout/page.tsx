@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { CheckoutView } from '@/components/commerce/CheckoutView';
 import { getCurrentUser } from '@/lib/auth/server';
@@ -17,10 +18,12 @@ export default async function CheckoutPage() {
   ]);
 
   return (
-    <CheckoutView
-      initialUserEmail={user?.email || ''}
-      initialUserName={user?.fullName || ''}
-      initialPaymentConfig={paymentConfig}
-    />
+    <Suspense fallback={<div className="py-24 bg-[#FBF9F5] min-h-[80vh] flex items-center justify-center text-[#5C665F]">Loading secure checkout...</div>}>
+      <CheckoutView
+        initialUserEmail={user?.email || ''}
+        initialUserName={user?.fullName || ''}
+        initialPaymentConfig={paymentConfig}
+      />
+    </Suspense>
   );
 }
