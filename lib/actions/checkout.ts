@@ -3,6 +3,7 @@
 import { db } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth/server';
 import { getPaymentProvider } from '@/services/payment';
+import { emailService } from '@/services/email';
 import { logger } from '@/lib/logger';
 import { checkoutSchema, CheckoutFormInput, CheckoutResult } from '@/lib/validation/checkout';
 import { CANONICAL_JOURNALS } from '@/lib/products';
@@ -414,5 +415,80 @@ export async function createOrderAction(formData: CheckoutFormInput): Promise<Ch
       success: false,
       error: 'An unexpected error occurred while placing your order. Please try again.',
     };
+  }
+}
+
+/**
+ * Captures an approved PayPal order upon customer return to the store
+ */
+export async function capturePayPalOrderAction(
+  paypalOrderId: string,
+  orderNumber: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const paypalProvider = getPaymentProvider('PAYPAL');
+    const order = await db.order.findUnique({
+      where: { orderNumber },
+      include: { payments: true, items: { include: { product: true } } },
+    });
+
+    if (!order) {
+      return { success: false, error: 'Order not found' };
+    }
+
+    if (order.status === 'PAID') {
+      return { success: true };
+    }
+
+    const verifyResult = await paypalProvider.verifyPayment(paypalOrderId, order.id);
+
+    if (verifyResult.success && verifyResult.status === 'PAID') {
+      await db.$transaction(async (tx) => {
+        await tx.order.update({
+          where: { id: order.id },
+          data: { status: 'PAID' },
+        });
+
+        const activePayment = order.payments[0];
+        if (activePayment) {
+          await tx.payment.update({
+            where: { id: activePayment.id },
+            data: {
+              status: 'VERIFIED',
+              transactionId: paypalOrderId,
+              metadata: {
+                ...(typeof activePayment.metadata === 'object' && activePayment.metadata !== null
+                  ? (activePayment.metadata as Record<string, unknown>)
+                  : {}),
+                verifiedAt: new Date().toISOString(),
+                provider: 'PAYPAL_PAYMENT_PROVIDER',
+              },
+            },
+          });
+        }
+      });
+
+      // Trigger order confirmation email
+      emailService
+        .sendOrderConfirmation({
+          to: order.customerEmail,
+          orderNumber: order.orderNumber,
+          customerName: order.customerName,
+          totalAmount: Number(order.totalAmount),
+          items: order.items.map((i) => ({
+            title: i.product.title,
+            quantity: i.quantity,
+            price: Number(i.unitPrice),
+          })),
+        })
+        .catch((e) => logger.warn('Failed to send PayPal order confirmation email:', e));
+
+      return { success: true };
+    }
+
+    return { success: false, error: 'PayPal authorization failed or was canceled' };
+  } catch (error) {
+    logger.error('Error in capturePayPalOrderAction:', error);
+    return { success: false, error: 'Failed to capture PayPal transaction' };
   }
 }

@@ -22,7 +22,7 @@ import {
   X,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { createOrderAction, CheckoutFormInput } from '@/lib/actions/checkout';
+import { createOrderAction, capturePayPalOrderAction, CheckoutFormInput } from '@/lib/actions/checkout';
 import { PaymentMethodsConfig, DEFAULT_PAYMENT_CONFIG } from '@/lib/payment/types';
 import { useCart, CartItem } from '@/lib/cart/CartContext';
 import { useCurrency } from '@/lib/currency/context';
@@ -100,6 +100,9 @@ export function CheckoutView({
   useEffect(() => {
     const isSuccess = searchParams?.get('success') === 'true';
     const orderNumber = searchParams?.get('orderNumber');
+    const token = searchParams?.get('token');
+    const isPayPal = searchParams?.get('provider') === 'paypal';
+
     if (isSuccess && orderNumber) {
       clearCart();
       setCompletedOrder({
@@ -108,6 +111,13 @@ export function CheckoutView({
         totalAmount: 0,
         paymentStatus: 'PAID',
       });
+
+      // If returning from PayPal, capture order server-side to guarantee settled funds
+      if (isPayPal && token) {
+        capturePayPalOrderAction(token, orderNumber).catch((err) => {
+          console.warn('PayPal capture callback notice:', err);
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);

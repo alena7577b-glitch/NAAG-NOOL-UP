@@ -25,7 +25,8 @@ export class PayPalPaymentProvider implements PaymentProvider {
     this.clientId = process.env.PAYPAL_CLIENT_ID || null;
     this.clientSecret = process.env.PAYPAL_CLIENT_SECRET || null;
     this.webhookId = process.env.PAYPAL_WEBHOOK_ID || null;
-    this.isSandbox = process.env.PAYPAL_ENVIRONMENT !== 'live' && process.env.NODE_ENV !== 'production';
+    const envSetting = (process.env.PAYPAL_ENVIRONMENT || '').toLowerCase();
+    this.isSandbox = envSetting === 'sandbox';
     this.baseUrl = this.isSandbox
       ? 'https://api-m.sandbox.paypal.com'
       : 'https://api-m.paypal.com';
@@ -105,8 +106,10 @@ export class PayPalPaymentProvider implements PaymentProvider {
           brand_name: 'Naag Nool UP',
           landing_page: 'BILLING',
           user_action: 'PAY_NOW',
-          return_url: input.returnUrl || `${process.env.NEXT_PUBLIC_APP_URL || ''}/checkout/success`,
-          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || ''}/checkout?canceled=true`,
+          return_url:
+            input.returnUrl ||
+            `${process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://naagnoolup.com'}/checkout?orderNumber=${encodeURIComponent(input.orderNumber)}&success=true&provider=paypal`,
+          cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://naagnoolup.com'}/checkout?cancelled=true&orderNumber=${encodeURIComponent(input.orderNumber)}`,
         },
       };
 
@@ -235,33 +238,62 @@ export class PayPalPaymentProvider implements PaymentProvider {
    * Handle PayPal Webhooks
    */
   async handleWebhook(payload: unknown, _headers: Record<string, string>): Promise<WebhookResult> {
-    const event = payload as any;
-    const eventType = event?.event_type;
+    try {
+      const event = (typeof payload === 'string' ? JSON.parse(payload) : payload) as any;
+      const eventType = event?.event_type;
 
-    if (eventType === 'CHECKOUT.ORDER.APPROVED' || eventType === 'PAYMENT.CAPTURE.COMPLETED') {
-      const resource = event.resource || {};
-      const orderId = resource.custom_id || resource.purchase_units?.[0]?.reference_id;
-      const transactionId = resource.id;
-      const amount = parseFloat(resource.amount?.value || '0');
-      const currency = resource.amount?.currency_code || 'USD';
+      if (eventType === 'CHECKOUT.ORDER.APPROVED') {
+        const resource = event.resource || {};
+        const orderId = resource.custom_id || resource.purchase_units?.[0]?.reference_id;
+        const transactionId = resource.id;
+
+        // Automatically trigger capture for approved PayPal order
+        const verifyResult = await this.verifyPayment(transactionId, orderId || '');
+        if (verifyResult.success && verifyResult.status === 'PAID') {
+          const amount = parseFloat(resource.purchase_units?.[0]?.amount?.value || '0');
+          const currency = resource.purchase_units?.[0]?.amount?.currency_code || 'USD';
+
+          return {
+            handled: true,
+            orderId,
+            transactionId,
+            amount,
+            currency,
+            eventType,
+            status: 'PAID',
+            rawEvent: event,
+          };
+        }
+      }
+
+      if (eventType === 'PAYMENT.CAPTURE.COMPLETED') {
+        const resource = event.resource || {};
+        const orderId = resource.custom_id || resource.purchase_units?.[0]?.reference_id;
+        const transactionId = resource.id;
+        const amount = parseFloat(resource.amount?.value || '0');
+        const currency = resource.amount?.currency_code || 'USD';
+
+        return {
+          handled: true,
+          orderId,
+          transactionId,
+          amount,
+          currency,
+          eventType,
+          status: 'PAID',
+          rawEvent: event,
+        };
+      }
 
       return {
         handled: true,
-        orderId,
-        transactionId,
-        amount,
-        currency,
         eventType,
-        status: 'PAID',
         rawEvent: event,
       };
+    } catch (err) {
+      logger.error('Failed to parse PayPal webhook payload:', err);
+      return { handled: false, error: 'Invalid PayPal webhook payload' };
     }
-
-    return {
-      handled: true,
-      eventType,
-      rawEvent: event,
-    };
   }
 
   /**
