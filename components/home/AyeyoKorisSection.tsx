@@ -37,12 +37,12 @@ export function AyeyoKorisSection() {
             
             {/* Eyebrow */}
             <p className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-[#D3A03A]">
-              NON-PROFIT INITIATIVE
+              EDUCATIONAL SCHOLARSHIP
             </p>
 
             {/* Headline */}
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-[2.85rem] font-normal text-[#FAF7F2] leading-[1.15] tracking-tight">
-              Ayeeyo Koris
+              Ayeeyo Koris Children
             </h2>
 
             {/* Narrative Description */}
