@@ -19,7 +19,6 @@ import {
   Shield,
   Settings,
   Search,
-  Bell,
   Globe,
   ChevronDown,
   LogOut,
@@ -31,6 +30,7 @@ import {
   Megaphone,
 } from 'lucide-react';
 import { logoutAction } from '@/lib/auth/actions';
+import { AdminNotificationDropdown } from '@/components/admin/AdminNotificationDropdown';
 
 interface AdminLayoutShellProps {
   children: React.ReactNode;
@@ -279,17 +279,8 @@ export function AdminLayoutShell({
 
           {/* Right Header Controls */}
           <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-            {/* Notification Bell */}
-            <button
-              type="button"
-              className="relative p-2.5 rounded-2xl bg-white border border-[#EBE6DC] text-[#1E1C1A] hover:bg-[#FAF8F5] transition-colors shadow-xs"
-              title="Notifications"
-            >
-              <Bell className="w-4 h-4 text-[#1E1C1A]" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#B85233] text-white text-[10px] font-bold flex items-center justify-center">
-                1
-              </span>
-            </button>
+            {/* Interactive Live Notifications Dropdown */}
+            <AdminNotificationDropdown />
 
             {/* Language Selector */}
             <div className="hidden sm:flex items-center gap-1 px-3 py-2 rounded-2xl bg-white border border-[#EBE6DC] text-xs font-semibold text-[#1E1C1A] shadow-xs">
