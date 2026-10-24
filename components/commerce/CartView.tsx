@@ -18,10 +18,14 @@ import {
   Tag,
   Gift,
   Lock,
+  HeartHandshake,
+  CheckCircle2,
+  AlertCircle,
+  Undo2,
+  ShieldAlert,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { Button } from '@/components/ui/Button';
-import { useCart } from '@/lib/cart/CartContext';
+import { useCart, CartItem } from '@/lib/cart/CartContext';
 import { useCurrency } from '@/lib/currency/context';
 
 const JOURNAL_IMAGE_FALLBACKS: Record<string, string> = {
@@ -34,7 +38,7 @@ const JOURNAL_IMAGE_FALLBACKS: Record<string, string> = {
 };
 
 function resolveItemImage(slug: string, imageUrl?: string): string {
-  if (imageUrl && !imageUrl.includes('placeholder') && imageUrl.startsWith('/')) {
+  if (imageUrl && !imageUrl.includes('placeholder') && (imageUrl.startsWith('/') || imageUrl.startsWith('http'))) {
     return imageUrl;
   }
   const cleanSlug = slug.toLowerCase().replace('the-', '').replace('prod-', '');
@@ -44,31 +48,168 @@ function resolveItemImage(slug: string, imageUrl?: string): string {
   return '/images/book-cover-awakening.png';
 }
 
+interface CuratedAddon {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  price: number;
+  imageUrl: string;
+  description: string;
+}
+
+const CURATED_ADDONS: CuratedAddon[] = [
+  {
+    id: 'addon-garbasaar',
+    title: 'Heritage Silk Garbasaar Scarf',
+    slug: 'heritage-silk-garbasaar-scarf',
+    category: 'Sacred Rituals',
+    price: 35.0,
+    imageUrl: '/images/merch-garbasaar-scarf.jpg',
+    description: 'Woven raw silk dyed with earth pigments for quiet reflection.',
+  },
+  {
+    id: 'addon-dabqaad',
+    title: 'Handcrafted Clay Dabqaad Burner',
+    slug: 'handcrafted-clay-dabqaad-burner',
+    category: 'Home & Atmosphere',
+    price: 28.0,
+    imageUrl: '/images/merch-dabqaad-burner.jpg',
+    description: 'Traditional Somali unglazed terracotta incense vessel.',
+  },
+  {
+    id: 'addon-tote',
+    title: 'Natural Linen Heritage Tote Bag',
+    slug: 'natural-linen-heritage-tote-bag',
+    category: 'Everyday Carry',
+    price: 18.0,
+    imageUrl: '/images/tote-bag-natural.jpg',
+    description: 'Heavyweight organic cotton canvas with metallic gold inscription.',
+  },
+  {
+    id: 'addon-mug',
+    title: 'Naag Nool Matte Black Ceramic Mug',
+    slug: 'naag-nool-matte-black-ceramic-mug',
+    category: 'Morning Ritual',
+    price: 22.0,
+    imageUrl: '/images/mug-naagnool-black.png',
+    description: 'Double-fired ceramic mug with debossed brand motto.',
+  },
+];
+
 export function CartView() {
-  const { items, totalItems, subtotal, isHydrated, updateQuantity, removeItem, clearCart } = useCart();
+  const { items, totalItems, subtotal, isHydrated, updateQuantity, removeItem, clearCart, addItem } = useCart();
   const { currency, formatPrice } = useCurrency();
+
+  // Promo code handling
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
+  const [promoDiscountRate, setPromoDiscountRate] = useState(0);
+  const [promoError, setPromoError] = useState<string | null>(null);
+
+  // Gift Note
   const [giftNote, setGiftNote] = useState('');
   const [showGiftNote, setShowGiftNote] = useState(false);
+  const [giftWrapping, setGiftWrapping] = useState(false);
 
-  // Free shipping threshold: $50.00
+  // Transit Protection ($1.95)
+  const [transitProtection, setTransitProtection] = useState(true);
+
+  // Undo removal support
+  const [lastRemovedItem, setLastRemovedItem] = useState<CartItem | null>(null);
+
+  // Curated quick add feedback
+  const [addingAddonId, setAddingAddonId] = useState<string | null>(null);
+
+  // Complimentary shipping threshold ($50.00)
   const shippingThreshold = 50.0;
-  const shippingFee = subtotal >= shippingThreshold || subtotal === 0 ? 0.0 : 5.0;
+  const isFreeShippingUnlocked = subtotal >= shippingThreshold && subtotal > 0;
+  const shippingFee = isFreeShippingUnlocked || subtotal === 0 ? 0.0 : 6.0;
   const progressPercent = Math.min(100, Math.round((subtotal / shippingThreshold) * 100));
   const amountToFreeShipping = Math.max(0, shippingThreshold - subtotal);
-  const discountAmount = promoApplied ? 5.0 : 0.0;
-  const estimatedTotal = Math.max(0, subtotal - discountAmount + shippingFee);
+
+  // Financial calculations
+  const discountAmount = promoApplied ? (promoDiscountRate > 0 ? (subtotal * promoDiscountRate) : 5.0) : 0.0;
+  const protectionFee = transitProtection && subtotal > 0 ? 1.95 : 0.0;
+  const estimatedTotal = Math.max(0, subtotal - discountAmount + shippingFee + protectionFee);
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
-    if (promoCode.trim().toLowerCase() === 'welcome' || promoCode.trim().toLowerCase() === 'naagnool') {
+    const cleanCode = promoCode.trim().toUpperCase();
+
+    if (!cleanCode) {
+      setPromoError('Please enter a promotion code.');
+      return;
+    }
+
+    if (cleanCode === 'WELCOME10') {
       setPromoApplied(true);
-    } else if (promoCode.trim().length > 0) {
-      setPromoApplied(true); // Generous acceptance for promo demonstration
+      setPromoDiscountRate(0.10);
+      setPromoError(null);
+    } else if (cleanCode === 'AYEEYO' || cleanCode === 'NAAGNOOL') {
+      setPromoApplied(true);
+      setPromoDiscountRate(0.15);
+      setPromoError(null);
+    } else if (cleanCode.length >= 3) {
+      // Generous fallback voucher code
+      setPromoApplied(true);
+      setPromoDiscountRate(0.05);
+      setPromoError(null);
+    } else {
+      setPromoError('Invalid promotion code. Try "WELCOME10" or "NAAGNOOL".');
     }
   };
 
+  const handleRemovePromo = () => {
+    setPromoApplied(false);
+    setPromoDiscountRate(0);
+    setPromoCode('');
+    setPromoError(null);
+  };
+
+  const handleRemoveWithUndo = (item: CartItem) => {
+    setLastRemovedItem(item);
+    removeItem(item.id);
+  };
+
+  const handleUndoRemoval = () => {
+    if (lastRemovedItem) {
+      addItem(
+        {
+          id: lastRemovedItem.id,
+          productId: lastRemovedItem.productId,
+          title: lastRemovedItem.title,
+          slug: lastRemovedItem.slug,
+          price: lastRemovedItem.price,
+          imageUrl: lastRemovedItem.imageUrl,
+          category: lastRemovedItem.category,
+          color: lastRemovedItem.color,
+          edition: lastRemovedItem.edition,
+        },
+        lastRemovedItem.quantity
+      );
+      setLastRemovedItem(null);
+    }
+  };
+
+  const handleQuickAdd = (addon: CuratedAddon) => {
+    setAddingAddonId(addon.id);
+    addItem({
+      id: addon.id,
+      productId: addon.id,
+      title: addon.title,
+      slug: addon.slug,
+      price: addon.price,
+      imageUrl: addon.imageUrl,
+      category: addon.category,
+    }, 1);
+
+    setTimeout(() => {
+      setAddingAddonId(null);
+    }, 600);
+  };
+
+  // HYDRATION SKELETON
   if (!isHydrated) {
     return (
       <div className="py-20 sm:py-28 bg-[#FAF8F5] min-h-[75vh]">
@@ -77,8 +218,8 @@ export function CartView() {
             <div className="h-6 bg-[#E8E2D8]/60 rounded-full w-48 mx-auto" />
             <div className="h-10 bg-[#E8E2D8]/40 rounded-xl w-64 mx-auto" />
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              <div className="lg:col-span-7 h-96 bg-white/70 rounded-3xl border border-[#E8E2D8]/60" />
-              <div className="lg:col-span-5 h-80 bg-white/70 rounded-3xl border border-[#E8E2D8]/60" />
+              <div className="lg:col-span-7 h-96 bg-white rounded-3xl border border-[#E8E2D8]" />
+              <div className="lg:col-span-5 h-80 bg-white rounded-3xl border border-[#E8E2D8]" />
             </div>
           </div>
         </Container>
@@ -86,88 +227,146 @@ export function CartView() {
     );
   }
 
-  // EMPTY BAG STATE
+  // EMPTY BAG STATE (Luxury Sanctuary Lookbook)
   if (items.length === 0) {
     return (
-      <div className="py-16 sm:py-28 bg-[#FAF8F5] min-h-[80vh] flex items-center">
+      <div className="py-16 sm:py-28 bg-[#FAF8F5] min-h-[85vh] flex items-center">
         <Container size="default">
-          <div className="max-w-2xl mx-auto text-center space-y-8">
+          <div className="max-w-3xl mx-auto text-center space-y-10">
+            {/* Header Icon with Gold Laurel Ring */}
             <div className="relative inline-block">
-              <div className="w-20 h-20 rounded-full bg-[#B85233]/10 text-[#B85233] mx-auto flex items-center justify-center ring-8 ring-[#B85233]/5 transition-transform duration-500 hover:scale-105">
-                <ShoppingBag className="w-9 h-9 stroke-[1.5]" />
+              <div className="w-24 h-24 rounded-full bg-white border border-[#E8E2D8] shadow-sm flex items-center justify-center mx-auto text-[#182821] ring-12 ring-[#182821]/5">
+                <ShoppingBag className="w-10 h-10 stroke-[1.2] text-[#B85233]" />
               </div>
-              <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#4D5844] text-white text-[11px] font-bold flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-[#182821] text-[#D49B4B] text-xs font-serif font-bold flex items-center justify-center border-2 border-white shadow-xs">
                 0
               </span>
             </div>
 
-            <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#B85233]">
-                Your Sanctuary Bag
-              </p>
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAF3EC] border border-[#E8E2D8] text-[11px] font-semibold uppercase tracking-[0.2em] text-[#B85233]">
+                <Sparkles className="w-3.5 h-3.5 text-[#D49B4B]" />
+                <span>Sanctuary Collection</span>
+              </div>
               <h1 className="font-playfair text-3xl sm:text-5xl font-normal text-[#1E1C1A] tracking-tight">
                 Your Shopping Bag is Empty
               </h1>
-              <p className="font-sans text-base sm:text-lg text-[#6B655B] max-w-lg mx-auto leading-relaxed pt-2">
-                Every great journey begins with a blank page. Discover our six handcrafted guided journals designed to awaken your inner strength, clarity, and purpose.
+              <p className="font-sans text-base sm:text-lg text-[#6B655B] max-w-xl mx-auto leading-relaxed">
+                Every sacred transformation begins with an open mind and a blank page. Discover our six handcrafted guided journals designed to awaken your inner strength, clarity, and purpose.
               </p>
             </div>
 
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Link href="/shop" className="w-full sm:w-auto">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto px-8 py-4 shadow-lg shadow-[#B85233]/20">
-                  <span>Explore the Journals</span>
-                  <ArrowRight className="w-4 h-4 ms-2 rtl:rotate-180" />
-                </Button>
-              </Link>
-              <Link href="/community" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 py-4 border-[#E8E2D8] hover:border-[#B85233]">
-                  Join the Movement
-                </Button>
-              </Link>
-            </div>
-
-            {/* Curated journal micro-preview */}
-            <div className="pt-12 border-t border-[#E8E2D8]/70 grid grid-cols-2 sm:grid-cols-3 gap-4 text-start">
-              {[
-                { title: 'The Awakening', price: '$24.00', image: '/images/book-cover-awakening.png', slug: 'the-awakening' },
-                { title: 'The Clarity', price: '$24.00', image: '/images/book-cover-clarity.png', slug: 'the-clarity' },
-                { title: 'The Healing', price: '$24.00', image: '/images/book-cover-healing.png', slug: 'the-healing' },
-              ].map((rec) => (
-                <Link
-                  key={rec.slug}
-                  href={`/shop/${rec.slug}`}
-                  className="group p-3 rounded-2xl bg-white border border-[#E8E2D8]/60 hover:border-[#B85233]/40 transition-all duration-300 hover:shadow-md"
+                <button
+                  type="button"
+                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#182821] hover:bg-[#22382E] text-white font-medium text-sm sm:text-base flex items-center justify-center gap-2 shadow-lg shadow-[#182821]/15 transition-all duration-300 active:scale-[0.98]"
                 >
-                  <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-[#F5F2EB] mb-2.5">
-                    <Image
-                      src={rec.image}
-                      alt={rec.title}
-                      fill
-                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <h4 className="font-playfair text-sm text-[#1E1C1A] font-medium truncate group-hover:text-[#B85233] transition-colors">
-                    {rec.title}
-                  </h4>
-                  <p className="text-xs text-[#6B655B]">{rec.price}</p>
-                </Link>
-              ))}
+                  <span>Explore the Journals</span>
+                  <ArrowRight className="w-4 h-4 text-[#D49B4B] rtl:rotate-180" />
+                </button>
+              </Link>
+              <Link href="/ayeyo-koris" className="w-full sm:w-auto">
+                <button
+                  type="button"
+                  className="w-full sm:w-auto px-8 py-4 rounded-full bg-white hover:bg-[#FAF8F5] border border-[#E8E2D8] text-[#1E1C1A] font-medium text-sm sm:text-base transition-colors"
+                >
+                  Our Philanthropic Mission
+                </button>
+              </Link>
             </div>
 
-            {/* Assurance Badges */}
-            <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-[#6B655B]">
+            {/* Curated Journal Micro-Showcase */}
+            <div className="pt-10 border-t border-[#E8E2D8]">
+              <div className="text-center mb-6">
+                <span className="text-xs uppercase tracking-widest font-semibold text-[#8A847A]">
+                  Curated Journal Recommendations
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-start">
+                {[
+                  {
+                    title: 'The Awakening Edition',
+                    subtitle: 'Rebirth & Unshakable Purpose',
+                    price: 24.0,
+                    image: '/images/book-cover-awakening.png',
+                    slug: 'the-awakening',
+                  },
+                  {
+                    title: 'The Clarity Edition',
+                    subtitle: 'Focus, Calm & Quiet Resolution',
+                    price: 24.0,
+                    image: '/images/book-cover-clarity.png',
+                    slug: 'the-clarity',
+                  },
+                  {
+                    title: 'The Healing Edition',
+                    subtitle: 'Compassion & Generational Grace',
+                    price: 24.0,
+                    image: '/images/book-cover-healing.png',
+                    slug: 'the-healing',
+                  },
+                ].map((rec) => (
+                  <div
+                    key={rec.slug}
+                    className="group p-4 rounded-3xl bg-white border border-[#E8E2D8] hover:border-[#D49B4B] transition-all duration-300 hover:shadow-md flex flex-col justify-between"
+                  >
+                    <div>
+                      <Link href={`/shop/${rec.slug}`} className="block relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#FAF8F5] mb-3">
+                        <Image
+                          src={rec.image}
+                          alt={rec.title}
+                          fill
+                          className="object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </Link>
+                      <h4 className="font-playfair text-base font-semibold text-[#1E1C1A] group-hover:text-[#B85233] transition-colors">
+                        {rec.title}
+                      </h4>
+                      <p className="text-xs text-[#8A847A] mt-0.5 line-clamp-1">{rec.subtitle}</p>
+                    </div>
+
+                    <div className="pt-3 mt-3 border-t border-[#F5F2EB] flex items-center justify-between">
+                      <span className="font-playfair text-sm font-semibold text-[#1E1C1A]">
+                        {formatPrice(rec.price)}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => addItem({
+                          id: rec.slug,
+                          productId: rec.slug,
+                          title: rec.title,
+                          slug: rec.slug,
+                          price: rec.price,
+                          imageUrl: rec.image,
+                          category: 'Guided Journal',
+                        }, 1)}
+                        className="px-3 py-1.5 rounded-full bg-[#182821] hover:bg-[#22382E] text-white text-xs font-medium flex items-center gap-1 transition-all active:scale-95 shadow-xs"
+                      >
+                        <Plus className="w-3 h-3 text-[#D49B4B]" />
+                        <span>Add</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Reassurance Guarantees */}
+            <div className="pt-6 flex flex-wrap items-center justify-center gap-8 text-xs text-[#6B655B]">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-[#4D5844]" />
-                <span>256-Bit SSL Encrypted</span>
+                <ShieldCheck className="w-4 h-4 text-[#182821]" />
+                <span>256-Bit SSL Bank-Grade Security</span>
               </div>
               <div className="flex items-center gap-2">
                 <Truck className="w-4 h-4 text-[#B85233]" />
                 <span>Complimentary Shipping Over $50</span>
               </div>
               <div className="flex items-center gap-2">
-                <RotateCcw className="w-4 h-4 text-[#4D5844]" />
-                <span>30-Day Intentional Guarantee</span>
+                <RotateCcw className="w-4 h-4 text-[#D49B4B]" />
+                <span>30-Day Mindful Return Guarantee</span>
               </div>
             </div>
           </div>
@@ -176,11 +375,11 @@ export function CartView() {
     );
   }
 
-  // ACTIVE CART
+  // ACTIVE CART EXPERIENCE
   return (
-    <div className="py-10 sm:py-16 bg-[#FAF8F5] min-h-[85vh]">
+    <div className="py-10 sm:py-16 bg-[#FAF8F5] min-h-[90vh]">
       <Container size="default">
-        {/* Breadcrumbs */}
+        {/* Navigation Breadcrumbs */}
         <nav aria-label="Breadcrumb" className="mb-6 sm:mb-8">
           <ol className="flex items-center gap-2 text-xs text-[#8A847A]">
             <li>
@@ -191,7 +390,7 @@ export function CartView() {
             <li>/</li>
             <li>
               <Link href="/shop" className="hover:text-[#B85233] transition-colors">
-                Shop
+                Sanctuary Shop
               </Link>
             </li>
             <li>/</li>
@@ -199,13 +398,14 @@ export function CartView() {
           </ol>
         </nav>
 
-        {/* Header section with shipping meter */}
+        {/* Header Strip with Shipping Meter */}
         <div className="mb-8 pb-6 border-b border-[#E8E2D8]">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
             <div>
-              <p className="text-xs uppercase tracking-[0.25em] font-semibold text-[#B85233] mb-1">
-                Your Selection
-              </p>
+              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] font-semibold text-[#B85233] mb-1">
+                <Sparkles className="w-3.5 h-3.5 text-[#D49B4B]" />
+                <span>Your Curated Bag</span>
+              </div>
               <h1 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#1E1C1A] tracking-tight">
                 Shopping Bag <span className="text-xl sm:text-2xl text-[#8A847A] font-sans font-light">({totalItems} {totalItems === 1 ? 'item' : 'items'})</span>
               </h1>
@@ -220,30 +420,38 @@ export function CartView() {
             </Link>
           </div>
 
-          {/* Complimentary Shipping Progress Meter */}
-          <div className="p-4 rounded-2xl bg-white border border-[#E8E2D8] shadow-xs">
-            <div className="flex items-center justify-between gap-2 text-xs sm:text-sm font-medium mb-2.5">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#B85233] shrink-0" />
-                {amountToFreeShipping === 0 ? (
-                  <span className="text-[#4D5844] font-semibold">
-                    Congratulations! You have unlocked Complimentary Priority Shipping.
+          {/* Complimentary Shipping Progress Card */}
+          <div className="p-4 sm:p-5 rounded-3xl bg-white border border-[#E8E2D8] shadow-xs">
+            <div className="flex items-center justify-between gap-3 text-xs sm:text-sm font-medium mb-3">
+              <div className="flex items-center gap-2.5">
+                {isFreeShippingUnlocked ? (
+                  <div className="w-6 h-6 rounded-full bg-[#182821] text-[#D49B4B] flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                  </div>
+                ) : (
+                  <Truck className="w-5 h-5 text-[#B85233] shrink-0" />
+                )}
+
+                {isFreeShippingUnlocked ? (
+                  <span className="text-[#182821] font-semibold">
+                    Congratulations! You have unlocked <span className="text-[#B85233]">Complimentary Worldwide Priority Shipping</span>.
                   </span>
                 ) : (
                   <span className="text-[#1E1C1A]">
-                    Add <strong className="text-[#B85233] font-semibold">{formatPrice(amountToFreeShipping)}</strong> more to unlock <span className="underline decoration-[#B85233]/40">Complimentary Shipping</span>
+                    Add <strong className="text-[#B85233] font-semibold">{formatPrice(amountToFreeShipping)}</strong> more to your bag to unlock <span className="underline decoration-[#D49B4B]">Complimentary Priority Shipping</span>
                   </span>
                 )}
               </div>
+
               <span className="text-xs text-[#8A847A] font-mono shrink-0">
                 {formatPrice(subtotal)} / {formatPrice(shippingThreshold)}
               </span>
             </div>
 
-            <div className="w-full h-2 rounded-full bg-[#F0EBE1] overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-[#FAF3EC] overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-700 ease-out ${
-                  amountToFreeShipping === 0 ? 'bg-[#4D5844]' : 'bg-[#B85233]'
+                  isFreeShippingUnlocked ? 'bg-[#182821]' : 'bg-gradient-to-r from-[#B85233] to-[#D49B4B]'
                 }`}
                 style={{ width: `${progressPercent}%` }}
               />
@@ -251,10 +459,46 @@ export function CartView() {
           </div>
         </div>
 
-        {/* Two-Column Grid: Bag Items vs Order Summary */}
+        {/* Undo removal toast alert */}
+        {lastRemovedItem && (
+          <div className="mb-6 p-4 rounded-2xl bg-[#182821] text-white shadow-lg flex items-center justify-between gap-4 animate-in slide-in-from-top-2 duration-300">
+            <div className="flex items-center gap-3 text-xs sm:text-sm">
+              <AlertCircle className="w-4 h-4 text-[#D49B4B] shrink-0" />
+              <span>
+                Removed <strong>{lastRemovedItem.title}</strong> from your shopping bag.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={handleUndoRemoval}
+              className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-[#D49B4B] font-semibold text-xs flex items-center gap-1.5 transition-colors"
+            >
+              <Undo2 className="w-3.5 h-3.5" />
+              <span>Undo</span>
+            </button>
+          </div>
+        )}
+
+        {/* Main Grid: Left Items + Right Summary */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* LEFT: Items List */}
+          {/* ============================================================== */}
+          {/* LEFT: Items List & Addons                                      */}
+          {/* ============================================================== */}
           <div className="lg:col-span-7 space-y-6">
+            {/* Philanthropic Impact Strip */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FAF3EC] to-white border border-[#E8E2D8] flex items-center gap-3.5 shadow-xs">
+              <div className="w-10 h-10 rounded-full bg-[#182821] text-[#D49B4B] flex items-center justify-center shrink-0">
+                <HeartHandshake className="w-5 h-5" />
+              </div>
+              <div className="text-xs leading-relaxed">
+                <p className="font-semibold text-[#182821]">Ayeeyo Koris Foundation Guarantee</p>
+                <p className="text-[#6B655B]">
+                  10% of this purchase directly funds young Somali girls&apos; school scholarships and grandmother literacy circles.
+                </p>
+              </div>
+            </div>
+
+            {/* List of Cart Items */}
             <div className="space-y-4">
               {items.map((item) => {
                 const itemImage = resolveItemImage(item.slug, item.imageUrl);
@@ -263,12 +507,12 @@ export function CartView() {
                 return (
                   <div
                     key={item.id}
-                    className="group p-4 sm:p-5 rounded-3xl bg-white border border-[#E8E2D8] hover:border-[#D48344]/50 transition-all duration-300 shadow-xs flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center"
+                    className="group p-5 rounded-3xl bg-white border border-[#E8E2D8] hover:border-[#D49B4B]/50 transition-all duration-300 shadow-xs flex flex-col sm:flex-row gap-5 items-start sm:items-center relative"
                   >
-                    {/* Item Thumbnail Frame */}
+                    {/* Item Thumbnail */}
                     <Link
                       href={`/shop/${item.slug}`}
-                      className="relative w-24 h-32 sm:w-28 sm:h-36 rounded-2xl overflow-hidden bg-[#F5F2EB] border border-[#E8E2D8]/70 shrink-0 shadow-inner group-hover:scale-[1.02] transition-transform duration-300"
+                      className="relative w-24 h-32 sm:w-28 sm:h-36 rounded-2xl overflow-hidden bg-[#FAF8F5] border border-[#E8E2D8] shrink-0 group-hover:scale-[1.02] transition-transform duration-300"
                     >
                       <Image
                         src={itemImage}
@@ -279,11 +523,11 @@ export function CartView() {
                       />
                     </Link>
 
-                    {/* Item Details */}
-                    <div className="flex-1 min-w-0 space-y-2 w-full">
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#8A847A]">
+                    {/* Item Metadata */}
+                    <div className="flex-1 min-w-0 space-y-2.5 w-full">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#B85233] block mb-0.5">
                             {item.category || 'Hardcover Guided Journal'}
                           </span>
                           <Link href={`/product/${item.slug}`}>
@@ -291,16 +535,17 @@ export function CartView() {
                               {item.title}
                             </h3>
                           </Link>
-                          {/* Variant Pills: Edition (English/Somali) & Color */}
+
+                          {/* Edition & Color Variant Badges */}
                           {(item.edition || item.color) && (
                             <div className="flex flex-wrap items-center gap-2 mt-1.5">
                               {item.edition && (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FAF3EC] text-[#B85233] border border-[#E5DFC0]">
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FAF3EC] text-[#B85233] border border-[#E8E2D8]">
                                   Edition: {item.edition}
                                 </span>
                               )}
                               {item.color && (
-                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F5F2EB] text-[#5C554B] border border-[#E8E2D8]">
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#F5F2EB] text-[#5C554B] border border-[#E8E2D8]">
                                   Color: {item.color}
                                 </span>
                               )}
@@ -311,23 +556,25 @@ export function CartView() {
                         {/* Remove Action */}
                         <button
                           type="button"
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => handleRemoveWithUndo(item)}
                           aria-label={`Remove ${item.title}`}
-                          className="p-2 rounded-full text-[#8A847A] hover:text-[#B85233] hover:bg-[#FAF8F5] transition-all"
+                          className="p-2 rounded-full text-[#8A847A] hover:text-red-600 hover:bg-red-50 transition-colors"
                           title="Remove item"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs text-[#4D5844] font-medium">
-                        <Check className="w-3.5 h-3.5 text-[#4D5844]" />
-                        <span>In Stock • Dispatched within 24 hours</span>
+                      {/* Stock Assurance */}
+                      <div className="flex items-center gap-2 text-xs text-[#182821] font-medium">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#182821]" />
+                        <span>In Stock • Dispatched in luxury packaging within 24 hours</span>
                       </div>
 
-                      <div className="pt-2 flex items-center justify-between gap-4 border-t border-[#F0EBE1]">
-                        {/* Tactile Quantity Stepper */}
-                        <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#E8E2D8] rounded-full p-1">
+                      {/* Stepper & Price Calculation */}
+                      <div className="pt-3 flex items-center justify-between gap-4 border-t border-[#F5F2EB]">
+                        {/* Tactile Stepper */}
+                        <div className="flex items-center gap-2 bg-[#FAF8F5] border border-[#E8E2D8] rounded-full p-1 shadow-inner">
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -351,7 +598,7 @@ export function CartView() {
                           </button>
                         </div>
 
-                        {/* Price Breakdown */}
+                        {/* Price Details */}
                         <div className="text-end">
                           <div className="font-playfair text-lg sm:text-xl font-semibold text-[#1E1C1A]">
                             {formatPrice(lineTotal)}
@@ -369,88 +616,190 @@ export function CartView() {
               })}
             </div>
 
-            {/* Clear Cart Option */}
-            <div className="flex items-center justify-between text-xs text-[#8A847A] pt-2">
+            {/* Clear Cart Utility */}
+            <div className="flex items-center justify-between text-xs text-[#8A847A] pt-2 px-1">
               <button
                 type="button"
                 onClick={clearCart}
-                className="hover:text-[#B85233] transition-colors underline decoration-[#8A847A]/30 underline-offset-4"
+                className="hover:text-red-600 transition-colors underline decoration-[#8A847A]/30 underline-offset-4"
               >
                 Clear all items from bag
               </button>
-              <span>Prices displayed in {currency}</span>
+              <span>All orders ship worldwide with live tracking</span>
             </div>
 
-            {/* Optional Gift Message & Notes Accordion */}
-            <div className="p-5 rounded-3xl bg-white border border-[#E8E2D8] shadow-xs">
-              <button
-                type="button"
-                onClick={() => setShowGiftNote(!showGiftNote)}
-                className="w-full flex items-center justify-between text-sm font-medium text-[#1E1C1A] hover:text-[#B85233] transition-colors"
-              >
-                <div className="flex items-center gap-2.5">
-                  <Gift className="w-4 h-4 text-[#B85233]" />
-                  <span>Complimentary Gift Packaging & Personal Note</span>
+            {/* Complimentary Gift Packaging & Personal Calligraphy Note */}
+            <div className="p-5 rounded-3xl bg-white border border-[#E8E2D8] shadow-xs space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#FAF3EC] text-[#B85233] flex items-center justify-center">
+                    <Gift className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-playfair font-medium text-sm text-[#1E1C1A]">
+                      Complimentary Luxury Gift Inscription
+                    </h4>
+                    <p className="text-xs text-[#8A847A]">
+                      Hand-written on gold-stamped linen cardstock.
+                    </p>
+                  </div>
                 </div>
-                <span className="text-xs text-[#8A847A] underline">
-                  {showGiftNote ? 'Collapse' : 'Add Note'}
-                </span>
-              </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShowGiftNote(!showGiftNote)}
+                  className="text-xs font-semibold text-[#B85233] hover:underline"
+                >
+                  {showGiftNote ? 'Hide Note' : '+ Add Personal Note'}
+                </button>
+              </div>
 
               {showGiftNote && (
-                <div className="mt-4 pt-4 border-t border-[#F0EBE1] space-y-2 animate-in fade-in duration-200">
-                  <p className="text-xs text-[#6B655B]">
-                    Include a handwritten note with your order. Hand-inscribed on gold-stamped cardstock.
-                  </p>
+                <div className="pt-3 border-t border-[#F5F2EB] space-y-3 animate-in fade-in duration-200">
                   <textarea
                     rows={3}
+                    maxLength={250}
                     value={giftNote}
                     onChange={(e) => setGiftNote(e.target.value)}
-                    placeholder="Write your personal message here (e.g., 'May this journal be the beginning of your sacred clarity...')"
-                    className="w-full p-3 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D8] text-sm text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:ring-2 focus:ring-[#B85233]/20 focus:border-[#B85233]"
+                    placeholder="Inscribe a message for your recipient (e.g., 'May this journal be the quiet sanctuary where your deepest strength unfolds...')"
+                    className="w-full p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D8] text-xs text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:border-[#B85233]"
                   />
+                  <div className="flex items-center justify-between text-[11px] text-[#8A847A]">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={giftWrapping}
+                        onChange={(e) => setGiftWrapping(e.target.checked)}
+                        className="rounded border-[#E8E2D8] text-[#182821] focus:ring-[#182821]"
+                      />
+                      <span>Include satin ribbon gift packaging</span>
+                    </label>
+                    <span>{250 - giftNote.length} characters remaining</span>
+                  </div>
                 </div>
               )}
             </div>
 
+            {/* ============================================================== */}
+            {/* QUICK-ADD COMPLEMENTARY RITUAL GOODS                           */}
+            {/* ============================================================== */}
+            <div className="pt-4 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-[#B85233] block">
+                    Complete Your Sacred Ritual
+                  </span>
+                  <h3 className="font-playfair text-xl font-medium text-[#1E1C1A]">
+                    Frequently Paired Together
+                  </h3>
+                </div>
+                <Link href="/shop" className="text-xs font-medium text-[#8A847A] hover:text-[#B85233] transition-colors">
+                  View Full Shop →
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                {CURATED_ADDONS.map((addon) => {
+                  const isAdding = addingAddonId === addon.id;
+                  const alreadyInBag = items.some((i) => i.id === addon.id || i.slug === addon.slug);
+
+                  return (
+                    <div
+                      key={addon.id}
+                      className="group p-3 rounded-2xl bg-white border border-[#E8E2D8] hover:border-[#D49B4B] transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
+                    >
+                      <div>
+                        <div className="relative aspect-square rounded-xl overflow-hidden bg-[#FAF8F5] mb-2.5">
+                          <Image
+                            src={addon.imageUrl}
+                            alt={addon.title}
+                            fill
+                            className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <span className="text-[9px] uppercase tracking-wider font-semibold text-[#8A847A] block truncate">
+                          {addon.category}
+                        </span>
+                        <h4 className="font-playfair font-medium text-xs text-[#1E1C1A] group-hover:text-[#B85233] transition-colors line-clamp-1" title={addon.title}>
+                          {addon.title}
+                        </h4>
+                      </div>
+
+                      <div className="pt-2 mt-2 border-t border-[#F5F2EB] flex items-center justify-between">
+                        <span className="font-playfair font-semibold text-xs text-[#1E1C1A]">
+                          {formatPrice(addon.price)}
+                        </span>
+
+                        <button
+                          type="button"
+                          disabled={alreadyInBag || isAdding}
+                          onClick={() => handleQuickAdd(addon)}
+                          className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all ${
+                            alreadyInBag
+                              ? 'bg-[#FAF3EC] text-[#B85233] cursor-default'
+                              : 'bg-[#182821] hover:bg-[#22382E] text-white active:scale-95 shadow-xs'
+                          }`}
+                        >
+                          {alreadyInBag ? 'In Bag' : isAdding ? 'Added!' : '+ Add'}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Reassurance Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-              <div className="p-4 rounded-2xl bg-white/60 border border-[#E8E2D8]/80 text-center space-y-1.5">
-                <Sparkles className="w-4 h-4 text-[#B85233] mx-auto" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-4">
+              <div className="p-4 rounded-2xl bg-white/70 border border-[#E8E2D8] text-center space-y-1">
+                <Sparkles className="w-4 h-4 text-[#D49B4B] mx-auto" />
                 <h5 className="font-playfair text-xs font-semibold text-[#1E1C1A]">Artisanal Craft</h5>
-                <p className="text-[11px] text-[#6B655B] leading-snug">Hardcover linen with metallic gold embossing</p>
+                <p className="text-[11px] text-[#6B655B]">Linen hardcover with metallic gold stamping</p>
               </div>
-              <div className="p-4 rounded-2xl bg-white/60 border border-[#E8E2D8]/80 text-center space-y-1.5">
-                <Truck className="w-4 h-4 text-[#4D5844] mx-auto" />
-                <h5 className="font-playfair text-xs font-semibold text-[#1E1C1A]">Dispatched Globally</h5>
-                <p className="text-[11px] text-[#6B655B] leading-snug">Tracked priority delivery worldwide</p>
+              <div className="p-4 rounded-2xl bg-white/70 border border-[#E8E2D8] text-center space-y-1">
+                <Truck className="w-4 h-4 text-[#182821] mx-auto" />
+                <h5 className="font-playfair text-xs font-semibold text-[#1E1C1A]">Worldwide Priority</h5>
+                <p className="text-[11px] text-[#6B655B]">Tracked international parcel delivery</p>
               </div>
-              <div className="p-4 rounded-2xl bg-white/60 border border-[#E8E2D8]/80 text-center space-y-1.5">
+              <div className="p-4 rounded-2xl bg-white/70 border border-[#E8E2D8] text-center space-y-1">
                 <RotateCcw className="w-4 h-4 text-[#B85233] mx-auto" />
-                <h5 className="font-playfair text-xs font-semibold text-[#1E1C1A]">Thoughtful Return</h5>
-                <p className="text-[11px] text-[#6B655B] leading-snug">30-day effortless return guarantee</p>
+                <h5 className="font-playfair text-xs font-semibold text-[#1E1C1A]">Mindful Guarantee</h5>
+                <p className="text-[11px] text-[#6B655B]">30-day effortless return guarantee</p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: Sticky Order Summary */}
+          {/* ============================================================== */}
+          {/* RIGHT: Sticky Luxury Order Summary                             */}
+          {/* ============================================================== */}
           <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
-            <div className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E8E2D8] shadow-sm space-y-6">
-              <h2 className="font-playfair text-2xl font-normal text-[#1E1C1A] pb-4 border-b border-[#E8E2D8]">
-                Order Summary
-              </h2>
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[#E8E2D8] shadow-sm space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-[#E8E2D8]">
+                <h2 className="font-playfair text-2xl font-normal text-[#1E1C1A]">
+                  Order Summary
+                </h2>
+                <div className="flex items-center gap-1.5 text-xs text-[#8A847A]">
+                  <Lock className="w-3.5 h-3.5 text-[#182821]" />
+                  <span>Encrypted</span>
+                </div>
+              </div>
 
               {/* Price Calculation breakdown */}
               <div className="space-y-3.5 text-sm">
                 <div className="flex items-center justify-between text-[#6B655B]">
-                  <span>Items Subtotal</span>
+                  <span>Items Subtotal ({totalItems})</span>
                   <span className="font-mono text-[#1E1C1A] font-medium">{formatPrice(subtotal)}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-[#6B655B]">
-                  <span>Shipping</span>
+                  <div className="flex items-center gap-1.5">
+                    <span>Shipping</span>
+                    {isFreeShippingUnlocked && (
+                      <span className="text-[10px] text-[#182821] font-semibold">Priority</span>
+                    )}
+                  </div>
                   {shippingFee === 0 ? (
-                    <span className="font-semibold text-[#4D5844] bg-[#4D5844]/10 px-2 py-0.5 rounded-full text-xs">
+                    <span className="font-semibold text-[#182821] bg-[#FAF3EC] text-[#B85233] px-2.5 py-0.5 rounded-full text-xs border border-[#E8E2D8]">
                       COMPLIMENTARY
                     </span>
                   ) : (
@@ -458,55 +807,96 @@ export function CartView() {
                   )}
                 </div>
 
+                {/* Transit Protection Add-on */}
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D8] text-xs">
+                  <label className="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={transitProtection}
+                      onChange={(e) => setTransitProtection(e.target.checked)}
+                      className="rounded border-[#E8E2D8] text-[#182821] focus:ring-[#182821]"
+                    />
+                    <div>
+                      <span className="font-semibold text-[#1E1C1A] block">Carbon-Neutral Protection</span>
+                      <span className="text-[10px] text-[#8A847A]">Guaranteed against loss or transit damage</span>
+                    </div>
+                  </label>
+                  <span className="font-mono font-medium text-[#1E1C1A] shrink-0">
+                    {transitProtection ? formatPrice(1.95) : '—'}
+                  </span>
+                </div>
+
+                {/* Promo Applied Ribbon */}
                 {promoApplied && (
-                  <div className="flex items-center justify-between text-[#B85233] bg-[#B85233]/5 px-3 py-2 rounded-xl">
-                    <span className="flex items-center gap-1.5 text-xs font-medium">
-                      <Tag className="w-3.5 h-3.5" />
-                      Promo Code Applied
-                    </span>
-                    <span className="font-mono font-semibold text-xs">-{formatPrice(discountAmount)}</span>
+                  <div className="flex items-center justify-between text-[#B85233] bg-[#FAF3EC] p-3 rounded-2xl border border-[#E8E2D8]">
+                    <div className="flex items-center gap-2 text-xs font-semibold">
+                      <Tag className="w-4 h-4 text-[#B85233]" />
+                      <span>Promotion Applied ({promoCode.toUpperCase()})</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-semibold text-xs">-{formatPrice(discountAmount)}</span>
+                      <button
+                        type="button"
+                        onClick={handleRemovePromo}
+                        className="text-[10px] text-[#8A847A] hover:text-red-600 underline"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 )}
 
-                <div className="flex items-center justify-between text-[#8A847A] text-xs">
-                  <span>Estimated Taxes</span>
+                <div className="flex items-center justify-between text-[#8A847A] text-xs pt-1">
+                  <span>Taxes & Duties</span>
                   <span>Calculated at checkout</span>
                 </div>
               </div>
 
               {/* Promo Code Input */}
-              <form onSubmit={handleApplyPromo} className="pt-2 flex gap-2">
-                <div className="relative flex-1">
+              <form onSubmit={handleApplyPromo} className="pt-2">
+                <div className="flex gap-2">
                   <input
                     type="text"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    placeholder="Gift card or discount code"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#E8E2D8] text-xs text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:border-[#B85233]"
+                    placeholder="Enter gift card or voucher..."
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#E8E2D8] text-xs text-[#1E1C1A] placeholder-[#A0988A] focus:outline-none focus:border-[#B85233] uppercase"
                   />
+                  <button
+                    type="submit"
+                    className="px-4 py-2.5 rounded-xl bg-[#182821] hover:bg-[#22382E] text-white text-xs font-medium transition-all active:scale-95 shadow-xs"
+                  >
+                    Apply
+                  </button>
                 </div>
-                <button
-                  type="submit"
-                  className="px-4 py-2.5 rounded-xl bg-[#1E1C1A] text-white hover:bg-[#B85233] text-xs font-medium transition-all active:scale-95"
-                >
-                  Apply
-                </button>
+                {promoError && (
+                  <p className="text-[11px] text-red-600 mt-1.5 flex items-center gap-1">
+                    <ShieldAlert className="w-3.5 h-3.5 shrink-0" />
+                    <span>{promoError}</span>
+                  </p>
+                )}
               </form>
 
-              {/* Divider */}
+              {/* Total Divider */}
               <div className="pt-4 border-t border-[#E8E2D8]">
                 <div className="flex items-baseline justify-between mb-1">
-                  <span className="font-playfair text-lg font-medium text-[#1E1C1A]">Estimated Total</span>
+                  <div>
+                    <span className="font-playfair text-xl font-medium text-[#1E1C1A] block">
+                      Estimated Total
+                    </span>
+                    <span className="text-[11px] text-[#8A847A]">
+                      Including shipping & guarantees
+                    </span>
+                  </div>
                   <div className="text-end">
-                    <span className="font-playfair text-2xl sm:text-3xl font-semibold text-[#1E1C1A]">
+                    <span className="font-playfair text-2xl sm:text-3xl font-semibold text-[#182821]">
                       {formatPrice(estimatedTotal, { showCode: false })}
                     </span>
-                    <span className="text-[11px] text-[#8A847A] ms-1 uppercase font-mono">{currency}</span>
+                    <span className="text-xs text-[#8A847A] ms-1.5 uppercase font-mono font-semibold">
+                      {currency}
+                    </span>
                   </div>
                 </div>
-                <p className="text-[11px] text-[#8A847A]">
-                  Taxes and final shipping calculated during checkout
-                </p>
               </div>
 
               {/* Primary Checkout CTA */}
@@ -514,40 +904,76 @@ export function CartView() {
                 <Link href="/checkout" className="block w-full">
                   <button
                     type="button"
-                    className="w-full py-4 px-6 rounded-full bg-[#B85233] hover:bg-[#9E4228] text-white text-sm sm:text-base font-medium tracking-wide flex items-center justify-center gap-2.5 shadow-lg shadow-[#B85233]/25 transition-all duration-300 active:scale-[0.98] group"
+                    className="w-full py-4 px-6 rounded-full bg-[#182821] hover:bg-[#22382E] text-white text-sm sm:text-base font-semibold tracking-wide flex items-center justify-center gap-2.5 shadow-lg shadow-[#182821]/20 transition-all duration-300 active:scale-[0.98] group"
                   >
-                    <Lock className="w-4 h-4 opacity-80" />
-                    <span>Proceed to Checkout</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" />
+                    <Lock className="w-4 h-4 text-[#D49B4B]" />
+                    <span>Proceed to Secure Checkout</span>
+                    <ArrowRight className="w-4 h-4 text-[#D49B4B] group-hover:translate-x-1 transition-transform rtl:rotate-180" />
                   </button>
                 </Link>
 
                 <p className="text-center text-[11px] text-[#8A847A] flex items-center justify-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#4D5844]" />
-                  <span>Guaranteed safe & bank-grade encrypted checkout</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#182821]" />
+                  <span>Bank-grade 256-bit encrypted checkout</span>
                 </p>
               </div>
 
-              {/* Supported Payment Options Mini-Gallery */}
-              <div className="pt-5 border-t border-[#F0EBE1] space-y-2.5">
+              {/* Supported Payment Badges Gallery */}
+              <div className="pt-5 border-t border-[#F5F2EB] space-y-3">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8A847A] text-center">
-                  Accepted Payment Methods
+                  Accepted Payment Gateways
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
-                  <span className="px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#E8E2D8] text-[11px] font-medium text-[#1E1C1A]">
-                    💳 Credit / Debit Card
-                  </span>
-                  <span className="px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#E8E2D8] text-[11px] font-medium text-[#1E1C1A]">
-                    📱 EVC Plus
-                  </span>
-                  <span className="px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#E8E2D8] text-[11px] font-medium text-[#1E1C1A]">
-                    📱 ZAAD
-                  </span>
-                  <span className="px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#E8E2D8] text-[11px] font-medium text-[#1E1C1A]">
-                    📱 Sahal
-                  </span>
-                  <span className="px-2.5 py-1 rounded-md bg-[#FAF8F5] border border-[#E8E2D8] text-[11px] font-medium text-[#1E1C1A]">
-                    📱 eDahab
+                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
+                    <Image
+                      src="/images/payment-methods/EVC-PLUS-Logo-01-230x128.webp"
+                      alt="Hormuud EVC Plus"
+                      width={44}
+                      height={20}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
+                    <Image
+                      src="/images/payment-methods/zaad.png"
+                      alt="Telesom ZAAD"
+                      width={38}
+                      height={20}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
+                    <Image
+                      src="/images/payment-methods/Golis_Telecom_Logo.png"
+                      alt="Golis Sahal"
+                      width={44}
+                      height={20}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
+                    <Image
+                      src="/images/payment-methods/edahab.jpg"
+                      alt="eDahab Dahabshiil"
+                      width={38}
+                      height={20}
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
+                    <Image
+                      src="/images/payment-methods/premier wallet.png"
+                      alt="Premier Bank Wallet"
+                      width={48}
+                      height={20}
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+
+                <div className="text-center pt-1">
+                  <span className="text-[10px] text-[#8A847A]">
+                    Also accepting Visa, Mastercard, and Apple Pay worldwide
                   </span>
                 </div>
               </div>
