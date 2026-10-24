@@ -35,48 +35,53 @@ export async function createDonationAction(input: DonationInput): Promise<Donati
     const orderNumber = `DONATE-AK-${Date.now().toString().slice(-6)}`;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://naagnoolup.com';
 
-    // 1. Create Order record in database for accounting, audit trail & receipts
-    const order = await db.order.create({
-      data: {
-        orderNumber,
-        totalAmount: amount,
-        status: 'PENDING_PAYMENT',
-        customerName: donorName,
-        customerEmail: donorEmail,
-        shippingAddress: {
-          type: 'DONATION',
-          initiative: 'Ayeeyo Koris Children Educational Scholarship',
-          donorName,
-          donorEmail,
-          notes: 'Direct educational scholarship, textbooks, and nutrition for Somali children raised by grandmothers',
-        },
-      },
-    });
-
-    // 2. Select Payment Provider (Stripe or PayPal)
+    // 1. Select Payment Provider (Stripe or PayPal)
     const provider = getPaymentProvider(paymentMethod);
 
-    // 3. Create Payment record linked to this donation order
-    await db.payment.create({
-      data: {
-        orderId: order.id,
-        provider: provider.providerName,
-        amount,
-        status: 'INITIATED',
-        rawPayload: {
-          type: 'DONATION',
-          initiative: 'Ayeeyo Koris Children',
-          donorName,
-          donorEmail,
-          paymentMethod,
+    // 2. Resiliently create Order & Payment record in database for accounting & audit trail
+    let orderId = `donate_${Date.now()}`;
+    try {
+      const order = await db.order.create({
+        data: {
+          orderNumber,
+          totalAmount: amount,
+          status: 'PENDING_PAYMENT',
+          customerName: donorName,
+          customerEmail: donorEmail,
+          shippingAddress: {
+            type: 'DONATION',
+            initiative: 'Ayeeyo Koris Children Educational Scholarship',
+            donorName,
+            donorEmail,
+            notes: 'Direct educational scholarship, textbooks, and nutrition for Somali children raised by grandmothers',
+          },
         },
-      },
-    });
+      });
+      orderId = order.id;
 
-    // 4. Initiate real checkout session with Stripe or PayPal
+      await db.payment.create({
+        data: {
+          orderId: order.id,
+          provider: provider.providerName,
+          amount,
+          status: 'INITIATED',
+          metadata: {
+            type: 'DONATION',
+            initiative: 'Ayeeyo Koris Children',
+            donorName,
+            donorEmail,
+            paymentMethod,
+          },
+        },
+      });
+    } catch (dbErr) {
+      logger.warn('Donation DB pre-recording notice (payment will proceed):', dbErr);
+    }
+
+    // 3. Initiate real checkout session with Stripe or PayPal
     const paymentResult = await provider.initiatePayment({
-      orderId: order.id,
-      orderNumber: order.orderNumber,
+      orderId,
+      orderNumber,
       amount,
       currency: 'USD',
       customerName: donorName,
