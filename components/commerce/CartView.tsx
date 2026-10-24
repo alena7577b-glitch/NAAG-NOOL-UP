@@ -48,55 +48,6 @@ function resolveItemImage(slug: string, imageUrl?: string): string {
   return '/images/book-cover-awakening.png';
 }
 
-interface CuratedAddon {
-  id: string;
-  title: string;
-  slug: string;
-  category: string;
-  price: number;
-  imageUrl: string;
-  description: string;
-}
-
-const CURATED_ADDONS: CuratedAddon[] = [
-  {
-    id: 'addon-garbasaar',
-    title: 'Heritage Silk Garbasaar Scarf',
-    slug: 'heritage-silk-garbasaar-scarf',
-    category: 'Sacred Rituals',
-    price: 35.0,
-    imageUrl: '/images/merch-garbasaar-scarf.jpg',
-    description: 'Woven raw silk dyed with earth pigments for quiet reflection.',
-  },
-  {
-    id: 'addon-dabqaad',
-    title: 'Handcrafted Clay Dabqaad Burner',
-    slug: 'handcrafted-clay-dabqaad-burner',
-    category: 'Home & Atmosphere',
-    price: 28.0,
-    imageUrl: '/images/merch-dabqaad-burner.jpg',
-    description: 'Traditional Somali unglazed terracotta incense vessel.',
-  },
-  {
-    id: 'addon-tote',
-    title: 'Natural Linen Heritage Tote Bag',
-    slug: 'natural-linen-heritage-tote-bag',
-    category: 'Everyday Carry',
-    price: 18.0,
-    imageUrl: '/images/tote-bag-natural.jpg',
-    description: 'Heavyweight organic cotton canvas with metallic gold inscription.',
-  },
-  {
-    id: 'addon-mug',
-    title: 'Naag Nool Matte Black Ceramic Mug',
-    slug: 'naag-nool-matte-black-ceramic-mug',
-    category: 'Morning Ritual',
-    price: 22.0,
-    imageUrl: '/images/mug-naagnool-black.png',
-    description: 'Double-fired ceramic mug with debossed brand motto.',
-  },
-];
-
 export function CartView() {
   const { items, totalItems, subtotal, isHydrated, updateQuantity, removeItem, clearCart, addItem } = useCart();
   const { currency, formatPrice } = useCurrency();
@@ -117,9 +68,6 @@ export function CartView() {
 
   // Undo removal support
   const [lastRemovedItem, setLastRemovedItem] = useState<CartItem | null>(null);
-
-  // Curated quick add feedback
-  const [addingAddonId, setAddingAddonId] = useState<string | null>(null);
 
   // Complimentary shipping threshold ($50.00)
   const shippingThreshold = 50.0;
@@ -190,23 +138,6 @@ export function CartView() {
       );
       setLastRemovedItem(null);
     }
-  };
-
-  const handleQuickAdd = (addon: CuratedAddon) => {
-    setAddingAddonId(addon.id);
-    addItem({
-      id: addon.id,
-      productId: addon.id,
-      title: addon.title,
-      slug: addon.slug,
-      price: addon.price,
-      imageUrl: addon.imageUrl,
-      category: addon.category,
-    }, 1);
-
-    setTimeout(() => {
-      setAddingAddonId(null);
-    }, 600);
   };
 
   // HYDRATION SKELETON
@@ -678,75 +609,6 @@ export function CartView() {
                   </div>
                 </div>
               )}
-            </div>
-
-            {/* ============================================================== */}
-            {/* QUICK-ADD COMPLEMENTARY RITUAL GOODS                           */}
-            {/* ============================================================== */}
-            <div className="pt-4 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-[#B85233] block">
-                    Complete Your Sacred Ritual
-                  </span>
-                  <h3 className="font-playfair text-xl font-medium text-[#1E1C1A]">
-                    Frequently Paired Together
-                  </h3>
-                </div>
-                <Link href="/shop" className="text-xs font-medium text-[#8A847A] hover:text-[#B85233] transition-colors">
-                  View Full Shop →
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                {CURATED_ADDONS.map((addon) => {
-                  const isAdding = addingAddonId === addon.id;
-                  const alreadyInBag = items.some((i) => i.id === addon.id || i.slug === addon.slug);
-
-                  return (
-                    <div
-                      key={addon.id}
-                      className="group p-3 rounded-2xl bg-white border border-[#E8E2D8] hover:border-[#D49B4B] transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
-                    >
-                      <div>
-                        <div className="relative aspect-square rounded-xl overflow-hidden bg-[#FAF8F5] mb-2.5">
-                          <Image
-                            src={addon.imageUrl}
-                            alt={addon.title}
-                            fill
-                            className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <span className="text-[9px] uppercase tracking-wider font-semibold text-[#8A847A] block truncate">
-                          {addon.category}
-                        </span>
-                        <h4 className="font-playfair font-medium text-xs text-[#1E1C1A] group-hover:text-[#B85233] transition-colors line-clamp-1" title={addon.title}>
-                          {addon.title}
-                        </h4>
-                      </div>
-
-                      <div className="pt-2 mt-2 border-t border-[#F5F2EB] flex items-center justify-between">
-                        <span className="font-playfair font-semibold text-xs text-[#1E1C1A]">
-                          {formatPrice(addon.price)}
-                        </span>
-
-                        <button
-                          type="button"
-                          disabled={alreadyInBag || isAdding}
-                          onClick={() => handleQuickAdd(addon)}
-                          className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all ${
-                            alreadyInBag
-                              ? 'bg-[#FAF3EC] text-[#B85233] cursor-default'
-                              : 'bg-[#182821] hover:bg-[#22382E] text-white active:scale-95 shadow-xs'
-                          }`}
-                        >
-                          {alreadyInBag ? 'In Bag' : isAdding ? 'Added!' : '+ Add'}
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
 
             {/* Reassurance Grid */}
