@@ -13,6 +13,8 @@ import {
   UserCheck,
   Mail,
   Sparkles,
+  HeartHandshake,
+  Megaphone,
 } from 'lucide-react';
 import { requireAdmin } from '@/lib/auth/server';
 import { db } from '@/lib/db';
@@ -39,6 +41,7 @@ export default async function AdminDashboardPage() {
     realCustomersCount,
     paidOrders,
     realOrders,
+    donationOrders,
   ] = await Promise.all([
     db.product.count().catch(() => 0),
     db.order.count().catch(() => 0),
@@ -52,6 +55,10 @@ export default async function AdminDashboardPage() {
       orderBy: { createdAt: 'desc' },
       include: { items: true },
     }).catch(() => []),
+    db.order.findMany({
+      where: { orderNumber: { startsWith: 'DONATE' } },
+      select: { totalAmount: true, status: true },
+    }).catch(() => []),
   ]);
 
   // Real database stats without artificial benchmark padding
@@ -59,9 +66,15 @@ export default async function AdminDashboardPage() {
   const totalOrders = realOrdersCount;
   const totalCustomers = realCustomersCount;
 
-  // Calculate real revenue strictly from verified paid orders
+  // Calculate real revenue strictly from verified paid merchandise orders
   const revenueNumber = paidOrders.reduce((sum, ord) => sum + Number(ord.totalAmount || 0), 0);
   const totalRevenue = revenueNumber.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  // Ayeeyo Koris Donations metrics
+  const donationRaised = donationOrders
+    .filter((d) => d.status === 'PAID')
+    .reduce((sum, d) => sum + Number(d.totalAmount || 0), 0);
+  const totalDonationCount = donationOrders.length;
 
   // Format today's date
   const now = new Date();
@@ -289,6 +302,40 @@ export default async function AdminDashboardPage() {
 
             <span className="text-[10px] text-[#8A847A] uppercase font-mono">USD</span>
           </div>
+        </div>
+      </section>
+
+      {/* ============================================================== */}
+      {/* 2.5 AYEEYO KORIS PHILANTHROPY STRIP                           */}
+      {/* ============================================================== */}
+      <section className="rounded-3xl p-6 bg-gradient-to-r from-[#182821] via-[#22382E] to-[#182821] border border-[#2B473A] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#D49B4B]/20 border border-[#D49B4B]/40 flex items-center justify-center text-[#D49B4B] shrink-0">
+            <HeartHandshake className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-playfair text-lg sm:text-xl font-normal text-[#F9F6F0]">
+                Ayeeyo Koris Children Fund
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#D49B4B]/20 text-[#E5B56D] border border-[#D49B4B]/30">
+                Active Initiative
+              </span>
+            </div>
+            <p className="text-xs text-[#A8BEB4] mt-0.5">
+              ${donationRaised.toFixed(2)} verified contributions raised across {totalDonationCount} donor pledges.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            href="/admin/donations"
+            className="px-4 py-2.5 rounded-xl bg-[#D49B4B] hover:bg-[#C28C3E] text-[#182821] text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs"
+          >
+            <span>Manage Donations Ledger</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </section>
 
@@ -595,7 +642,7 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Quick Actions 2x2 Grid */}
+        {/* Quick Actions Grid */}
         <div className="lg:col-span-4 p-6 sm:p-7 rounded-3xl bg-white border border-[#EBE6DC] shadow-xs space-y-5">
           <h2 className="font-playfair text-xl font-medium text-[#1E1C1A]">Quick Actions</h2>
 
@@ -608,7 +655,7 @@ export default async function AdminDashboardPage() {
                 <Plus className="w-4 h-4" />
               </div>
               <div className="text-xs font-semibold text-[#1E1C1A]">Add Product</div>
-              <div className="text-[10px] text-[#8A847A] truncate">Create a new product</div>
+              <div className="text-[10px] text-[#8A847A] truncate">Create new journal</div>
             </Link>
 
             <Link
@@ -618,8 +665,30 @@ export default async function AdminDashboardPage() {
               <div className="w-8 h-8 rounded-xl bg-white border border-[#EBE6DC] flex items-center justify-center text-[#1E1C1A] mb-2 group-hover:text-[#B85233]">
                 <ShoppingBag className="w-4 h-4" />
               </div>
-              <div className="text-xs font-semibold text-[#1E1C1A]">Manage Orders</div>
-              <div className="text-[10px] text-[#8A847A] truncate">View and process orders</div>
+              <div className="text-xs font-semibold text-[#1E1C1A]">Orders</div>
+              <div className="text-[10px] text-[#8A847A] truncate">Manage shipments</div>
+            </Link>
+
+            <Link
+              href="/admin/donations"
+              className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#EBE6DC] hover:border-[#D48344]/50 hover:bg-white transition-all text-start group"
+            >
+              <div className="w-8 h-8 rounded-xl bg-white border border-[#EBE6DC] flex items-center justify-center text-[#1E1C1A] mb-2 group-hover:text-[#D49B4B]">
+                <HeartHandshake className="w-4 h-4 text-[#D49B4B]" />
+              </div>
+              <div className="text-xs font-semibold text-[#1E1C1A]">Ayeeyo Koris</div>
+              <div className="text-[10px] text-[#8A847A] truncate">Donation ledger</div>
+            </Link>
+
+            <Link
+              href="/admin/banners"
+              className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#EBE6DC] hover:border-[#D48344]/50 hover:bg-white transition-all text-start group"
+            >
+              <div className="w-8 h-8 rounded-xl bg-white border border-[#EBE6DC] flex items-center justify-center text-[#1E1C1A] mb-2 group-hover:text-[#B85233]">
+                <Megaphone className="w-4 h-4 text-[#B85233]" />
+              </div>
+              <div className="text-xs font-semibold text-[#1E1C1A]">Ad Banners</div>
+              <div className="text-[10px] text-[#8A847A] truncate">Notices & ribbons</div>
             </Link>
 
             <Link
@@ -629,8 +698,8 @@ export default async function AdminDashboardPage() {
               <div className="w-8 h-8 rounded-xl bg-white border border-[#EBE6DC] flex items-center justify-center text-[#1E1C1A] mb-2 group-hover:text-[#B85233]">
                 <UserCheck className="w-4 h-4" />
               </div>
-              <div className="text-xs font-semibold text-[#1E1C1A]">View Customers</div>
-              <div className="text-[10px] text-[#8A847A] truncate">Manage customer accounts</div>
+              <div className="text-xs font-semibold text-[#1E1C1A]">Customers</div>
+              <div className="text-[10px] text-[#8A847A] truncate">Manage patrons</div>
             </Link>
 
             <Link
@@ -640,8 +709,8 @@ export default async function AdminDashboardPage() {
               <div className="w-8 h-8 rounded-xl bg-white border border-[#EBE6DC] flex items-center justify-center text-[#1E1C1A] mb-2 group-hover:text-[#B85233]">
                 <Settings className="w-4 h-4" />
               </div>
-              <div className="text-xs font-semibold text-[#1E1C1A]">Site Settings</div>
-              <div className="text-[10px] text-[#8A847A] truncate">Configure store settings</div>
+              <div className="text-xs font-semibold text-[#1E1C1A]">Settings</div>
+              <div className="text-[10px] text-[#8A847A] truncate">Payments & store</div>
             </Link>
           </div>
 

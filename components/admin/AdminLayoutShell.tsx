@@ -27,6 +27,8 @@ import {
   Menu,
   X,
   ExternalLink,
+  HeartHandshake,
+  Megaphone,
 } from 'lucide-react';
 import { logoutAction } from '@/lib/auth/actions';
 
@@ -52,6 +54,7 @@ export function AdminLayoutShell({
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Products', href: '/admin/products', icon: Package },
     { label: 'Orders', href: '/admin/orders', icon: ShoppingBag },
+    { label: 'Ayeeyo Koris Donations', href: '/admin/donations', icon: HeartHandshake, badge: 'Scholarship' },
     { label: 'Customers', href: '/admin/customers', icon: Users },
     { label: 'Inventory', href: '/admin/inventory', icon: Archive },
     { label: 'Community Signups', href: '/admin/community', icon: Compass },
@@ -59,6 +62,7 @@ export function AdminLayoutShell({
   ];
 
   const contentNav = [
+    { label: 'Ad Banners & Notices', href: '/admin/banners', icon: Megaphone, badge: 'New' },
     { label: 'Pages', href: '/admin/pages', icon: FileText },
     { label: 'Blog Posts', href: '/admin/blog', icon: BookOpen },
     { label: 'Media Library', href: '/admin/media', icon: ImageIcon },
@@ -67,7 +71,7 @@ export function AdminLayoutShell({
   const managementNav = [
     { label: 'Users', href: '/admin/users', icon: UserCheck },
     { label: 'Roles & Permissions', href: '/admin/roles', icon: Shield },
-    { label: 'Settings', href: '/admin/settings', icon: Settings },
+    { label: 'Payment & Store Settings', href: '/admin/settings', icon: Settings },
   ];
 
   const isActive = (href: string) => {
@@ -131,14 +135,21 @@ export function AdminLayoutShell({
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                      className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                         active
                           ? 'bg-[#283C33] text-white shadow-xs font-semibold'
                           : 'text-[#9EB1A7] hover:text-white hover:bg-[#1E332A]'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 ${active ? 'text-[#D49B4B]' : 'text-[#879C91]'}`} />
-                      <span>{item.label}</span>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#D49B4B]' : 'text-[#879C91]'}`} />
+                        <span className="truncate">{item.label}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#D49B4B]/20 text-[#D49B4B] border border-[#D49B4B]/30 shrink-0">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   );
                 })}
@@ -159,14 +170,21 @@ export function AdminLayoutShell({
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
+                      className={`flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs sm:text-sm transition-all ${
                         active
                           ? 'bg-[#283C33] text-white font-semibold'
                           : 'text-[#9EB1A7] hover:text-white hover:bg-[#1E332A]'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 ${active ? 'text-[#D49B4B]' : 'text-[#879C91]'}`} />
-                      <span>{item.label}</span>
+                      <div className="flex items-center gap-3 min-w-0">
+                        <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-[#D49B4B]' : 'text-[#879C91]'}`} />
+                        <span className="truncate">{item.label}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#D49B4B]/20 text-[#D49B4B] border border-[#D49B4B]/30 shrink-0">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   );
                 })}

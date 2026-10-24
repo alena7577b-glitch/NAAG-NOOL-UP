@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import { constructMetadata } from '@/lib/seo';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { TopAnnouncementRibbon } from '@/components/banners/TopAnnouncementRibbon';
 import { CartProvider } from '@/lib/cart/CartContext';
 import { CurrencyProvider } from '@/lib/currency/context';
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className="bg-[#F9F6F0] text-[#1E1C1A] min-h-screen font-sans antialiased flex flex-col justify-between selection:bg-[#B85233]/20 selection:text-[#B85233]">
         <CartProvider>
           <CurrencyProvider>
+            <TopAnnouncementRibbon />
             <Navbar />
             <main className="flex-1 w-full">{children}</main>
             <Footer />
