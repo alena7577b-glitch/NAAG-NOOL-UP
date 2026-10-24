@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { AyeyoKorisView } from '@/components/ayeyo-koris/AyeyoKorisView';
 
 export const metadata: Metadata = {
@@ -14,5 +15,9 @@ export const metadata: Metadata = {
 };
 
 export default function AyeyoKorisPage() {
-  return <AyeyoKorisView />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FDFBF7]" />}>
+      <AyeyoKorisView />
+    </Suspense>
+  );
 }
