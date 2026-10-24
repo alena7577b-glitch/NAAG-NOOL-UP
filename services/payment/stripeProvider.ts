@@ -43,9 +43,14 @@ export class StripePaymentProvider implements PaymentProvider {
 
       const params = new URLSearchParams();
       params.append('mode', 'payment');
-      // Omitting payment_method_types lets Stripe automatically enable all 6 dashboard-configured methods:
-      // Cards, Apple Pay, Google Pay, Link, Afterpay / Clearpay
-      params.append('customer_email', input.customerEmail);
+      // Enable all dashboard payment methods (Cards, Apple Pay, Google Pay, Link) dynamically.
+      // By passing email via receipt_email instead of top-level customer_email, Stripe presents
+      // all options (Apple Pay, Google Pay, Link, and Card fields) so the customer can freely choose,
+      // without Stripe auto-locking the screen into a single saved Link profile.
+      if (input.customerEmail) {
+        params.append('payment_intent_data[receipt_email]', input.customerEmail);
+        params.append('metadata[customerEmail]', input.customerEmail);
+      }
       params.append('client_reference_id', input.orderId);
       params.append('metadata[orderId]', input.orderId);
       params.append('metadata[orderNumber]', input.orderNumber);

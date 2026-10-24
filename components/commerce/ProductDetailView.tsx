@@ -344,7 +344,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
                 </h1>
                 {displayedSubtitle && (
                   <p className="font-cormorant italic text-lg sm:text-xl text-[#B85233] leading-snug">
-                    "{displayedSubtitle}"
+                    &ldquo;{displayedSubtitle}&rdquo;
                   </p>
                 )}
               </div>
@@ -420,7 +420,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
                       </p>
                       {englishSubtitle && (
                         <p className="text-[10.5px] text-[#7A7165] line-clamp-1 italic mt-0.5">
-                          "{englishSubtitle}"
+                          &ldquo;{englishSubtitle}&rdquo;
                         </p>
                       )}
                     </button>
@@ -450,7 +450,7 @@ export function ProductDetailView({ product, relatedProducts }: ProductDetailVie
                       </p>
                       {somaliSubtitle && (
                         <p className="text-[10.5px] text-[#7A7165] line-clamp-1 italic mt-0.5">
-                          "{somaliSubtitle}"
+                          &ldquo;{somaliSubtitle}&rdquo;
                         </p>
                       )}
                     </button>
