@@ -17,28 +17,9 @@ export interface MediaItem {
   isDefault?: boolean;
 }
 
-const DELETED_MEDIA_SETTING_KEY = 'deleted_media_asset_ids';
+import { STATIC_BRAND_ASSETS } from './media-catalog';
 
-const DEFAULT_BRAND_ASSETS: MediaItem[] = [
-  { id: 'm1', name: 'Ayeyo Portrait (Hero)', category: 'Hero & Editorial', url: '/images/ayeyo-actual-hero.png', sizeLabel: '641 KB', isDefault: true },
-  { id: 'm2', name: 'Hero Panoramic Landscape', category: 'Hero & Editorial', url: '/images/hp-hero-panoramic.png', sizeLabel: '408 KB', isDefault: true },
-  { id: 'm3', name: 'Somali Women Circle', category: 'Community', url: '/images/community-women-circle.jpg', sizeLabel: '277 KB', isDefault: true },
-  { id: 'm4', name: 'Cinematic Sunset Glow', category: 'Atmospheric', url: '/images/prefooter-sunset-cinematic.jpg', sizeLabel: '714 KB', isDefault: true },
-  { id: 'm5', name: 'The Awakening Edition Cover', category: 'Journals', url: '/images/book-cover-awakening.png', sizeLabel: '12 KB', isDefault: true },
-  { id: 'm6', name: 'The Clarity Edition Cover', category: 'Journals', url: '/images/book-cover-clarity.png', sizeLabel: '11 KB', isDefault: true },
-  { id: 'm7', name: 'The Healing Edition Cover', category: 'Journals', url: '/images/book-cover-healing.png', sizeLabel: '12 KB', isDefault: true },
-  { id: 'm8', name: 'The Confidence Edition Cover', category: 'Journals', url: '/images/book-cover-confidence.png', sizeLabel: '12 KB', isDefault: true },
-  { id: 'm9', name: 'The Abundance Edition Cover', category: 'Journals', url: '/images/book-cover-abundance.png', sizeLabel: '11 KB', isDefault: true },
-  { id: 'm10', name: 'The Legacy Edition Cover', category: 'Journals', url: '/images/book-cover-legacy.png', sizeLabel: '12 KB', isDefault: true },
-  { id: 'm11', name: 'EVC Plus Carrier Logo', category: 'Payment Badges', url: '/images/payment-methods/EVC-PLUS-Logo-01-230x128.webp', sizeLabel: '4 KB', isDefault: true },
-  { id: 'm12', name: 'ZAAD Service Logo', category: 'Payment Badges', url: '/images/payment-methods/zaad.png', sizeLabel: '13 KB', isDefault: true },
-  { id: 'm13', name: 'Sahal (Golis) Logo', category: 'Payment Badges', url: '/images/payment-methods/Golis_Telecom_Logo.png', sizeLabel: '109 KB', isDefault: true },
-  { id: 'm14', name: 'eDahab Dahabshiil Logo', category: 'Payment Badges', url: '/images/payment-methods/edahab.jpg', sizeLabel: '9 KB', isDefault: true },
-  { id: 'm15', name: 'Premier Wallet Logo', category: 'Payment Badges', url: '/images/payment-methods/premier wallet.png', sizeLabel: '36 KB', isDefault: true },
-  { id: 'm16', name: 'Ayeyo Writing & Reflection', category: 'Hero & Editorial', url: '/images/ayeyo-writing.png', sizeLabel: '87 KB', isDefault: true },
-  { id: 'm17', name: 'Ayeyo Study & Quietude', category: 'Hero & Editorial', url: '/images/ayeyo-study.png', sizeLabel: '41 KB', isDefault: true },
-  { id: 'm18', name: 'Ayeyo Walking Outdoors', category: 'Hero & Editorial', url: '/images/ayeyo-walking.png', sizeLabel: '38 KB', isDefault: true },
-];
+const DELETED_MEDIA_SETTING_KEY = 'deleted_media_asset_ids';
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -67,7 +48,7 @@ export async function getAdminMediaAssets(): Promise<MediaItem[]> {
 
     // Map database uploaded assets
     const mappedDbAssets: MediaItem[] = dbAssets
-      .filter((a) => !deletedIds.has(a.id))
+      .filter((a) => !deletedIds.has(a.id) && !deletedIds.has(a.fileUrl))
       .map((a) => ({
         id: a.id,
         name: a.filename.replace(/^\d+-/, '').replace(/_/g, ' '),
@@ -78,13 +59,15 @@ export async function getAdminMediaAssets(): Promise<MediaItem[]> {
         isDefault: false,
       }));
 
-    // Filter default brand assets
-    const activeDefaultAssets = DEFAULT_BRAND_ASSETS.filter((a) => !deletedIds.has(a.id));
+    // Filter static brand assets (excluding any deleted IDs or URLs)
+    const activeStaticAssets = STATIC_BRAND_ASSETS.filter(
+      (a) => !deletedIds.has(a.id) && !deletedIds.has(a.url)
+    );
 
-    return [...mappedDbAssets, ...activeDefaultAssets];
+    return [...mappedDbAssets, ...activeStaticAssets];
   } catch (err: unknown) {
     logger.error('getAdminMediaAssets error:', err);
-    return DEFAULT_BRAND_ASSETS;
+    return STATIC_BRAND_ASSETS;
   }
 }
 
@@ -119,8 +102,16 @@ export async function deleteAdminMediaAssetAction(assetId: string) {
       ? (currentSetting.value as string[])
       : [];
 
-    if (!currentList.includes(assetId)) {
-      const updatedList = [...currentList, assetId];
+    const staticMatch = STATIC_BRAND_ASSETS.find((a) => a.id === assetId || a.url === assetId);
+    const toAdd = [assetId];
+    if (staticMatch) {
+      if (!toAdd.includes(staticMatch.url)) toAdd.push(staticMatch.url);
+      if (!toAdd.includes(staticMatch.id)) toAdd.push(staticMatch.id);
+    }
+
+    const newItems = toAdd.filter((item) => !currentList.includes(item));
+    if (newItems.length > 0) {
+      const updatedList = [...currentList, ...newItems];
       await db.siteSetting.upsert({
         where: { key: DELETED_MEDIA_SETTING_KEY },
         create: {

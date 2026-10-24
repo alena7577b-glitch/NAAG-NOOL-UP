@@ -43,10 +43,31 @@ export function AdminMediaView({ initialMedia }: AdminMediaViewProps) {
 
   const [isPending, startTransition] = useTransition();
 
-  // Dynamic categories
+  // Predefined priority ordering for brand asset categories
+  const CATEGORY_ORDER = [
+    'ALL',
+    'Brand & Logos',
+    'Hero & Banners',
+    'Journals & Books',
+    'Merchandise & Goods',
+    'Product Showcase',
+    'Ayeeyo Koris Foundation',
+    'Community & Sisterhood',
+    'Payment Badges',
+    'Atmospheric & Accents',
+    'Uploaded Assets',
+  ];
+
+  const categoryCounts = mediaList.reduce<Record<string, number>>((acc, item) => {
+    acc[item.category] = (acc[item.category] || 0) + 1;
+    return acc;
+  }, {});
+
+  const presentCategories = Array.from(new Set(mediaList.map((item) => item.category)));
   const categories = [
     'ALL',
-    ...Array.from(new Set(mediaList.map((item) => item.category))),
+    ...CATEGORY_ORDER.filter((c) => c !== 'ALL' && presentCategories.includes(c)),
+    ...presentCategories.filter((c) => !CATEGORY_ORDER.includes(c)),
   ];
 
   const filtered = mediaList.filter((item) => {
@@ -149,20 +170,34 @@ export function AdminMediaView({ initialMedia }: AdminMediaViewProps) {
 
         {/* Categories Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-colors ${
-                selectedCategory === cat
-                  ? 'bg-[#182821] text-white'
-                  : 'bg-white border border-[#EBE6DC] text-[#6B655B] hover:text-[#1E1C1A]'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            const count = cat === 'ALL' ? mediaList.length : (categoryCounts[cat] || 0);
+            const isSelected = selectedCategory === cat;
+
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                  isSelected
+                    ? 'bg-[#182821] text-white shadow-xs'
+                    : 'bg-white border border-[#EBE6DC] text-[#6B655B] hover:text-[#1E1C1A] hover:bg-[#FAF8F5]'
+                }`}
+              >
+                <span>{cat}</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                    isSelected
+                      ? 'bg-white/20 text-white'
+                      : 'bg-[#F0EBE1] text-[#8A847A]'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -174,7 +209,7 @@ export function AdminMediaView({ initialMedia }: AdminMediaViewProps) {
           <p className="text-xs text-[#8A847A]">Try clearing your search query or uploading a new asset.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
           {filtered.map((item) => {
             const isCopied = copiedId === item.id;
 
@@ -201,7 +236,7 @@ export function AdminMediaView({ initialMedia }: AdminMediaViewProps) {
                     alt={item.name}
                     fill
                     className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                    unoptimized={item.url.startsWith('http')}
+                    unoptimized={item.url.startsWith('http') || item.url.endsWith('.svg')}
                   />
                 </div>
 
@@ -283,7 +318,7 @@ export function AdminMediaView({ initialMedia }: AdminMediaViewProps) {
                     alt={deletingAsset.name}
                     fill
                     className="object-contain p-1"
-                    unoptimized={deletingAsset.url.startsWith('http')}
+                    unoptimized={deletingAsset.url.startsWith('http') || deletingAsset.url.endsWith('.svg')}
                   />
                 </div>
                 <div className="min-w-0">
@@ -408,12 +443,16 @@ export function AdminMediaView({ initialMedia }: AdminMediaViewProps) {
                   onChange={(e) => setUploadCategory(e.target.value)}
                   className="w-full p-2.5 rounded-xl bg-[#FAF8F5] border border-[#EBE6DC] text-xs text-[#1E1C1A] focus:outline-none focus:border-[#B85233]"
                 >
-                  <option value="Hero & Editorial">Hero & Editorial</option>
-                  <option value="Journals">Journals</option>
-                  <option value="Community">Community</option>
-                  <option value="Atmospheric">Atmospheric</option>
+                  <option value="Brand & Logos">Brand & Logos</option>
+                  <option value="Hero & Banners">Hero & Banners</option>
+                  <option value="Journals & Books">Journals & Books</option>
+                  <option value="Merchandise & Goods">Merchandise & Goods</option>
+                  <option value="Product Showcase">Product Showcase</option>
+                  <option value="Ayeeyo Koris Foundation">Ayeeyo Koris Foundation</option>
+                  <option value="Community & Sisterhood">Community & Sisterhood</option>
                   <option value="Payment Badges">Payment Badges</option>
-                  <option value="General">General</option>
+                  <option value="Atmospheric & Accents">Atmospheric & Accents</option>
+                  <option value="Uploaded Assets">Uploaded Assets</option>
                 </select>
               </div>
 
