@@ -917,66 +917,6 @@ export function CartView() {
                   <span>Bank-grade 256-bit encrypted checkout</span>
                 </p>
               </div>
-
-              {/* Supported Payment Badges Gallery */}
-              <div className="pt-5 border-t border-[#F5F2EB] space-y-3">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8A847A] text-center">
-                  Accepted Payment Gateways
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-2">
-                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
-                    <Image
-                      src="/images/payment-methods/EVC-PLUS-Logo-01-230x128.webp"
-                      alt="Hormuud EVC Plus"
-                      width={44}
-                      height={20}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
-                    <Image
-                      src="/images/payment-methods/zaad.png"
-                      alt="Telesom ZAAD"
-                      width={38}
-                      height={20}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
-                    <Image
-                      src="/images/payment-methods/Golis_Telecom_Logo.png"
-                      alt="Golis Sahal"
-                      width={44}
-                      height={20}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
-                    <Image
-                      src="/images/payment-methods/edahab.jpg"
-                      alt="eDahab Dahabshiil"
-                      width={38}
-                      height={20}
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="h-8 px-2.5 rounded-lg bg-[#FAF8F5] border border-[#E8E2D8] flex items-center justify-center">
-                    <Image
-                      src="/images/payment-methods/premier wallet.png"
-                      alt="Premier Bank Wallet"
-                      width={48}
-                      height={20}
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
-
-                <div className="text-center pt-1">
-                  <span className="text-[10px] text-[#8A847A]">
-                    Also accepting Visa, Mastercard, and Apple Pay worldwide
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
