@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   ArrowRight,
   ArrowLeft,
@@ -21,8 +22,11 @@ import {
   Check,
 } from 'lucide-react';
 import { AyeeyoTypographyTransition } from './AyeeyoTypographyTransition';
+import { createDonationAction } from '@/lib/actions/donation';
+import { capturePayPalOrderAction } from '@/lib/actions/checkout';
 
 export function AyeyoKorisView() {
+  const searchParams = useSearchParams();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [supportModalOpen, setSupportModalOpen] = useState(false);
   const [selectedTier, setSelectedTier] = useState<number>(50);
@@ -30,17 +34,92 @@ export function AyeyoKorisView() {
   const [donorEmail, setDonorEmail] = useState<string>('');
   const [donorName, setDonorName] = useState<string>('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'CARD' | 'PAYPAL'>('CARD');
-  const [isPledged, setIsPledged] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [dismissedSuccess, setDismissedSuccess] = useState(false);
 
-  const handlePledgeSubmit = (e: React.FormEvent) => {
+  // Read return query parameters from Stripe or PayPal
+  const isSuccessReturn = searchParams?.get('success') === 'true';
+  const returnOrderNumber = searchParams?.get('orderNumber');
+  const returnAmount = searchParams?.get('amount');
+  const returnName = searchParams?.get('name');
+  const returnProvider = searchParams?.get('provider');
+  const returnToken = searchParams?.get('token');
+
+  const activeDonationSuccess =
+    isSuccessReturn && returnOrderNumber
+      ? {
+          orderNumber: returnOrderNumber,
+          amount: returnAmount || selectedTier,
+          name: returnName || 'Generous Friend',
+          provider: returnProvider === 'paypal' ? 'PayPal' : 'Credit / Debit Card (Stripe)',
+        }
+      : null;
+
+  const isModalVisible = (supportModalOpen || Boolean(activeDonationSuccess)) && !dismissedSuccess;
+
+  const processedReturnRef = useRef(false);
+  useEffect(() => {
+    if (processedReturnRef.current) return;
+    if (isSuccessReturn && returnOrderNumber) {
+      processedReturnRef.current = true;
+
+      if (returnProvider === 'paypal' && returnToken) {
+        capturePayPalOrderAction(returnToken, returnOrderNumber).catch((err) => {
+          console.warn('PayPal donation capture notice:', err);
+        });
+      }
+    }
+  }, [isSuccessReturn, returnOrderNumber, returnProvider, returnToken]);
+
+  const handlePledgeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!donorEmail) return;
-    setIsPledged(true);
+    setErrorMessage(null);
+
+    const donationAmount = customAmount ? parseFloat(customAmount) : selectedTier;
+    if (!donationAmount || isNaN(donationAmount) || donationAmount < 5) {
+      setErrorMessage('Please select or enter an amount of at least $5.');
+      return;
+    }
+
+    if (!donorName.trim()) {
+      setErrorMessage('Please enter your full name.');
+      return;
+    }
+
+    if (!donorEmail.trim()) {
+      setErrorMessage('Please enter your email address for your donation receipt.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await createDonationAction({
+        donorName: donorName.trim(),
+        donorEmail: donorEmail.trim(),
+        amount: donationAmount,
+        paymentMethod: selectedPaymentMethod,
+      });
+
+      if (!result.success || !result.paymentUrl) {
+        setErrorMessage(result.error || 'Unable to connect to payment gateway. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Redirect directly to Stripe or PayPal secure checkout
+      window.location.href = result.paymentUrl;
+    } catch {
+      setErrorMessage('A network error occurred while connecting to payment. Please try again.');
+      setIsSubmitting(false);
+    }
   };
 
   const openSupportModal = (presetAmount?: number) => {
     if (presetAmount) setSelectedTier(presetAmount);
-    setIsPledged(false);
+    setErrorMessage(null);
+    setDismissedSuccess(false);
     setSupportModalOpen(true);
   };
 
@@ -752,7 +831,7 @@ export function AyeyoKorisView() {
       {/* =========================================================================
           INTERACTIVE SUPPORT & DONATION MODAL (AYEEYO KORIS ZERO-SCROLL SUITE)
       ========================================================================= */}
-      {supportModalOpen && (
+      {isModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-4 animate-in fade-in duration-200">
           <div className="relative w-full max-w-[520px] bg-[#FAF8F5] rounded-[24px] sm:rounded-[28px] shadow-2xl border border-[#E5DFC0] p-5 sm:p-6 text-[#1E1C1A] overflow-hidden">
             {/* Ambient Warm Golden Glow in Top Right Corner */}
@@ -775,15 +854,18 @@ export function AyeyoKorisView() {
 
               <button
                 type="button"
-                onClick={() => setSupportModalOpen(false)}
-                className="p-1.5 text-[#5C665F] hover:text-[#0A3929] rounded-full hover:bg-[#EAE5DC] transition-colors"
+                onClick={() => {
+                  setSupportModalOpen(false);
+                  setDismissedSuccess(true);
+                }}
+                className="p-1.5 text-[#5C665F] hover:text-[#0A3929] rounded-full hover:bg-[#EAE5DC] transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            {!isPledged ? (
+            {!activeDonationSuccess ? (
               <form onSubmit={handlePledgeSubmit} className="relative z-10 space-y-3 pt-3">
                 {/* Title & Short Mission Statement */}
                 <div>
@@ -791,9 +873,19 @@ export function AyeyoKorisView() {
                     Sponsor a Child&apos;s Future
                   </h3>
                   <p className="font-sans text-[11px] sm:text-xs text-[#5C665F] mt-0.5 leading-normal">
-                    100% of your pledge funds meals, books, and tuition for children raised by grandmothers.
+                    100% of your gift directly funds meals, books, and educational tuition for children raised by grandmothers.
                   </p>
                 </div>
+
+                {/* Error Banner */}
+                {errorMessage && (
+                  <div
+                    role="alert"
+                    className="p-2.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2"
+                  >
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
 
                 {/* Compact Sponsorship Tiers */}
                 <div className="space-y-1.5">
@@ -824,7 +916,7 @@ export function AyeyoKorisView() {
                             setSelectedTier(tier.amount);
                             setCustomAmount('');
                           }}
-                          className={`relative py-2 px-2.5 rounded-xl border text-center transition-all ${
+                          className={`relative py-2 px-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                             isSelected
                               ? 'border-[#0A3929] bg-[#0A3929] text-white shadow-md ring-1 ring-[#D3A03A]'
                               : 'border-[#E5DFC0] bg-white hover:border-[#D3A03A]/60 text-[#1E1C1A]'
@@ -902,12 +994,12 @@ export function AyeyoKorisView() {
                   </div>
                 </div>
 
-                {/* Payment Channel: Stripe vs PayPal (Side-by-Side) */}
+                {/* Payment Channel: Stripe vs PayPal */}
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setSelectedPaymentMethod('CARD')}
-                    className={`py-2 px-3 rounded-xl border text-start transition-all flex items-center justify-between ${
+                    className={`py-2 px-3 rounded-xl border text-start transition-all flex items-center justify-between cursor-pointer ${
                       selectedPaymentMethod === 'CARD'
                         ? 'border-[#0A3929] bg-[#0A3929]/5 ring-1 ring-[#0A3929]'
                         : 'border-[#E5DFC0] bg-white hover:border-[#D3A03A]/50'
@@ -920,7 +1012,7 @@ export function AyeyoKorisView() {
                           Card (Stripe)
                         </span>
                         <span className="text-[9px] text-[#7A756D] block leading-none">
-                          256-Bit TLS
+                          Apple/Google Pay &amp; Cards
                         </span>
                       </div>
                     </div>
@@ -938,7 +1030,7 @@ export function AyeyoKorisView() {
                   <button
                     type="button"
                     onClick={() => setSelectedPaymentMethod('PAYPAL')}
-                    className={`py-2 px-3 rounded-xl border text-start transition-all flex items-center justify-between ${
+                    className={`py-2 px-3 rounded-xl border text-start transition-all flex items-center justify-between cursor-pointer ${
                       selectedPaymentMethod === 'PAYPAL'
                         ? 'border-[#0070BA] bg-[#0070BA]/5 ring-1 ring-[#0070BA]'
                         : 'border-[#E5DFC0] bg-white hover:border-[#0070BA]/40'
@@ -954,7 +1046,7 @@ export function AyeyoKorisView() {
                           PayPal
                         </span>
                         <span className="text-[9px] text-[#7A756D] block leading-none">
-                          Protection
+                          Account / Card
                         </span>
                       </div>
                     </div>
@@ -974,17 +1066,27 @@ export function AyeyoKorisView() {
                 <div className="pt-1">
                   <button
                     type="submit"
-                    className="w-full bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] font-semibold text-xs sm:text-sm py-3 rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-[0.98]"
+                    disabled={isSubmitting}
+                    className="w-full bg-[#D3A03A] hover:bg-[#C29130] disabled:opacity-50 text-[#1E1C1A] font-semibold text-xs sm:text-sm py-3 rounded-full transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 active:scale-[0.98] cursor-pointer"
                   >
-                    <span>
-                      Proceed with {selectedPaymentMethod === 'CARD' ? 'Card (Stripe)' : 'PayPal'} • ${customAmount || selectedTier}
-                    </span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    {isSubmitting ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="w-4 h-4 border-2 border-[#1E1C1A]/40 border-t-[#1E1C1A] rounded-full animate-spin" />
+                        Connecting to Secure Payment...
+                      </span>
+                    ) : (
+                      <>
+                        <span>
+                          Proceed with {selectedPaymentMethod === 'CARD' ? 'Card (Stripe)' : 'PayPal'} • ${customAmount || selectedTier}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </>
+                    )}
                   </button>
 
                   <p className="font-sans text-[10px] text-center text-[#7A756D] mt-2 flex items-center justify-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-[#0A3929]" />
-                    <span>Official registered initiative • Tax-deductible pledge</span>
+                    <span>Official registered initiative • Secure bank-grade encryption</span>
                   </p>
                 </div>
               </form>
@@ -1005,28 +1107,28 @@ export function AyeyoKorisView() {
                     className="h-10 w-auto mx-auto object-contain mb-3"
                   />
                   <h3 className="font-playfair text-2xl sm:text-3xl text-[#0A3929]">
-                    Mahadsanid, {donorName || 'Generous Friend'}!
+                    Mahadsanid, {activeDonationSuccess.name}!
                   </h3>
                   <p className="font-sans text-xs sm:text-sm text-[#5C665F] leading-relaxed max-w-sm mx-auto">
-                    Your sponsorship pledge of <span className="font-bold text-[#0A3929]">${customAmount || selectedTier}</span> brings immediate hope, stability, and education to Somali grandmothers and their children.
+                    Your sponsorship donation of <span className="font-bold text-[#0A3929]">${activeDonationSuccess.amount}</span> is verified and complete. It brings immediate hope, stability, and education to Somali grandmothers and their children.
                   </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white border border-[#E5DFC0] max-w-sm mx-auto text-xs text-start space-y-2">
                   <div className="flex items-center justify-between pb-2 border-b border-[#E5DFC0]">
-                    <span className="text-[#7A756D]">Donor Email</span>
-                    <span className="font-mono font-medium text-[#1E1C1A]">{donorEmail}</span>
+                    <span className="text-[#7A756D]">Order Reference</span>
+                    <span className="font-mono font-medium text-[#1E1C1A]">{activeDonationSuccess.orderNumber}</span>
                   </div>
                   <div className="flex items-center justify-between pb-2 border-b border-[#E5DFC0]">
                     <span className="text-[#7A756D]">Payment Channel</span>
                     <span className="font-medium text-[#0A3929]">
-                      {selectedPaymentMethod === 'CARD' ? 'Stripe Card' : 'PayPal'}
+                      {activeDonationSuccess.provider}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#7A756D]">Pledge Status</span>
+                    <span className="text-[#7A756D]">Payment Status</span>
                     <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full text-[10px]">
-                      Confirmed &amp; Dispatched
+                      Verified &amp; Paid
                     </span>
                   </div>
                 </div>
@@ -1034,8 +1136,11 @@ export function AyeyoKorisView() {
                 <div className="pt-2">
                   <button
                     type="button"
-                    onClick={() => setSupportModalOpen(false)}
-                    className="bg-[#0A3929] hover:bg-[#06251B] text-white text-xs sm:text-sm font-semibold px-8 py-3 rounded-full transition-all shadow-md active:scale-95"
+                    onClick={() => {
+                      setSupportModalOpen(false);
+                      setDismissedSuccess(true);
+                    }}
+                    className="bg-[#0A3929] hover:bg-[#06251B] text-white text-xs sm:text-sm font-semibold px-8 py-3 rounded-full transition-all shadow-md active:scale-95 cursor-pointer"
                   >
                     Done
                   </button>

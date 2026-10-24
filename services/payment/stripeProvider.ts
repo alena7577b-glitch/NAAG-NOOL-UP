@@ -54,24 +54,33 @@ export class StripePaymentProvider implements PaymentProvider {
       params.append('client_reference_id', input.orderId);
       params.append('metadata[orderId]', input.orderId);
       params.append('metadata[orderNumber]', input.orderNumber);
+      const isDonation = input.orderNumber.startsWith('DONATE');
+      const defaultSuccessUrl = isDonation
+        ? `${siteUrl}/ayeyo-koris?session_id={CHECKOUT_SESSION_ID}&orderNumber=${encodeURIComponent(input.orderNumber)}&success=true`
+        : `${siteUrl}/checkout?session_id={CHECKOUT_SESSION_ID}&orderNumber=${encodeURIComponent(input.orderNumber)}&success=true`;
+      const defaultCancelUrl = isDonation
+        ? `${siteUrl}/ayeyo-koris?cancelled=true`
+        : `${siteUrl}/checkout?cancelled=true&orderNumber=${encodeURIComponent(input.orderNumber)}`;
+
       params.append(
         'success_url',
-        `${siteUrl}/checkout?session_id={CHECKOUT_SESSION_ID}&orderNumber=${encodeURIComponent(input.orderNumber)}&success=true`
+        input.returnUrl ? `${input.returnUrl}&session_id={CHECKOUT_SESSION_ID}` : defaultSuccessUrl
       );
-      params.append(
-        'cancel_url',
-        `${siteUrl}/checkout?cancelled=true&orderNumber=${encodeURIComponent(input.orderNumber)}`
-      );
+      params.append('cancel_url', defaultCancelUrl);
 
       params.append('line_items[0][price_data][currency]', (input.currency || 'usd').toLowerCase());
       params.append('line_items[0][price_data][unit_amount]', amountInCents.toString());
       params.append(
         'line_items[0][price_data][product_data][name]',
-        `Naag Nool UP — Order ${input.orderNumber}`
+        isDonation
+          ? 'Ayeeyo Koris Children — Educational Scholarship Donation'
+          : `Naag Nool UP — Order ${input.orderNumber}`
       );
       params.append(
         'line_items[0][price_data][product_data][description]',
-        'Intentional guided journals & sisterhood empowerment collection'
+        isDonation
+          ? 'Direct educational scholarship, textbooks, and nutrition for children raised by grandmothers'
+          : 'Intentional guided journals & sisterhood empowerment collection'
       );
       params.append('line_items[0][quantity]', '1');
 

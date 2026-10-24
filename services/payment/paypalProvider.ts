@@ -95,7 +95,9 @@ export class PayPalPaymentProvider implements PaymentProvider {
           {
             reference_id: input.orderId,
             custom_id: input.orderNumber,
-            description: `Naag Nool UP Order #${input.orderNumber}`,
+            description: input.orderNumber.startsWith('DONATE')
+              ? 'Ayeeyo Koris Children Educational Scholarship Donation'
+              : `Naag Nool UP Order #${input.orderNumber}`,
             amount: {
               currency_code: input.currency.toUpperCase() || 'USD',
               value: (Number(input.amount) || 0).toFixed(2),
