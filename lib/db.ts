@@ -16,7 +16,10 @@ const pool =
     max: 10,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 15000,
-    ssl: { rejectUnauthorized: false },
+    ssl:
+      process.env.DATABASE_SSL_REJECT_UNAUTHORIZED === 'true'
+        ? { rejectUnauthorized: true }
+        : { rejectUnauthorized: false },
   });
 
 pool.on('error', (err) => {

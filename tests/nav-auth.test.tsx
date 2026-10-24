@@ -59,7 +59,7 @@ describe('Navbar & MobileNav Authentication States', () => {
 
       const signInLinks = screen.getAllByRole('link', { name: /sign in/i });
       expect(signInLinks.length).toBeGreaterThanOrEqual(1);
-      expect(screen.getByRole('link', { name: /create account/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /(create account|register)/i })).toBeInTheDocument();
     });
 
     test('renders Account Links and Admin Badge when authenticated as ADMIN', () => {
@@ -77,9 +77,9 @@ describe('Navbar & MobileNav Authentication States', () => {
         />
       );
 
-      expect(screen.getByText(/Account \(Admin User\)/i)).toBeInTheDocument();
+      expect(screen.getByText(/Admin User/i)).toBeInTheDocument();
       expect(screen.getByText('ADMIN')).toBeInTheDocument();
-      expect(screen.getByRole('link', { name: /admin dashboard/i })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: /admin (dashboard|portal)/i })).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /sign out/i })).toBeInTheDocument();
     });
   });

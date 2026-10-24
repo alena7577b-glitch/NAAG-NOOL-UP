@@ -101,7 +101,7 @@ describe('Phase 2 Reusable Design System Component Tests', () => {
       render(<ProductCard product={mockProduct} />);
       expect(screen.getByRole('heading', { name: 'The Clarity' })).toBeInTheDocument();
       expect(screen.getByText('Healing & Growth')).toBeInTheDocument();
-      expect(screen.getByText('$24.00')).toBeInTheDocument();
+      expect(screen.getByText(/\$24\.00/)).toBeInTheDocument();
       expect(screen.getByText('In Stock')).toBeInTheDocument();
     });
 

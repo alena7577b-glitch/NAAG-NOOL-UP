@@ -5,6 +5,7 @@ jest.mock('@/lib/db', () => ({
   db: {
     communitySignup: {
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
       create: jest.fn(),
     },
     contactSubmission: {
@@ -20,6 +21,7 @@ describe('Phase 5 Public Actions Tests', () => {
 
   describe('submitCommunitySignup', () => {
     test('successfully signs up a new community member', () => {
+      (db.communitySignup.findFirst as jest.Mock).mockResolvedValue(null);
       (db.communitySignup.findUnique as jest.Mock).mockResolvedValue(null);
       (db.communitySignup.create as jest.Mock).mockResolvedValue({
         id: 'signup-1',
@@ -47,6 +49,10 @@ describe('Phase 5 Public Actions Tests', () => {
     });
 
     test('handles already registered community member gracefully', () => {
+      (db.communitySignup.findFirst as jest.Mock).mockResolvedValue({
+        id: 'signup-existing',
+        email: 'fadumo@example.com',
+      });
       (db.communitySignup.findUnique as jest.Mock).mockResolvedValue({
         id: 'signup-existing',
         email: 'fadumo@example.com',
