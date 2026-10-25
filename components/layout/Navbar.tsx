@@ -101,8 +101,6 @@ export function Navbar({
     };
   }, [initialUser, pathname]);
 
-  const isHomepage = pathname === '/';
-
   // Do not render consumer storefront navbar on admin console or standalone Ayeeyo Koris non-profit page
   if (pathname?.startsWith('/admin') || pathname === '/ayeyo-koris' || pathname?.startsWith('/ayeyo-koris/')) {
     return null;
@@ -110,12 +108,8 @@ export function Navbar({
 
   return (
     <header
-      className={`z-40 w-full transition-all duration-300 ${
-        isHomepage
-          ? isScrolled
-            ? 'fixed top-0 inset-x-0 bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E5DFC0]/70 shadow-sm animate-in fade-in duration-200'
-            : 'absolute top-0 inset-x-0 bg-[#F9F6F0]/60 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none border-b border-[#E5DFC0]/40 sm:border-transparent'
-          : 'sticky top-0 bg-[#F9F6F0]/95 backdrop-blur-md border-b border-[#E5DFC0]/70'
+      className={`sticky top-0 z-40 w-full bg-[#F9F6F0]/95 backdrop-blur-md border-b transition-all duration-300 ${
+        isScrolled ? 'shadow-sm border-[#E5DFC0]' : 'shadow-none border-[#E5DFC0]/70'
       }`}
     >
       <Container size="default">

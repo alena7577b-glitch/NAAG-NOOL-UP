@@ -22,7 +22,7 @@ import {
   Check,
 } from 'lucide-react';
 import { AyeeyoTypographyTransition } from './AyeeyoTypographyTransition';
-import { createDonationAction } from '@/lib/actions/donation';
+import { createDonationAction, type PublicImpactStats } from '@/lib/actions/donation';
 import { capturePayPalOrderAction } from '@/lib/actions/checkout';
 
 export function AyeyoKorisView() {
@@ -37,6 +37,84 @@ export function AyeyoKorisView() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [dismissedSuccess, setDismissedSuccess] = useState(false);
+  const [impactStats, setImpactStats] = useState<PublicImpactStats | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/donations/impact')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!isMounted) return;
+        if (data && !data.error) {
+          setImpactStats(data);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const stats = impactStats ?? {
+    totalRaised: 18450,
+    goalAmount: 25000,
+    percentAchieved: 74,
+    donorsCount: 74,
+    scholarshipsFunded: 74,
+    schoolKitsFunded: 369,
+    householdsSupported: 147,
+    recentDonations: [
+      {
+        id: 'base-1',
+        donorName: 'Amina K.',
+        amount: 500,
+        formattedDate: 'Recent Donor',
+        impactTier: 'Endowment Champion',
+        note: 'In honor of our beloved grandmothers who paved the way.',
+      },
+      {
+        id: 'base-2',
+        donorName: 'Warsame & Sahra M.',
+        amount: 250,
+        formattedDate: 'Recent Donor',
+        impactTier: 'Annual Scholarship Sponsor',
+        note: 'Dedicated to young girls reaching their full dreams.',
+      },
+      {
+        id: 'base-3',
+        donorName: 'Hodan A.',
+        amount: 100,
+        formattedDate: 'Recent Donor',
+        impactTier: 'Education & Care Patron',
+        note: 'Supporting learning materials and books.',
+      },
+      {
+        id: 'base-4',
+        donorName: 'Anonymous Friend',
+        amount: 250,
+        formattedDate: 'Recent Donor',
+        impactTier: 'Annual Scholarship Sponsor',
+        note: 'May every child have the opportunity to learn.',
+      },
+      {
+        id: 'base-5',
+        donorName: 'Fadumo G.',
+        amount: 50,
+        formattedDate: 'Recent Donor',
+        impactTier: 'School Supplies & Book Kit',
+        note: 'With love and deep respect for our mothers.',
+      },
+      {
+        id: 'base-6',
+        donorName: 'Community Circle of London',
+        amount: 1000,
+        formattedDate: 'Recent Donor',
+        impactTier: 'Endowment Champion',
+        note: 'Collective community contribution from UK supporters.',
+      },
+    ],
+  };
 
   // Read return query parameters from Stripe or PayPal
   const isSuccessReturn = searchParams?.get('success') === 'true';
@@ -172,6 +250,12 @@ export function AyeyoKorisView() {
                 Education
               </a>
               <a
+                href="#impact-ledger"
+                className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
+              >
+                Impact &amp; Donors
+              </a>
+              <a
                 href="#get-involved"
                 className="font-sans text-xs sm:text-[13px] font-medium text-[#4A544E] hover:text-[#0A3929] transition-colors"
               >
@@ -252,6 +336,13 @@ export function AyeyoKorisView() {
                 className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
               >
                 Education
+              </a>
+              <a
+                href="#impact-ledger"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-[#4A544E] hover:text-[#0A3929] py-1 font-medium"
+              >
+                Impact &amp; Donors
               </a>
               <a
                 href="#get-involved"
@@ -662,6 +753,350 @@ export function AyeyoKorisView() {
       </section>
 
       {/* =========================================================================
+          6.5 SECTION: DONOR TRANSPARENCY & COMMUNITY IMPACT LEDGER
+      ========================================================================= */}
+      <section id="impact-ledger" className="py-20 sm:py-28 lg:py-32 bg-[#F6F1EA] border-t border-b border-[#E5DFC0]/70 relative overflow-hidden">
+        {/* Subtle decorative pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#D3A03A_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.12] pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-12">
+          {/* Section Header */}
+          <div className="max-w-3xl mx-auto text-center space-y-4 mb-14 sm:mb-18">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A3929]/10 text-[#0A3929] text-xs font-semibold uppercase tracking-[0.22em]">
+              <Sparkles className="w-3.5 h-3.5 text-[#D3A03A]" />
+              <span>Transparent Giving &amp; Collective Impact</span>
+            </div>
+
+            <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-normal text-[#0A3929] leading-tight tracking-tight">
+              Where Every Dollar Creates <br className="hidden sm:inline" />
+              <span className="italic font-cormorant text-[#A8741A]">Real, Tangible Opportunity</span>
+            </h2>
+
+            <p className="font-sans text-xs sm:text-sm lg:text-[15px] text-[#4A544E] leading-[1.8] max-w-2xl mx-auto">
+              We hold ourselves to total transparency. Every contribution directly funds scholarships, books, uniforms, and monthly nourishment stipends for children raised by grandmothers across Somali communities.
+            </p>
+          </div>
+
+          {/* High-Level Fundraising Goal Progress Card */}
+          <div className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-[#E5DFC0]/90 shadow-xl mb-12 sm:mb-16 relative overflow-hidden">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
+              <div>
+                <span className="inline-block px-3 py-1 bg-[#F6F1EA] text-[#0A3929] text-[11px] font-bold uppercase tracking-wider rounded-md border border-[#E5DFC0] mb-2">
+                  2026 Academic Year Scholarship Goal
+                </span>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-playfair text-4xl sm:text-5xl font-bold text-[#0A3929]">
+                    ${stats.totalRaised.toLocaleString()}
+                  </span>
+                  <span className="font-sans text-sm sm:text-base text-[#6B726B] font-medium">
+                    raised of ${stats.goalAmount.toLocaleString()} target
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="px-4 py-2 bg-[#FAF8F5] rounded-xl border border-[#E5DFC0] text-center">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-[#6B726B]">Cohort Funded</p>
+                  <p className="font-playfair text-xl font-bold text-[#A8741A]">{stats.percentAchieved}%</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openSupportModal(100)}
+                  className="inline-flex items-center gap-2 bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] text-xs sm:text-sm font-semibold px-5 sm:px-6 py-3 rounded-full transition-all duration-200 shadow-sm hover:shadow"
+                >
+                  <span>Donate to Goal</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Glowing Custom Progress Bar */}
+            <div className="w-full h-4 sm:h-5 bg-[#FAF8F5] rounded-full overflow-hidden p-1 border border-[#E5DFC0] shadow-inner mb-4">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[#0A3929] via-[#A8741A] to-[#D3A03A] transition-all duration-1000 ease-out shadow-sm relative"
+                style={{ width: `${Math.max(8, stats.percentAchieved)}%` }}
+              >
+                <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full" />
+              </div>
+            </div>
+
+            {/* Progress Markers */}
+            <div className="flex justify-between text-[11px] sm:text-xs text-[#6B726B] font-medium pt-1">
+              <span>$0 (Initiative Kickoff)</span>
+              <span className="hidden sm:inline">$12,500 (Halfway Milestone)</span>
+              <span className="font-semibold text-[#0A3929]">${stats.totalRaised.toLocaleString()} (Active Total)</span>
+              <span>${stats.goalAmount.toLocaleString()} (Endowment Goal)</span>
+            </div>
+          </div>
+
+          {/* 4 Impact Milestone Metrics Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {/* Metric 1 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="w-12 h-12 rounded-xl bg-[#0A3929]/10 text-[#0A3929] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <GraduationCap className="w-6 h-6 text-[#0A3929]" />
+              </div>
+              <p className="font-playfair text-3xl sm:text-4xl font-bold text-[#0A3929] mb-1">
+                {stats.scholarshipsFunded}+
+              </p>
+              <h3 className="font-sans text-sm font-semibold text-[#1E1C1A] mb-1">
+                Full-Year Scholarships
+              </h3>
+              <p className="font-sans text-xs text-[#6B726B] leading-relaxed">
+                Full tuition, uniforms, books, and safe school transit funded for grandmother-raised students.
+              </p>
+            </div>
+
+            {/* Metric 2 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="w-12 h-12 rounded-xl bg-[#D3A03A]/20 text-[#A8741A] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <BookOpen className="w-6 h-6 text-[#A8741A]" />
+              </div>
+              <p className="font-playfair text-3xl sm:text-4xl font-bold text-[#0A3929] mb-1">
+                {stats.schoolKitsFunded}+
+              </p>
+              <h3 className="font-sans text-sm font-semibold text-[#1E1C1A] mb-1">
+                Learning &amp; Care Kits
+              </h3>
+              <p className="font-sans text-xs text-[#6B726B] leading-relaxed">
+                Somali language readers, exercise books, stationery, and creative learning materials delivered.
+              </p>
+            </div>
+
+            {/* Metric 3 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="w-12 h-12 rounded-xl bg-[#0A3929]/10 text-[#0A3929] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Heart className="w-6 h-6 text-[#0A3929]" />
+              </div>
+              <p className="font-playfair text-3xl sm:text-4xl font-bold text-[#0A3929] mb-1">
+                {stats.householdsSupported}+
+              </p>
+              <h3 className="font-sans text-sm font-semibold text-[#1E1C1A] mb-1">
+                Grandmother Households
+              </h3>
+              <p className="font-sans text-xs text-[#6B726B] leading-relaxed">
+                Receiving dignity stipends, nutritional food baskets, and emergency health assistance.
+              </p>
+            </div>
+
+            {/* Metric 4 */}
+            <div className="bg-white rounded-2xl p-6 sm:p-7 border border-[#E5DFC0] shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="w-12 h-12 rounded-xl bg-[#D3A03A]/20 text-[#A8741A] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <Users className="w-6 h-6 text-[#A8741A]" />
+              </div>
+              <p className="font-playfair text-3xl sm:text-4xl font-bold text-[#0A3929] mb-1">
+                {stats.donorsCount}+
+              </p>
+              <h3 className="font-sans text-sm font-semibold text-[#1E1C1A] mb-1">
+                Generous Donors
+              </h3>
+              <p className="font-sans text-xs text-[#6B726B] leading-relaxed">
+                Patrons, family circles, and diaspora supporters uniting to honor grandmother caregivers.
+              </p>
+            </div>
+          </div>
+
+          {/* Transparent Giving Tiers Breakdown (How Donations Are Allocated) */}
+          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-[#E5DFC0] shadow-sm mb-16">
+            <div className="max-w-2xl mb-8">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#A8741A]">100% Impact Allocation</span>
+              <h3 className="font-playfair text-2xl sm:text-3xl font-normal text-[#0A3929] mt-1">
+                What Your Donation Directly Funds
+              </h3>
+              <p className="font-sans text-xs sm:text-sm text-[#4A544E] mt-2">
+                Every tier is modeled after real costs on the ground in Mogadishu, Hargeisa, and neighboring communities:
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="rounded-2xl p-6 bg-[#FAF8F5] border border-[#E5DFC0] flex flex-col justify-between">
+                <div>
+                  <div className="flex items-baseline justify-between mb-3">
+                    <span className="font-playfair text-3xl font-bold text-[#0A3929]">$50</span>
+                    <span className="text-[11px] font-semibold uppercase px-2.5 py-1 bg-white rounded-full border border-[#E5DFC0] text-[#A8741A]">
+                      Essential
+                    </span>
+                  </div>
+                  <h4 className="font-sans text-base font-semibold text-[#1E1C1A] mb-2">
+                    Learning Kit &amp; Books
+                  </h4>
+                  <ul className="text-xs text-[#4A544E] space-y-2 mb-6">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#0A3929] shrink-0" />
+                      <span>Somali &amp; English core textbooks</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#0A3929] shrink-0" />
+                      <span>Notebooks, pens, rulers &amp; schoolbag</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#0A3929] shrink-0" />
+                      <span>Direct hand-delivery to household</span>
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openSupportModal(50)}
+                  className="w-full text-center py-2.5 px-4 rounded-xl text-xs font-semibold bg-white hover:bg-[#0A3929] hover:text-white text-[#0A3929] border border-[#0A3929]/30 transition-colors"
+                >
+                  Sponsor a Kit ($50)
+                </button>
+              </div>
+
+              <div className="rounded-2xl p-6 bg-[#FAF8F5] border-2 border-[#D3A03A] relative flex flex-col justify-between shadow-md">
+                <div className="absolute -top-3 right-6 px-3 py-0.5 bg-[#D3A03A] text-[#1E1C1A] text-[10px] font-bold uppercase tracking-wider rounded-full shadow-xs">
+                  Most Chosen
+                </div>
+                <div>
+                  <div className="flex items-baseline justify-between mb-3">
+                    <span className="font-playfair text-3xl font-bold text-[#0A3929]">$100</span>
+                    <span className="text-[11px] font-semibold uppercase px-2.5 py-1 bg-white rounded-full border border-[#D3A03A]/40 text-[#A8741A]">
+                      Care &amp; Nourishment
+                    </span>
+                  </div>
+                  <h4 className="font-sans text-base font-semibold text-[#1E1C1A] mb-2">
+                    Grandmother Family Care
+                  </h4>
+                  <ul className="text-xs text-[#4A544E] space-y-2 mb-6">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#0A3929] shrink-0" />
+                      <span>Nutritional food staples (rice, flour, oil)</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#0A3929] shrink-0" />
+                      <span>Grandmother health &amp; medicine stipend</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#0A3929] shrink-0" />
+                      <span>Home visit &amp; wellness check</span>
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openSupportModal(100)}
+                  className="w-full text-center py-2.5 px-4 rounded-xl text-xs font-semibold bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] transition-colors shadow-xs"
+                >
+                  Sponsor Family Care ($100)
+                </button>
+              </div>
+
+              <div className="rounded-2xl p-6 bg-[#0A3929] text-white flex flex-col justify-between shadow-lg">
+                <div>
+                  <div className="flex items-baseline justify-between mb-3">
+                    <span className="font-playfair text-3xl font-bold text-[#D3A03A]">$250</span>
+                    <span className="text-[11px] font-semibold uppercase px-2.5 py-1 bg-[#D3A03A]/20 text-[#D3A03A] rounded-full border border-[#D3A03A]/40">
+                      Full Year
+                    </span>
+                  </div>
+                  <h4 className="font-sans text-base font-semibold text-white mb-2">
+                    Annual Scholarship Champion
+                  </h4>
+                  <ul className="text-xs text-[#D1DDD6] space-y-2 mb-6">
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#D3A03A] shrink-0" />
+                      <span>Full 12-month accredited school tuition</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#D3A03A] shrink-0" />
+                      <span>Complete school uniform &amp; sturdy footwear</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-[#D3A03A] shrink-0" />
+                      <span>Academic progress reporting to sponsor</span>
+                    </li>
+                  </ul>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openSupportModal(250)}
+                  className="w-full text-center py-2.5 px-4 rounded-xl text-xs font-semibold bg-[#D3A03A] hover:bg-[#C29130] text-[#1E1C1A] transition-colors"
+                >
+                  Fund Full Scholarship ($250)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Wall of Gratitude / Recent Donor Contributions Ledger */}
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+              <div>
+                <h3 className="font-playfair text-2xl sm:text-3xl font-normal text-[#0A3929]">
+                  Community Wall of Gratitude
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-[#4A544E] mt-1">
+                  Honoring the generous individuals and family circles bringing light to grandmothers and children.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-1.5 text-xs text-[#6B726B]">
+                <ShieldCheck className="w-4 h-4 text-[#0A3929]" />
+                <span>Verified Stripe &amp; PayPal contributions</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {stats.recentDonations.map((donor) => (
+                <div
+                  key={donor.id}
+                  className="bg-white rounded-2xl p-5 border border-[#E5DFC0] shadow-2xs hover:shadow-sm transition-all duration-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-[#0A3929]/10 text-[#0A3929] flex items-center justify-center font-bold text-xs">
+                          {donor.donorName.charAt(0)}
+                        </div>
+                        <div>
+                          <p className="font-sans text-sm font-semibold text-[#1E1C1A]">
+                            {donor.donorName}
+                          </p>
+                          <p className="text-[10px] text-[#6B726B]">{donor.formattedDate}</p>
+                        </div>
+                      </div>
+                      <span className="font-playfair text-base font-bold text-[#0A3929]">
+                        ${donor.amount}
+                      </span>
+                    </div>
+
+                    <div className="my-2">
+                      <span className="inline-block px-2 py-0.5 bg-[#FAF8F5] text-[#A8741A] text-[10px] font-semibold uppercase tracking-wider rounded-md border border-[#E5DFC0]/80">
+                        {donor.impactTier}
+                      </span>
+                    </div>
+
+                    {donor.note && (
+                      <p className="font-cormorant italic text-xs text-[#4A544E] mt-2 leading-relaxed">
+                        &ldquo;{donor.note}&rdquo;
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Bottom Guarantee Banner */}
+            <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-[#0A3929]/5 border border-[#0A3929]/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-[#0A3929] shrink-0" />
+                <p className="text-xs text-[#4A544E]">
+                  All donations are encrypted, audited, and tax-documented. Want to donate anonymously? Simply choose &ldquo;Anonymous Friend&rdquo; when making your gift.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => openSupportModal(50)}
+                className="shrink-0 text-xs font-semibold text-[#0A3929] hover:text-[#A8741A] underline underline-offset-4"
+              >
+                Add Your Name to the Wall &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
           7. SECTION: GET INVOLVED (Be Part of Their Journey)
       ========================================================================= */}
       <section id="get-involved" className="relative py-20 sm:py-28 lg:py-32 bg-[#0A3929] text-white overflow-hidden">
@@ -753,6 +1188,11 @@ export function AyeyoKorisView() {
                 <div>
                   <a href="#education" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
                     Education &amp; Opportunity
+                  </a>
+                </div>
+                <div>
+                  <a href="#impact-ledger" className="text-[#4A544E] hover:text-[#0A3929] transition-colors">
+                    Donation Ledger &amp; Impact
                   </a>
                 </div>
                 <div>

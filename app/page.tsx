@@ -26,7 +26,7 @@ export default async function HomePage() {
       {/* =========================================================================
           1. EXISTING HERO SECTION
       ========================================================================= */}
-      <section className="relative w-full overflow-hidden bg-[#FAF6F0] min-h-[540px] sm:min-h-[560px] lg:min-h-[620px] xl:min-h-[660px] flex items-center border-b border-[#E5DFC0]/60 pt-24 pb-12 sm:pt-24 sm:pb-14 lg:pt-24 lg:pb-16">
+      <section className="relative w-full overflow-hidden bg-[#FAF6F0] min-h-[500px] sm:min-h-[560px] lg:min-h-[620px] xl:min-h-[660px] flex items-center border-b border-[#E5DFC0]/60 py-10 sm:py-14 lg:py-16">
         {/* Full-bleed background panoramic photography */}
         <div className="absolute inset-0 z-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
