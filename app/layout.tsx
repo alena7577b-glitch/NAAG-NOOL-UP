@@ -33,10 +33,10 @@ export default function RootLayout({
       className={`${playfairDisplay.variable} ${cormorantUpright.variable} ${dmSans.variable}`}
     >
       <head>
-        {/* Google Tag (GA4 / GTM: GTM-TTP2MHXH) */}
+        {/* Google Tag (GA4 / GTM: GTM-58CMH2LJ) */}
         <Script
           async
-          src="https://www.googletagmanager.com/gtm.js?id=GTM-TTP2MHXH"
+          src="https://www.googletagmanager.com/gtm.js?id=GTM-58CMH2LJ"
           strategy="afterInteractive"
         />
         <Script id="google-analytics-init" strategy="afterInteractive">
