@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { playfairDisplay, cormorantUpright, dmSans } from '@/lib/fonts';
 import '@/styles/globals.css';
 import { constructMetadata } from '@/lib/seo';
@@ -31,6 +32,21 @@ export default function RootLayout({
       dir="ltr"
       className={`${playfairDisplay.variable} ${cormorantUpright.variable} ${dmSans.variable}`}
     >
+      <head>
+        {/* Google Tag (GA4 / GTM: GTM-TTP2MHXH) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtm.js?id=GTM-TTP2MHXH"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `}
+        </Script>
+      </head>
       <body className="bg-[#F9F6F0] text-[#1E1C1A] min-h-screen font-sans antialiased flex flex-col justify-between selection:bg-[#B85233]/20 selection:text-[#B85233]">
         <CartProvider>
           <CurrencyProvider>
